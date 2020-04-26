@@ -85,7 +85,7 @@ export default {
       window.sessionStorage.removeItem('token');
       this.$router.push('/');
     },
-    menuSelect(value){//menu选择回调1
+    menuSelect(value){//menu选择回调
       window.sessionStorage.setItem('select',value);
     }
   },
