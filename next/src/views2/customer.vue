@@ -14,7 +14,7 @@
             客户地址:<Input v-model="value" placeholder="请输入客户地址" style="width: 70%;" />
         </div>
         <div class="modal-item">
-            联系人:<Input v-model="value" placeholder="请输入联系人" style="width: 70%;" />
+            联系人:<Input v-model="value" placeholder="请输入联系人" style="width: 70%;margin-left:2%;" />
         </div>
         <div class="modal-item">
             客户电话:<Input v-model="value" placeholder="请输入客户电话" style="width: 70%;" />
