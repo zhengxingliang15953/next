@@ -1,6 +1,6 @@
 <template>
   <div id="index">
-    <Layout>
+    <Layout style="height:100%;">
       <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
         <Menu :active-name="select" @on-select="menuSelect" theme="dark" width="auto" :class="menuitemClasses">
           <MenuItem name="1" to="/index/apply">
@@ -40,7 +40,7 @@
           ></Icon>
           <Button type="primary" style="margin-right:70%;" @click="back">退出</Button><span style="font-size:0.08rem;color:#1E90FF;">超级管理员</span>
         </Header>
-        <Content id="content" :style="{margin: '20px', background: '#fff',minHeight:`622px`}">
+        <Content id="content" :style="{margin: '20px', background: '#fff',minHeight:`100%`}">
             <router-view></router-view>
         </Content>
       </Layout>
@@ -99,6 +99,7 @@ export default {
   position: relative;
   border-radius: 4px;
   overflow: hidden;
+  height: 100%;
 }
 
 .layout-header-bar {
