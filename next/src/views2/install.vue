@@ -86,7 +86,7 @@ export default {
       addSubmit(){//添加安装人员
 
       },
-      pageChange(value){//页码改编回调
+      pageChange(value){//页码改变回调
         this.page=value;
       }
   }

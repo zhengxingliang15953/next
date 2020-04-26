@@ -141,7 +141,7 @@ export default {
       allnumber: 0,
       pagenumber: 0
     }).then(data => {
-      this.sum = data.data.data.allnumber;
+      this.sum = data.data.data.allnumber||0;
       this.expensesList = data.data.data.all_xyz_expenses || [];
     });
   },

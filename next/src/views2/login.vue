@@ -67,7 +67,7 @@ export default {
           if (TOKEN != null) {
             window.sessionStorage.setItem("token", TOKEN);
             this.$Message.success("登录成功");
-            this.$router.push("/index");
+            this.$router.push({path:'/index',quert:{id:this.formCustom.Username}});
           } else {
             this.$Message.error("账号或密码错误");
           }
