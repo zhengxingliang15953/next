@@ -11,7 +11,7 @@
         <p class="login-head">Login to your account</p>
       </FormItem>
       <FormItem label="账号" prop="Username">
-        <Input v-model="formCustom.Username" placeholder="请输入管理员账号"></Input>
+        <Input v-model="formCustom.Username" placeholder="请输入管理员账号" :autofocus="true"></Input>
       </FormItem>
       <FormItem label="密码" prop="Password">
         <Input type="password" v-model="formCustom.Password" placeholder="请输入管理员密码"></Input>
@@ -78,7 +78,7 @@ export default {
   created() {
     window.sessionStorage.removeItem("select");
     window.sessionStorage.removeItem("token");
-  }
+  },
 };
 </script>
 
