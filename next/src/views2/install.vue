@@ -1,25 +1,46 @@
 <template>
   <div id="customer">
-      <!--添加弹窗-->
-      <Modal
-        v-model="modal1"
-        title="添加安装人员"
-        ok-text="添加"
-        @on-ok="addSubmit">
-        <div class="modal-item">
-            联系人:<Input v-model="value" placeholder="请输入安装人员名称" style="width: 70%;margin-left:2%;" />
-        </div>
-        <div class="modal-item">
-            电话:<Input v-model="value" placeholder="请输入安装人员电话" style="width: 70%;margin-left:4%;" />
-        </div>
-        <div class="modal-item">
-            微信:<Input v-model="value" placeholder="请输入安装人员微信" style="width: 70%;margin-left:4%;" />
-        </div>
-        <div class="modal-item">
-            付款账号:<Input v-model="value" placeholder="请输入付款账号" style="width: 70%;" />
-        </div>
+    <!--添加弹窗-->
+    <Modal v-model="modal1" title="添加安装人员" ok-text="添加" @on-ok="addSubmit">
+      <div class="modal-item">
+        联系人:
+        <Input v-model="addForm.name" placeholder="请输入安装人员名称" style="width: 70%;margin-left:2%;" />
+      </div>
+      <div class="modal-item">
+        电话:
+        <Input v-model="addForm.phone" placeholder="请输入安装人员电话" style="width: 70%;margin-left:4%;" />
+      </div>
+      <div class="modal-item">
+        微信:
+        <Input v-model="addForm.wechat" placeholder="请输入安装人员微信" style="width: 70%;margin-left:4%;" />
+      </div>
+      <div class="modal-item">
+        付款账号:
+        <Input v-model="addForm.payment_account" placeholder="请输入付款账号" style="width: 70%;" />
+      </div>
     </Modal>
     <!--添加弹窗-->
+
+    <!--编辑弹窗-->
+    <Modal v-model="modal2" title="修改安装人员" ok-text="修改" @on-ok="editSubmit">
+      <div class="modal-item">
+        联系人:
+        <Input v-model="editForm.name" placeholder="请输入安装人员名称" style="width: 70%;margin-left:2%;" />
+      </div>
+      <div class="modal-item">
+        电话:
+        <Input v-model="editForm.phone" placeholder="请输入安装人员电话" style="width: 70%;margin-left:4%;" />
+      </div>
+      <div class="modal-item">
+        微信:
+        <Input v-model="editForm.wechat" placeholder="请输入安装人员微信" style="width: 70%;margin-left:4%;" />
+      </div>
+      <div class="modal-item">
+        付款账号:
+        <Input v-model="editForm.payment_account" placeholder="请输入付款账号" style="width: 70%;" />
+      </div>
+    </Modal>
+    <!--编辑弹窗-->
 
     <div class="panel-head">安装人员管理</div>
     <div class="panel-body">
@@ -28,7 +49,7 @@
         <!-- <Button type="info" class="searchBtn">查询</Button> -->
         <Button type="primary" class="searchBtn" @click="modal1=true">添加安装人员</Button>
       </div>
-      <Table :columns="columns1" :data="data1">
+      <Table :columns="columns1" :data="installList">
         <template slot-scope="{ row, index }" slot="action">
           <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
           <Button type="error" size="small" @click="remove(row)">删除</Button>
@@ -41,30 +62,28 @@
 </template>
 
 <script>
+import { getInstallPageList, getAddInstall, getDeleteInstall ,getByidInstall,getUpdateInstall} from "../api";
 export default {
   name: "apply",
   data() {
     return {
-      columns1: [//表头
-        {
-          title: "序号",
-          key: "id"
-        },
+      columns1: [
+        //表头
         {
           title: "联系人",
           key: "name"
         },
         {
           title: "电话",
-          key: "tel"
+          key: "phone"
         },
         {
           title: "微信",
-          key: "weixin"
+          key: "wechat"
         },
         {
           title: "付款账号",
-          key: "info"
+          key: "payment_account"
         },
         {
           title: "操作",
@@ -73,22 +92,113 @@ export default {
           align: "center"
         }
       ],
-      data1: [
-        
-      ] ,//开支列表
-      modal1:false,//弹窗控制
-      sum:0,//总数
-      page:1,//当前页码
+      installList: [], //开支列表
+      modal1: false, //弹窗控制
+      modal2:false,//编辑控制
+      sum: 0, //总数
+      page: 1, //当前页码
+      addForm: {//添加表单
+        name: "",
+        phone: "",
+        wechat: "",
+        payment_account: ""
+      },
+      editForm: {//删除表单
+        name: "",
+        phone: "",
+        wechat: "",
+        payment_account: ""
+      },
     };
   },
-  created() {},
-  methods:{
-      addSubmit(){//添加安装人员
-
-      },
-      pageChange(value){//页码改变回调
-        this.page=value;
-      }
+  created() {
+    getInstallPageList({
+      pagesize: 10,
+      pageid: 1,
+      allnumber: 0,
+      pagenumber: 0
+    }).then(data => {
+      console.log(data);
+      this.sum = data.data.data.allnumber || 0;
+      this.installList = data.data.data.xyz_Installers || [];
+    });
+  },
+  methods: {
+    addSubmit() {
+      //添加安装人员
+      getAddInstall(this.addForm).then(data => {
+        if (data.data.message == "删除成功") {
+          this.$Message.success("添加成功");
+          getInstallPageList({
+            pagesize: 10,
+            pageid: this.page,
+            allnumber: 0,
+            pagenumber: 0
+          }).then(data => {
+            this.sum = data.data.data.allnumber || 0;
+            this.installList = data.data.data.xyz_Installers || [];
+          });
+        } else {
+          this.$Message.error("添加失败");
+        }
+      });
+    },
+    pageChange(value) {
+      //页码改变回调
+      this.page = value;
+      getInstallPageList({
+        pagesize: 10,
+        pageid: this.page,
+        allnumber: 0,
+        pagenumber: 0
+      }).then(data => {
+        this.sum = data.data.data.allnumber || 0;
+        this.installList = data.data.data.xyz_Installers || [];
+      });
+    },
+    remove(value) {
+      //删除提交
+      getDeleteInstall(value.installer_id).then(data => {
+        if (data.data.message == "删除成功") {
+          this.$Message.success("删除成功");
+          getInstallPageList({
+            pagesize: 10,
+            pageid: this.page,
+            allnumber: 0,
+            pagenumber: 0
+          }).then(data => {
+            this.sum = data.data.data.allnumber || 0;
+            this.installList = data.data.data.xyz_Installers || [];
+          });
+        } else {
+          this.$Message.error("删除失败");
+        }
+      });
+    },
+    edit(value){
+      getByidInstall(value.installer_id).then(data=>{
+        this.editForm=data.data.data;
+        this.modal2=true;
+      })
+    },
+    editSubmit(){//编辑提交
+      getUpdateInstall(this.editForm).then(data=>{
+        if(data.data.message=='删除成功'){
+            this.$Message.success("修改成功");
+            getInstallPageList({
+            pagesize: 10,
+            pageid: this.page,
+            allnumber: 0,
+            pagenumber: 0
+          }).then(data => {
+            this.sum = data.data.data.allnumber || 0;
+            this.installList = data.data.data.xyz_Installers || [];
+          });
+        }else{
+            this.$Message.error("修改失败");
+        }
+      })
+    }
   }
 };
 </script>

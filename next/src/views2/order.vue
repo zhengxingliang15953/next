@@ -4,48 +4,110 @@
     <Modal v-model="modal1" title="添加订单" ok-text="添加" @on-ok="addSubmit">
       <div class="modal-item">
         客户名称:
-        <Input v-model="value" placeholder="请输入客户名称" style="width: 70%;" />
+        <Input v-model="addOrder.username" placeholder="请输入客户名称" style="width: 70%;" />
       </div>
       <div class="modal-item">
         业务内容:
-        <Input v-model="value" placeholder="请输入业务内容" style="width: 70%;" />
+        <Input v-model="addOrder.info" placeholder="请输入业务内容" style="width: 70%;" />
       </div>
       <div class="modal-item">
         成交金额:
-        <Input v-model="value" placeholder="请输入成交金额" style="width: 30%;" />
-        制作成本:
-        <Input v-model="value" placeholder="请输入制作成本" style="width: 30%;" />
+        <Input v-model="addOrder.turnover" type="number" placeholder="请输入成交金额" style="width: 30%;" />制作成本:
+        <Input v-model="addOrder.cost" type="number" placeholder="请输入制作成本" style="width: 30%;" />
       </div>
       <div class="modal-item">
         已收款项:
-        <Input v-model="value" placeholder="请输入已收款箱" style="width: 30%;" />
-        订单日期:
+        <Input
+          v-model="addOrder.receiving_amount"
+          type="number"
+          placeholder="请输入已收款项"
+          style="width: 30%;"
+        />订单日期:
         <DatePicker
           type="date"
           placeholder="请选择支出时间"
           :clearable="false"
           :editable="false"
-          :start-date="new Date()"
+          :value="addOrder.date"
           style="width:30%;"
+          @on-change="addTimeChange"
         ></DatePicker>
       </div>
       <div class="modal-item">
         安装人员:
-        <Input v-model="value" placeholder="请输入安装人员" style="width: 30%;" />
-        安装费用:
-        <Input v-model="value" placeholder="请输入安装费用" style="width: 30%;" />
+        <Input v-model="addOrder.installer" placeholder="请输入安装人员" style="width: 30%;" />安装费用:
+        <Input
+          v-model="addOrder.installation"
+          type="number"
+          placeholder="请输入安装费用"
+          style="width: 30%;"
+        />
       </div>
       <div class="modal-item">
         制作供应:
-        <Input v-model="value" placeholder="请输入制作供应商" style="width: 30%;" />
-        订单状态:
-        <Select  style="width:30%;" >
+        <Input v-model="addOrder.supplier" placeholder="请输入制作供应商" style="width: 30%;" />订单状态:
+        <Select style="width:30%;" v-model="addOrder.status" @on-change="statusChange">
           <Option value="实施中">实施中</Option>
           <Option value="已交付">已交付</Option>
         </Select>
       </div>
     </Modal>
     <!--添加弹窗-->
+
+
+    <!--编辑弹窗-->
+    <Modal v-model="modal2" title="修改订单" ok-text="修改" @on-ok="editSubmit">
+      <div class="modal-item">
+        客户名称:
+        <Input v-model="editOrder.username" placeholder="请输入客户名称" style="width: 70%;" />
+      </div>
+      <div class="modal-item">
+        业务内容:
+        <Input v-model="editOrder.info" placeholder="请输入业务内容" style="width: 70%;" />
+      </div>
+      <div class="modal-item">
+        成交金额:
+        <Input v-model="editOrder.turnover" type="number" placeholder="请输入成交金额" style="width: 30%;" />制作成本:
+        <Input v-model="editOrder.cost" type="number" placeholder="请输入制作成本" style="width: 30%;" />
+      </div>
+      <div class="modal-item">
+        已收款项:
+        <Input
+          v-model="editOrder.receiving_amount"
+          type="number"
+          placeholder="请输入已收款项"
+          style="width: 30%;"
+        />订单日期:
+        <DatePicker
+          type="date"
+          placeholder="请选择支出时间"
+          :clearable="false"
+          :editable="false"
+          :value="editOrder.date"
+          @on-change="editTimeChange"
+          style="width:30%;"
+        ></DatePicker>
+      </div>
+      <div class="modal-item">
+        安装人员:
+        <Input v-model="editOrder.installer" placeholder="请输入安装人员" style="width: 30%;" />安装费用:
+        <Input
+          v-model="editOrder.installation"
+          type="number"
+          placeholder="请输入安装费用"
+          style="width: 30%;"
+        />
+      </div>
+      <div class="modal-item">
+        制作供应:
+        <Input v-model="editOrder.supplier" placeholder="请输入制作供应商" style="width: 30%;" />订单状态:
+        <Select style="width:30%;" v-model="editOrder.status" @on-change="editStatusChange">
+          <Option value="实施中">实施中</Option>
+          <Option value="已交付">已交付</Option>
+        </Select>
+      </div>
+    </Modal>
+    <!--编辑弹窗-->
 
     <div class="panel-head">订单管理</div>
     <div class="panel-body">
@@ -71,12 +133,12 @@
         <Input
           v-model="customerSearch1"
           placeholder="请输入客户名称"
-          style="width: 250px;margin-left:10px;"
+          style="width: 200px;margin-left:10px;"
         />
         <Button type="info" class="searchBtn" @click="searchBtn">查询</Button>
         <Button type="primary" class="searchBtn" @click="modal1=true">添加订单</Button>
       </div>
-      <Table :columns="columns1" :data="data1">
+      <Table :columns="columns1" :data="orderList">
         <template slot-scope="{ row, index }" slot="action">
           <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
           <Button type="error" size="small" @click="remove(row)">删除</Button>
@@ -89,45 +151,53 @@
 </template>
 
 <script>
+import {
+  getOrderPageList,
+  getAddOrder,
+  getByidOrder,
+  getDeleteOrder,
+  getUpdateOrder
+} from "../api";
 import { changeTime } from "../plugins/time.js";
 export default {
   name: "apply",
   data() {
     return {
-      columns1: [//表头
+      columns1: [
+        //表头
         {
           title: "客户名称",
-          key: "customer"
+          key: "username"
         },
         {
-          title: "业务内用",
-          key: "bussiness"
+          title: "业务应用",
+          key: "info"
         },
         {
           title: "成交金额",
-          key: "dealmoney"
+          key: "turnover"
         },
         {
           title: "制作成本",
-          key: "costmoney"
+          key: "cost"
         },
         {
           title: "供应商",
-          key: "supply"
+          key: "supplier"
         },
         {
           title: "安装费",
-          key: "insallmoney"
+          key: "installation"
         },
         {
           title: "安装人员",
-          key: "installname"
+          key: "installer"
         },
         {
           title: "已收款项",
-          key: "received"
+          key: "receiving_amount"
         },
-         {
+        {
           title: "日期",
           key: "date"
         },
@@ -142,26 +212,104 @@ export default {
           align: "center"
         }
       ],
-      data1: [], //开支列表
+      orderList: [], //开支列表
       modal1: false, //弹窗控制
+      modal2:false,//编辑弹窗控制
       sum: 0, //总数目
       page: 1, //当前页码
       stime: "0001-01-01", //开始时间
       etime: "", //结束时间
       customerSearch1: "", //客户名称查询v-model
-      customerSearch2: "" //客户名称查询实际
+      customerSearch2: "", //客户名称查询实际
+      addOrder: {
+        //订单添加表单
+        username: "",
+        info: "",
+        turnover: "",
+        cost: "",
+        supplier: "",
+        installation: "",
+        installer: "",
+        receiving_amount: "",
+        date: "",
+        status: "实施中"
+      },
+      editOrder: {
+        //订单修改表单
+        username: "",
+        info: "",
+        turnover: "",
+        cost: "",
+        supplier: "",
+        installation: "",
+        installer: "",
+        receiving_amount: "",
+        date: "",
+        status: ""
+      }
     };
   },
   created() {
+    this.addOrder.date = changeTime(new Date());
+    this.editOrder.date = changeTime(new Date());
     this.etime = changeTime(new Date());
+    getOrderPageList({
+      pagesize: 10,
+      pageid: 1,
+      stime: this.stime,
+      etime: this.etime,
+      allnumber: 0,
+      pagenumber: 0,
+      name: this.customerSearch2
+    }).then(data => {
+      if (data.data.message == "查询成功") {
+        this.orderList = data.data.data.xyz_Orders || [];
+        this.sum = data.data.data.allnumber || 0;
+      }
+    });
   },
   methods: {
     addSubmit() {
       //添加订单
+      getAddOrder(this.addOrder).then(data => {
+        if (data.data.message == "添加成功") {
+          this.$Message.success("添加成功");
+          getOrderPageList({
+            pagesize: 10,
+            pageid: this.page,
+            stime: this.stime,
+            etime: this.etime,
+            allnumber: 0,
+            pagenumber: 0,
+            name: this.customerSearch2
+          }).then(data => {
+            if (data.data.message == "查询成功") {
+              this.orderList = data.data.data.xyz_Orders || [];
+              this.sum = data.data.data.allnumber || 0;
+            }
+          });
+        } else {
+          this.$Message.error("添加失败");
+        }
+      });
     },
     pageChange(value) {
       //页码改变回调
       this.page = value;
+      getOrderPageList({
+        pagesize: 10,
+        pageid: this.page,
+        stime: this.stime,
+        etime: this.etime,
+        allnumber: 0,
+        pagenumber: 0,
+        name: this.customerSearch2
+      }).then(data => {
+        if (data.data.message == "查询成功") {
+          this.orderList = data.data.data.xyz_Orders || [];
+          this.sum = data.data.data.allnumber || 0;
+        }
+      });
     },
     timeChange1(value) {
       //开始时间
@@ -171,9 +319,76 @@ export default {
       //结束时间
       this.etime = value;
     },
+    addTimeChange(value){//订单添加时间改变回调
+      this.addOrder.date=value;
+    },
+    editTimeChange(value){//订单添加时间改变回调
+      this.editOrder.date=value;
+    },
     searchBtn() {
       //查询
       this.customerSearch2 = this.customerSearch1;
+    },
+    statusChange(value) {
+      //订单状态改变回调
+      this.addOrder.status = value;
+    },
+    editStatusChange(value){//编辑订单状态回调
+      this.editOrder.status=value;
+    },
+    remove(value) {
+      //删除
+      console.log(value.order_id);
+      getDeleteOrder(value.order_id).then(data => {
+        if (data.data.message == "删除成功") {
+          this.$Message.success("删除成功");
+          getOrderPageList({
+            pagesize: 10,
+            pageid: this.page,
+            stime: this.stime,
+            etime: this.etime,
+            allnumber: 0,
+            pagenumber: 0,
+            name: this.customerSearch2
+          }).then(data => {
+            if (data.data.message == "查询成功") {
+              this.orderList = data.data.data.xyz_Orders || [];
+              this.sum = data.data.data.allnumber || 0;
+            }
+          });
+        } else {
+          this.$Message.error("删除失败");
+        }
+      });
+    },
+    edit(value){//编辑
+      this.modal2=true;
+      getByidOrder(value.order_id).then(data=>{
+        this.editOrder=data.data.data;
+      })
+    },
+    editSubmit(){//编辑提交
+      getUpdateOrder(this.editOrder).then(data=>{
+        if(data.data.message=='修改成功'){
+          this.$Message.success('修改成功');
+          getOrderPageList({
+            pagesize: 10,
+            pageid: this.page,
+            stime: this.stime,
+            etime: this.etime,
+            allnumber: 0,
+            pagenumber: 0,
+            name: this.customerSearch2
+          }).then(data => {
+            if (data.data.message == "查询成功") {
+              this.orderList = data.data.data.xyz_Orders || [];
+              this.sum = data.data.data.allnumber || 0;
+            }
+          });
+        }else{
+          this.$Message.error("修改失败");
+        }
+      })
     }
   }
 };

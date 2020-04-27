@@ -16,7 +16,7 @@
       </div>
       <div class="modal-item">
         支出金额:
-        <Input v-model="submitForm.money" placeholder="请输入支出金额" style="width: 70%;" />
+        <Input v-model="submitForm.money" type="number" placeholder="请输入支出金额" style="width: 70%;" />
       </div>
       <div class="modal-item">
         支出人员:
@@ -34,6 +34,48 @@
       </div>
     </Modal>
     <!--添加弹窗-->
+
+    <!--编辑弹窗-->
+    <Modal v-model="modal2" title="开支修改" ok-text="修改" @on-ok="editSubmit">
+      <div class="modal-item">
+        支出时间:
+        <DatePicker
+          type="date"
+          :value="editForm.date"
+          placeholder="请选择支出时间"
+          style="width:70%;"
+          :clearable="false"
+          :editable="false"
+          @on-change="applyTimeChange"
+        ></DatePicker>
+      </div>
+      <div class="modal-item">
+        支出金额:
+        <Input v-model="editForm.money" type="number" placeholder="请输入支出金额" style="width: 70%;" />
+      </div>
+      <div class="modal-item">
+        支出人员:
+        <Input v-model="editForm.name" placeholder="请输入支出人" style="width: 70%;" />
+      </div>
+      <div class="modal-item">
+        支出信息:
+        <Input
+          v-model="editForm.info"
+          show-word-limit
+          type="textarea"
+          placeholder="请输入支出信息"
+          style="width:70%;"
+        />
+      </div>
+      <div class="modal-item">
+        审核状态:
+        <Select  style="width:70%;" v-model="editForm.status" @on-change="examineChange">
+          <Option value="未报销">未报销</Option>
+          <Option value="已报销">已报销</Option>
+        </Select>
+      </div>
+    </Modal>
+    <!--编辑弹窗-->
 
     <div class="panel-head">开支管理</div>
     <div class="panel-body">
@@ -73,13 +115,14 @@
 </template>
 
 <script>
-import { getExpensesPagelist, getAddExpenses } from "../api";
+import { getExpensesPagelist, getAddExpenses, getDeleteExpenses,getByidExpenses ,getUpdateExpenses} from "../api";
 import { changeTime } from "../plugins/time.js";
 export default {
   name: "apply",
   data() {
     return {
       modal1: false, //弹窗控制
+      modal2:false,//编辑弹窗
       stime: "0001-01-01", //开始时间
       etime: "", //结束时间
       expensesList: [], //展示列表
@@ -92,7 +135,17 @@ export default {
         name: "",
         info: ""
       },
-      columns1: [//表头
+      editForm:{//编辑提交表单
+        expenses_id:'',
+        date:'',
+        info:'',
+        money:'',
+        name:'',
+        status:'',
+        admin_reallyname:''
+      },
+      columns1: [
+        //表头
         {
           title: "支出时间",
           key: "date"
@@ -127,7 +180,7 @@ export default {
           width: 200,
           align: "center"
         }
-      ],
+      ]
     };
   },
   created() {
@@ -141,8 +194,9 @@ export default {
       allnumber: 0,
       pagenumber: 0
     }).then(data => {
-      this.sum = data.data.data.allnumber||0;
-      this.expensesList = data.data.data.all_xyz_expenses || [];
+      console.log(data);
+      this.sum = data.data.data.allnumber || 0;
+      this.expensesList = data.data.data.xyz_expenses || [];
     });
   },
   methods: {
@@ -158,6 +212,9 @@ export default {
       //添加开支时间回调
       this.submitForm.date = value;
     },
+    examineChange(value){//审核状态
+      this.editForm.status=value;
+    },
     pageChange(value) {
       //页码改变回调
       this.page = value;
@@ -169,8 +226,8 @@ export default {
         allnumber: 0,
         pagenumber: 0
       }).then(data => {
-        this.sum = data.data.data.allnumber||0;
-        this.expensesList = data.data.data.all_xyz_expenses || [];
+        this.sum = data.data.data.allnumber || 0;
+        this.expensesList = data.data.data.xyz_expenses || [];
       });
     },
     searchBtn() {
@@ -184,8 +241,8 @@ export default {
         allnumber: 0,
         pagenumber: 0
       }).then(data => {
-        this.sum = data.data.data.allnumber||0;
-        this.expensesList = data.data.data.all_xyz_expenses || [];
+        this.sum = data.data.data.allnumber || 0;
+        this.expensesList = data.data.data.xyz_expenses || [];
       });
     },
     addSubmit() {
@@ -201,13 +258,60 @@ export default {
             allnumber: 0,
             pagenumber: 0
           }).then(data => {
-            this.sum = data.data.data.allnumber||0;
-            this.expensesList = data.data.data.all_xyz_expenses || [];
+            this.sum = data.data.data.allnumber || 0;
+            this.expensesList = data.data.data.xyz_expenses || [];
           });
-        }else{
-          this.$Message.error('添加失败');
+        } else {
+          this.$Message.error("添加失败");
         }
       });
+    },
+    remove(value) {//删除提交
+      getDeleteExpenses(value.expenses_id).then(data => {
+        if (data.data.message == "删除成功") {
+          this.$Message.success('删除成功');
+          getExpensesPagelist({
+            pagesize: 10,
+            pageid: this.page,
+            stime: this.stime,
+            etime: this.etime,
+            allnumber: 0,
+            pagenumber: 0
+          }).then(data => {
+            this.sum = data.data.data.allnumber || 0;
+            this.expensesList = data.data.data.xyz_expenses || [];
+          });
+        } else {
+          this.$Message.error('删除失败');
+        }
+      });
+    },
+    edit(value){//编辑
+      window.sessionStorage.setItem('editId',value.expenses_id);
+      getByidExpenses(value.expenses_id).then(data=>{
+        this.editForm=data.data.data;
+        this.modal2=true;
+      })
+    },
+    editSubmit(){//编辑提交
+      getUpdateExpenses(this.editForm).then(data=>{
+        if(data.data.message=='删除成功'){
+          this.$Message.success('修改成功');
+          getExpensesPagelist({
+            pagesize: 10,
+            pageid: this.page,
+            stime: this.stime,
+            etime: this.etime,
+            allnumber: 0,
+            pagenumber: 0
+          }).then(data => {
+            this.sum = data.data.data.allnumber || 0;
+            this.expensesList = data.data.data.xyz_expenses || [];
+          });
+        }else{
+          this.$Message.error('修改失败');
+        }
+      })
     }
   }
 };
