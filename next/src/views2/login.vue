@@ -11,7 +11,7 @@
         <p class="login-head">Login to your account</p>
       </FormItem>
       <FormItem label="账号" prop="Username">
-        <Input v-model="formCustom.Username" placeholder="请输入管理员账号"></Input>
+        <Input v-model="formCustom.Username" placeholder="请输入管理员账号" :autofocus="true"></Input>
       </FormItem>
       <FormItem label="密码" prop="Password">
         <Input type="password" v-model="formCustom.Password" placeholder="请输入管理员密码"></Input>
@@ -67,7 +67,7 @@ export default {
           if (TOKEN != null) {
             window.sessionStorage.setItem("token", TOKEN);
             this.$Message.success("登录成功");
-            this.$router.push("/index");
+            this.$router.push({path:'/index',quert:{id:this.formCustom.Username}});
           } else {
             this.$Message.error("账号或密码错误");
           }
@@ -78,7 +78,7 @@ export default {
   created() {
     window.sessionStorage.removeItem("select");
     window.sessionStorage.removeItem("token");
-  }
+  },
 };
 </script>
 

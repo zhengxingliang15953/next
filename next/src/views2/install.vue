@@ -7,13 +7,13 @@
         ok-text="添加"
         @on-ok="addSubmit">
         <div class="modal-item">
-            联系人:<Input v-model="value" placeholder="请输入安装人员名称" style="width: 70%;" />
+            联系人:<Input v-model="value" placeholder="请输入安装人员名称" style="width: 70%;margin-left:2%;" />
         </div>
         <div class="modal-item">
-            电话:<Input v-model="value" placeholder="请输入安装人员电话" style="width: 70%;" />
+            电话:<Input v-model="value" placeholder="请输入安装人员电话" style="width: 70%;margin-left:4%;" />
         </div>
         <div class="modal-item">
-            微信:<Input v-model="value" placeholder="请输入安装人员微信" style="width: 70%;" />
+            微信:<Input v-model="value" placeholder="请输入安装人员微信" style="width: 70%;margin-left:4%;" />
         </div>
         <div class="modal-item">
             付款账号:<Input v-model="value" placeholder="请输入付款账号" style="width: 70%;" />
@@ -86,7 +86,7 @@ export default {
       addSubmit(){//添加安装人员
 
       },
-      pageChange(value){//页码改编回调
+      pageChange(value){//页码改变回调
         this.page=value;
       }
   }

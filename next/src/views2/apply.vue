@@ -141,17 +141,17 @@ export default {
       allnumber: 0,
       pagenumber: 0
     }).then(data => {
-      this.sum = data.data.data.allnumber;
+      this.sum = data.data.data.allnumber||0;
       this.expensesList = data.data.data.all_xyz_expenses || [];
     });
   },
   methods: {
     timeChange1(value) {
-      //开始时间
+      //开始时间回调
       this.stime = value;
     },
     timeChange2(value) {
-      //结束时间
+      //结束时间回调
       this.etime = value;
     },
     applyTimeChange(value) {
@@ -169,7 +169,7 @@ export default {
         allnumber: 0,
         pagenumber: 0
       }).then(data => {
-        this.sum = data.data.data.allnumber;
+        this.sum = data.data.data.allnumber||0;
         this.expensesList = data.data.data.all_xyz_expenses || [];
       });
     },
@@ -184,7 +184,7 @@ export default {
         allnumber: 0,
         pagenumber: 0
       }).then(data => {
-        this.sum = data.data.data.allnumber;
+        this.sum = data.data.data.allnumber||0;
         this.expensesList = data.data.data.all_xyz_expenses || [];
       });
     },
@@ -201,9 +201,11 @@ export default {
             allnumber: 0,
             pagenumber: 0
           }).then(data => {
-            this.sum = data.data.data.allnumber;
+            this.sum = data.data.data.allnumber||0;
             this.expensesList = data.data.data.all_xyz_expenses || [];
           });
+        }else{
+          this.$Message.error('添加失败');
         }
       });
     }

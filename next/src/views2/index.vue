@@ -40,7 +40,7 @@
           ></Icon>
           <Button type="primary" style="margin-right:70%;" @click="back">退出</Button><span style="font-size:0.08rem;color:#1E90FF;">超级管理员</span>
         </Header>
-        <Content id="content" :style="{margin: '20px', background: '#fff',minHeight:`100%`}">
+        <Content id="content" :style="{margin: '20px', background: '#fff'}">
             <router-view></router-view>
         </Content>
       </Layout>

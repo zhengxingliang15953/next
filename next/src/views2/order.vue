@@ -3,33 +3,46 @@
     <!--添加弹窗-->
     <Modal v-model="modal1" title="添加订单" ok-text="添加" @on-ok="addSubmit">
       <div class="modal-item">
-        支出时间:
+        客户名称:
+        <Input v-model="value" placeholder="请输入客户名称" style="width: 70%;" />
+      </div>
+      <div class="modal-item">
+        业务内容:
+        <Input v-model="value" placeholder="请输入业务内容" style="width: 70%;" />
+      </div>
+      <div class="modal-item">
+        成交金额:
+        <Input v-model="value" placeholder="请输入成交金额" style="width: 30%;" />
+        制作成本:
+        <Input v-model="value" placeholder="请输入制作成本" style="width: 30%;" />
+      </div>
+      <div class="modal-item">
+        已收款项:
+        <Input v-model="value" placeholder="请输入已收款箱" style="width: 30%;" />
+        订单日期:
         <DatePicker
           type="date"
           placeholder="请选择支出时间"
           :clearable="false"
           :editable="false"
           :start-date="new Date()"
-          style="width:70%;"
+          style="width:30%;"
         ></DatePicker>
       </div>
       <div class="modal-item">
-        支出金额:
-        <Input v-model="value" placeholder="请输入支出金额" style="width: 70%;" />
+        安装人员:
+        <Input v-model="value" placeholder="请输入安装人员" style="width: 30%;" />
+        安装费用:
+        <Input v-model="value" placeholder="请输入安装费用" style="width: 30%;" />
       </div>
       <div class="modal-item">
-        支出人员:
-        <Input v-model="value" placeholder="请输入支出人" style="width: 70%;" />
-      </div>
-      <div class="modal-item">
-        支出信息:
-        <Input
-          v-model="value17"
-          show-word-limit
-          type="textarea"
-          placeholder="请输入支出信息"
-          style="width:70%;"
-        />
+        制作供应:
+        <Input v-model="value" placeholder="请输入制作供应商" style="width: 30%;" />
+        订单状态:
+        <Select  style="width:30%;" >
+          <Option value="实施中">实施中</Option>
+          <Option value="已交付">已交付</Option>
+        </Select>
       </div>
     </Modal>
     <!--添加弹窗-->
