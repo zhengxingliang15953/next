@@ -54,7 +54,6 @@
     </Modal>
     <!--添加弹窗-->
 
-
     <!--编辑弹窗-->
     <Modal v-model="modal2" title="修改订单" ok-text="修改" @on-ok="editSubmit">
       <div class="modal-item">
@@ -67,7 +66,12 @@
       </div>
       <div class="modal-item">
         成交金额:
-        <Input v-model="editOrder.turnover" type="number" placeholder="请输入成交金额" style="width: 30%;" />制作成本:
+        <Input
+          v-model="editOrder.turnover"
+          type="number"
+          placeholder="请输入成交金额"
+          style="width: 30%;"
+        />制作成本:
         <Input v-model="editOrder.cost" type="number" placeholder="请输入制作成本" style="width: 30%;" />
       </div>
       <div class="modal-item">
@@ -130,13 +134,26 @@
           :editable="false"
           style="width: 200px"
         ></DatePicker>
-        <Input
+        <Select
           v-model="customerSearch1"
+          filterable
+          remote
+          clearable
+          :remote-method="remoteMethod1"
+          @on-change="customerNameChange"
+          @on-clear="customerNameClear"
           placeholder="请输入客户名称"
-          style="width: 200px;margin-left:10px;"
-        />
+          style="width:200px;margin-left:10px;"
+        >
+          <Option
+            v-for="(item, index) in options"
+            :value="item.username"
+            :key="index"
+          >{{item.username}}</Option>
+        </Select>
         <Button type="info" class="searchBtn" @click="searchBtn">查询</Button>
         <Button type="primary" class="searchBtn" @click="modal1=true">添加订单</Button>
+        <Button type="success" icon="ios-navigate" @click="output" class="out-put">导出</Button>
       </div>
       <Table :columns="columns1" :data="orderList">
         <template slot-scope="{ row, index }" slot="action">
@@ -156,9 +173,10 @@ import {
   getAddOrder,
   getByidOrder,
   getDeleteOrder,
-  getUpdateOrder
+  getUpdateOrder,
+  getOutOrder
 } from "../api";
-import { changeTime } from "../plugins/time.js";
+import { changeTime ,BLOB} from "../plugins/time.js";
 export default {
   name: "apply",
   data() {
@@ -214,7 +232,7 @@ export default {
       ],
       orderList: [], //开支列表
       modal1: false, //弹窗控制
-      modal2:false,//编辑弹窗控制
+      modal2: false, //编辑弹窗控制
       sum: 0, //总数目
       page: 1, //当前页码
       stime: "0001-01-01", //开始时间
@@ -246,7 +264,9 @@ export default {
         receiving_amount: "",
         date: "",
         status: ""
-      }
+      },
+      allCustomerName: [], //所有的客户名称
+      options: []
     };
   },
   created() {
@@ -264,6 +284,7 @@ export default {
     }).then(data => {
       if (data.data.message == "查询成功") {
         this.orderList = data.data.data.xyz_Orders || [];
+        this.allCustomerName = data.data.data.all_xyz_Orders || [];
         this.sum = data.data.data.allnumber || 0;
       }
     });
@@ -286,6 +307,7 @@ export default {
             if (data.data.message == "查询成功") {
               this.orderList = data.data.data.xyz_Orders || [];
               this.sum = data.data.data.allnumber || 0;
+              this.allCustomerName = data.data.data.all_xyz_Orders || [];
             }
           });
         } else {
@@ -308,6 +330,7 @@ export default {
         if (data.data.message == "查询成功") {
           this.orderList = data.data.data.xyz_Orders || [];
           this.sum = data.data.data.allnumber || 0;
+          this.allCustomerName = data.data.data.all_xyz_Orders || [];
         }
       });
     },
@@ -319,26 +342,44 @@ export default {
       //结束时间
       this.etime = value;
     },
-    addTimeChange(value){//订单添加时间改变回调
-      this.addOrder.date=value;
+    addTimeChange(value) {
+      //订单添加时间改变回调
+      this.addOrder.date = value;
     },
-    editTimeChange(value){//订单添加时间改变回调
-      this.editOrder.date=value;
+    editTimeChange(value) {
+      //订单添加时间改变回调
+      this.editOrder.date = value;
     },
     searchBtn() {
       //查询
       this.customerSearch2 = this.customerSearch1;
+      getOrderPageList({
+        pagesize: 10,
+        pageid: 1,
+        stime: this.stime,
+        etime: this.etime,
+        allnumber: 0,
+        pagenumber: 0,
+        name: this.customerSearch2
+      }).then(data => {
+        if (data.data.message == "查询成功") {
+          console.log(data);
+          this.orderList = data.data.data.xyz_Orders || [];
+          this.allCustomerName = data.data.data.all_xyz_Orders || [];
+          this.sum = this.orderList.length;
+        }
+      });
     },
     statusChange(value) {
       //订单状态改变回调
       this.addOrder.status = value;
     },
-    editStatusChange(value){//编辑订单状态回调
-      this.editOrder.status=value;
+    editStatusChange(value) {
+      //编辑订单状态回调
+      this.editOrder.status = value;
     },
     remove(value) {
       //删除
-      console.log(value.order_id);
       getDeleteOrder(value.order_id).then(data => {
         if (data.data.message == "删除成功") {
           this.$Message.success("删除成功");
@@ -354,6 +395,7 @@ export default {
             if (data.data.message == "查询成功") {
               this.orderList = data.data.data.xyz_Orders || [];
               this.sum = data.data.data.allnumber || 0;
+              this.allCustomerName = data.data.data.all_xyz_Orders || [];
             }
           });
         } else {
@@ -361,16 +403,18 @@ export default {
         }
       });
     },
-    edit(value){//编辑
-      this.modal2=true;
-      getByidOrder(value.order_id).then(data=>{
-        this.editOrder=data.data.data;
-      })
+    edit(value) {
+      //编辑
+      this.modal2 = true;
+      getByidOrder(value.order_id).then(data => {
+        this.editOrder = data.data.data;
+      });
     },
-    editSubmit(){//编辑提交
-      getUpdateOrder(this.editOrder).then(data=>{
-        if(data.data.message=='修改成功'){
-          this.$Message.success('修改成功');
+    editSubmit() {
+      //编辑提交
+      getUpdateOrder(this.editOrder).then(data => {
+        if (data.data.message == "修改成功") {
+          this.$Message.success("修改成功");
           getOrderPageList({
             pagesize: 10,
             pageid: this.page,
@@ -383,12 +427,47 @@ export default {
             if (data.data.message == "查询成功") {
               this.orderList = data.data.data.xyz_Orders || [];
               this.sum = data.data.data.allnumber || 0;
+              this.allCustomerName = data.data.data.all_xyz_Orders || [];
             }
           });
-        }else{
+        } else {
           this.$Message.error("修改失败");
         }
-      })
+      });
+    },
+    remoteMethod1(value) {
+      //远程搜索方法
+      if (value == "") {
+        this.customerSearch1 = "";
+        this.options = [];
+      } else {
+        this.options = this.allCustomerName.filter(function(item) {
+          return item.username.indexOf(value) != -1;
+        });
+      }
+    },
+    customerNameChange(value) {
+      //搜索框确认回调
+      this.customerSearch1 = value;
+    },
+    customerNameClear() {
+      //搜索框清空
+      this.customerSearch1 == "";
+      this.customerSearch2 = "";
+    },
+    output() {
+      //导出
+      getOutOrder({
+        pagesize: 10,
+        pageid: 1,
+        stime: this.stime,
+        etime: this.etime,
+        allnumber: 0,
+        pagenumber: 0,
+        name: this.customerSearch2
+      }).then(data => {
+        BLOB(data.data,'订单表.xls');
+      });
     }
   }
 };

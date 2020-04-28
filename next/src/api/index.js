@@ -88,3 +88,58 @@ export let getDeleteOrder = data => {
 export let getUpdateOrder = data => {
     return Http.post(`/api/order/update`,qs.stringify(data));
 };
+/**付款管理分页查询*/
+export let getPayforPageList = data => {
+    return Http.post(`/api/pay/pagelist`,qs.stringify(data));
+};
+/**付款管理添加*/
+export let getAddPayfor = data => {
+    return Http.post(`/api/pay/insert`,qs.stringify(data));
+};
+/**付款管理删除*/
+export let getDeletePayfor = data => {
+    return Http.get(`/api/pay/del?pay_id=${data}`);
+};
+/**根据id获取付款管理*/
+export let getByidPayfor = data => {
+    return Http.get(`/api/pay/expenses?pay_id=${data}`);
+};
+/**编辑付款管理*/
+export let getUpdatePayfor = data => {
+    return Http.post(`/api/pay/update`,qs.stringify(data));
+};
+/**付款管理分页查询*/
+export let getAdminPageList = () => {
+    return Http.get(`/api/admin/list`);
+};
+/**管理员添加*/
+export let getAddAdmin = data => {
+    return Http.post(`/api/admin/add`,data);
+};
+/**管理员删除*/
+export let getDeleteAdmin = data => {
+    return Http.get(`/api/admin/del?admin_id=${data}`);
+};
+/**管理员修改*/
+export let getUpdateAdmin = data => {
+    return Http.post(`/api/admin/update`,data);
+};
+
+/**订单导出*/
+export let getOutOrder = data => {
+    return Http.post(`/api/files/excel/order`,qs.stringify(data),{
+        responseType: "blob"
+    });
+};
+/**安装人员导出*/
+export let getOutInstall = data => {
+    return Http.post(`/api/files/excel/installer`,qs.stringify(data),{
+        responseType: "blob"
+    });
+};
+/**供应商导出*/
+export let getOutSupply = data => {
+    return Http.post(`/api/files/excel/supplier`,qs.stringify(data),{
+        responseType: "blob"
+    });
+};

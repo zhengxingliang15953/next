@@ -113,6 +113,7 @@
         <template slot-scope="{ row, index }" slot="action">
           <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
           <Button type="error" size="small" @click="remove(row)">删除</Button>
+          <Button type="success" size="small" icon="ios-navigate" @click="output(row)" class="out-put">导出</Button>
         </template>
       </Table>
       <Page :total="sum" :current="page" style="margin-top:20px;" @on-change="pageChange" />
@@ -127,8 +128,10 @@ import {
   getAddSupply,
   getDeleteSupply,
   getByidSupply,
-  getUpdateSupply
+  getUpdateSupply,
+  getOutSupply
 } from "../api";
+import {BLOB} from '../plugins/time';
 export default {
   name: "apply",
   data() {
@@ -346,6 +349,11 @@ export default {
     supplyNameClear(){//搜索清除
       this.supplySearch1='';
       this.supplySearch2='';
+    },
+    output(value){//导出
+      getOutSupply({name:value.name}).then(data=>{
+        BLOB(data.data,"供应商信息表.xls");
+      })
     }
   }
 };

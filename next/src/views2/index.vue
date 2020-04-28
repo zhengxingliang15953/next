@@ -23,7 +23,11 @@
             <Icon type="md-construct"></Icon>
             <span>安装人员</span>
           </MenuItem>
-          <MenuItem name="6" to="/index/system">
+          <MenuItem name="6" to="/index/payfor">
+            <Icon type="logo-usd"></Icon>
+            <span>付款管理</span>
+          </MenuItem>
+          <MenuItem name="7" to="/index/system">
             <Icon type="md-person"></Icon>
             <span>系统管理</span>
           </MenuItem>

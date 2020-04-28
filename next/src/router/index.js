@@ -45,6 +45,11 @@ const routes = [
         path:'/index/system',
         component:()=>import('../views2/system.vue'),
       },
+      {
+        name:'payfor',//付款管理
+        path:'/index/payfor',
+        component:()=>import('../views2/payfor.vue'),
+      },
     ]
   }
 ];
@@ -54,21 +59,17 @@ const router = new VueRouter({
   routes
 });
 
-/* var token = '';
+
 router.beforeEach((to, from, next) => {
-  getIndexAccount().then((data) => {
-    token = data.data.msg;
-    if (to.path == '/') {
-      next();
-    } else {
-      if (window.sessionStorage.getItem('token') == token) {
-        next();
-      } else {
-        next('/');
-      }
-    }
-  })
-}) */
+  // console.log(to.path);
+  if(to.path=='/'){
+    next();
+  }else if(!window.sessionStorage.getItem('token')){
+    next('/');
+  }else{
+    next();
+  }
+})
 
 RouterHooks.init(router);
 Vue.use(VueRouter);

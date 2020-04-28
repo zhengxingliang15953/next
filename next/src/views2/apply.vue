@@ -32,6 +32,19 @@
           style="width:70%;"
         />
       </div>
+      <div class="modal-item">
+        开支凭证:
+        <Upload
+          action="http://192.168.0.113:7776/api/files/upload/formimg"
+          name="files"
+          :format="uploadImgType"
+          :on-success="uploadImgSuccess"
+          :on-error="uploadImgError" 
+          :on-format-error="uploadImgFormat"
+        >
+          <Button icon="ios-cloud-upload-outline">上传</Button>
+        </Upload>
+      </div>
     </Modal>
     <!--添加弹窗-->
 
@@ -74,8 +87,27 @@
           <Option value="已报销">已报销</Option>
         </Select>
       </div>
+      <div class="modal-item">
+        开支凭证:
+        <Upload
+          action="http://192.168.0.113:7776/api/files/upload/formimg"
+          name="files"
+          :format="uploadImgType"
+          :on-success="uploadImgSuccess"
+          :on-error="uploadImgError" 
+          :on-format-error="uploadImgFormat"
+        >
+          <Button icon="ios-cloud-upload-outline">上传</Button>
+        </Upload>
+      </div>
     </Modal>
     <!--编辑弹窗-->
+
+    <!--付款凭证-->
+    <Modal v-model="modal3" title="开支凭证" footer-hide :styles="{top: '20px'}">
+      <img :src="applyImgIndex" width="100%" alt />
+    </Modal>
+    <!--付款凭证-->
 
     <div class="panel-head">开支管理</div>
     <div class="panel-body">
@@ -99,10 +131,11 @@
           @on-change="timeChange2"
         ></DatePicker>
         <Button type="info" class="searchBtn" @click="searchBtn">查询</Button>
-        <Button type="primary" class="searchBtn" @click="modal1=true">添加开支</Button>
+        <Button type="primary" class="searchBtn" @click="addApplyBtn">添加开支</Button>
       </div>
       <Table :columns="columns1" :data="expensesList">
         <template slot-scope="{ row, index }" slot="action">
+          <Button type="warning" size="small" @click="applyImgBtn(row)" style="margin-right: 5px">开支凭证</Button>
           <Button type="success" size="small" style="margin-right: 5px" @click="examine(row)">审核</Button>
           <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
           <Button type="error" size="small" @click="remove(row)">删除</Button>
@@ -123,6 +156,7 @@ export default {
     return {
       modal1: false, //弹窗控制
       modal2:false,//编辑弹窗
+      modal3:false,//开支凭证弹窗
       stime: "0001-01-01", //开始时间
       etime: "", //结束时间
       expensesList: [], //展示列表
@@ -133,7 +167,8 @@ export default {
         date: "",
         money: 0,
         name: "",
-        info: ""
+        info: "",
+        img:''
       },
       editForm:{//编辑提交表单
         expenses_id:'',
@@ -142,8 +177,11 @@ export default {
         money:'',
         name:'',
         status:'',
-        admin_reallyname:''
+        admin_reallyname:'',
+        img:''
       },
+      uploadImgType:['jpg','png','jpeg','gif'],
+      applyImgIndex:'#',
       columns1: [
         //表头
         {
@@ -167,17 +205,13 @@ export default {
           key: "status"
         },
         {
-          title: "审核结果",
-          key: "result"
-        },
-        {
           title: "审核人",
-          key: "people"
+          key: "admin_reallyname"
         },
         {
           title: "操作",
           slot: "action",
-          width: 200,
+          width:250,
           align: "center"
         }
       ]
@@ -247,7 +281,10 @@ export default {
     },
     addSubmit() {
       //开支添加提交
-      getAddExpenses(this.submitForm).then(data => {
+      if(this.submitForm.img==''){
+        this.$Message.warning('请上传开支凭证');
+      }else{
+        getAddExpenses(this.submitForm).then(data => {
         if (data.data.message == "添加成功") {
           this.$Message.success("添加成功");
           getExpensesPagelist({
@@ -265,6 +302,7 @@ export default {
           this.$Message.error("添加失败");
         }
       });
+      }
     },
     remove(value) {//删除提交
       getDeleteExpenses(value.expenses_id).then(data => {
@@ -312,6 +350,25 @@ export default {
           this.$Message.error('修改失败');
         }
       })
+    },
+    uploadImgSuccess(file){//图片上传成功
+      this.$Message.success('上传成功');
+      this.submitForm.img=file[0];
+      this.editForm.img=file[0];
+    },
+    uploadImgError(){//图片上传失败
+      this.$Message.error('上传失败');
+    },
+    uploadImgFormat(){//文件类型不正确
+      this.$Message.warning("不支持该文件类型");
+    },
+    addApplyBtn(){//添加开支
+      this.modal1=true;
+      this.submitForm.img='';
+    },
+    applyImgBtn(value){//获取开支凭证
+      this.applyImgIndex=value.img;
+      this.modal3=true;
     }
   }
 };

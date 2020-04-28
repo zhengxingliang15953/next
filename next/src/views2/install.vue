@@ -45,14 +45,14 @@
     <div class="panel-head">安装人员管理</div>
     <div class="panel-body">
       <div class="panel-body-search">
-        <!-- <Input v-model="value" placeholder="请输入客户名称" style="width: 250px;" /> -->
-        <!-- <Button type="info" class="searchBtn">查询</Button> -->
         <Button type="primary" class="searchBtn" @click="modal1=true">添加安装人员</Button>
+        <!-- <Button type="success" icon="ios-navigate" @click="output" class="out-put">导出</Button> -->
       </div>
       <Table :columns="columns1" :data="installList">
         <template slot-scope="{ row, index }" slot="action">
           <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
           <Button type="error" size="small" @click="remove(row)">删除</Button>
+          <Button type="success" size="small" icon="ios-navigate" @click="output(row)" class="out-put">导出</Button>
         </template>
       </Table>
       <Page :total="sum" :current="page" style="margin-top:20px;" @on-change="pageChange" />
@@ -62,7 +62,8 @@
 </template>
 
 <script>
-import { getInstallPageList, getAddInstall, getDeleteInstall ,getByidInstall,getUpdateInstall} from "../api";
+import { getInstallPageList, getAddInstall, getDeleteInstall ,getByidInstall,getUpdateInstall,getOutInstall} from "../api";
+import {BLOB} from '../plugins/time';
 export default {
   name: "apply",
   data() {
@@ -197,6 +198,11 @@ export default {
         }else{
             this.$Message.error("修改失败");
         }
+      })
+    },
+    output(value){//导出
+      getOutInstall({name:value.name}).then(data=>{
+        BLOB(data.data,'安装人员信息.xls');
       })
     }
   }
