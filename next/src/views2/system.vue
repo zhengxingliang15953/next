@@ -161,13 +161,13 @@ export default {
   methods: {
     async addSubmit() {
       //添加管理员
-      let list = [];
+      /* let list = [];
       await getAdminPageList().then(data => {
         this.adminList = data.data.data;
       });
       list = this.adminList.filter(item => {
         return item.name == this.submitForm.name;
-      });
+      }); */
       if (
         this.submitForm.name == "" ||
         this.submitForm.password == "" ||
@@ -177,8 +177,6 @@ export default {
         this.$Message.warning("信息请填写完整");
       } else if (this.submitForm.password != this.password2) {
         this.$Message.warning("两次密码输入不一致");
-      } else if (list.length >= 1) {
-        this.$Message.warning("该账号已存在");
       } else {
         getAddAdmin(this.submitForm).then(data => {
           if (data.data.message == "添加成功") {
@@ -186,8 +184,10 @@ export default {
             getAdminPageList().then(data => {
               this.adminList = data.data.data;
             });
+          } else if (data.data.message == "无权限") {
+            this.$Message.error("无权限");
           } else {
-            this.$Message.error("添加失败");
+            this.$Message.error("账号或密码已被注册");
           }
         });
       }
@@ -209,7 +209,7 @@ export default {
             this.adminList = data.data.data;
           });
         } else {
-          this.$Message.error("删除失败");
+          this.$Message.error("无权限");
         }
       });
     },
@@ -234,8 +234,10 @@ export default {
         await getUpdateAdmin(this.editForm).then(data => {
           if (data.data.message == "更新成功") {
             this.$Message.success("修改成功");
+          } else if (data.data.message == "无权限") {
+            this.$Message.error("无权限");
           } else {
-            this.$Message.error("修改失败");
+            this.$Message.error("账号或手机已被注册");
           }
         });
       }
@@ -244,9 +246,9 @@ export default {
       });
     }
   },
-  computed:{
-    actionType(){
-      return window.sessionStorage.getItem('admin')||'';
+  computed: {
+    actionType() {
+      return window.sessionStorage.getItem("admin") || "";
     }
   }
 };

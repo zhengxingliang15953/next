@@ -171,7 +171,7 @@ export default {
             this.installList = data.data.data.xyz_Installers || [];
           });
         } else {
-          this.$Message.error("删除失败");
+          this.$Message.error("无权限");
         }
       });
     },
@@ -195,7 +195,7 @@ export default {
             this.installList = data.data.data.xyz_Installers || [];
           });
         }else{
-            this.$Message.error("修改失败");
+            this.$Message.error("无权限");
         }
       })
     },

@@ -283,9 +283,8 @@ export default {
     },
     remove(value) {
       //删除
-      console.log(value.supplier_id);
       getDeleteSupply(value.supplier_id).then(data => {
-        if (data.data.message == "删除成功") {
+        if (data.data.code == 1) {
           this.$Message.success("删除成功");
           getSupplyPageList({
             pagesize: 10,
@@ -299,7 +298,7 @@ export default {
             this.allSupplyName = data.data.data.all_xyz_Suppliers || [];
           });
         } else {
-          this.$Message.error("删除失败");
+          this.$Message.error("无权限");
         }
       });
     },
@@ -313,7 +312,7 @@ export default {
     editSubmit() {
       //编辑提交
       getUpdateSupply(this.editForm).then(data => {
-        if (data.data.message == "修改成功") {
+        if (data.data.code == 1) {
           this.$Message.success("修改成功");
           getSupplyPageList({
             pagesize: 10,
@@ -327,7 +326,7 @@ export default {
             this.allSupplyName = data.data.data.all_xyz_Suppliers || [];
           });
         } else {
-          this.$Message.error("修改失败");
+          this.$Message.error("无权限");
         }
       });
     },

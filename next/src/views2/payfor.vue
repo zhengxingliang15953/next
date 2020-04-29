@@ -311,7 +311,7 @@ export default {
     remove(value) {
       //删除
       getDeletePayfor(value.pay_id).then(data => {
-        if (data.data.message == "删除成功") {
+        if (data.data.code == 1) {
           this.$Message.success("删除成功");
           getPayforPageList({
             pagesize: 10,
@@ -325,7 +325,7 @@ export default {
             this.sum = data.data.data.allnumber || 0;
           });
         } else {
-          this.$Message.error("删除失败");
+          this.$Message.error("无权限");
         }
       });
     },
@@ -339,7 +339,7 @@ export default {
     editSubmit() {
       //编辑提交
       getUpdatePayfor(this.editPayforForm).then(data => {
-        if (data.data.message == "删除成功") {
+        if (data.data.code == 1) {
           this.$Message.success("修改成功");
           getPayforPageList({
             pagesize: 10,
@@ -353,7 +353,7 @@ export default {
             this.sum = data.data.data.allnumber || 0;
           });
         } else {
-          this.$Message.error("修改失败");
+          this.$Message.error("无权限");
         }
       });
     },

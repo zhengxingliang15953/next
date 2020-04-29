@@ -168,7 +168,7 @@ import {
   getUpdateExpenses,
   getAdminPageList
 } from "../api";
-import { changeTime ,listDateChange} from "../plugins/time.js";
+import { changeTime, listDateChange } from "../plugins/time.js";
 export default {
   name: "apply",
   data() {
@@ -317,7 +317,8 @@ export default {
               pagenumber: 0
             }).then(data => {
               this.sum = data.data.data.allnumber || 0;
-              this.expensesList = listDateChange(data.data.data.xyz_expenses) || [];
+              this.expensesList =
+                listDateChange(data.data.data.xyz_expenses) || [];
             });
           } else {
             this.$Message.error("添加失败");
@@ -339,10 +340,11 @@ export default {
             pagenumber: 0
           }).then(data => {
             this.sum = data.data.data.allnumber || 0;
-            this.expensesList = listDateChange(data.data.data.xyz_expenses) || [];
+            this.expensesList =
+              listDateChange(data.data.data.xyz_expenses) || [];
           });
         } else {
-          this.$Message.error("删除失败");
+          this.$Message.error("无权限");
         }
       });
     },
@@ -367,10 +369,11 @@ export default {
             pagenumber: 0
           }).then(data => {
             this.sum = data.data.data.allnumber || 0;
-            this.expensesList = listDateChange(data.data.data.xyz_expenses) || [];
+            this.expensesList =
+              listDateChange(data.data.data.xyz_expenses) || [];
           });
         } else {
-          this.$Message.error("修改失败");
+          this.$Message.error("无权限");
         }
       });
     },
@@ -404,7 +407,7 @@ export default {
       let list = [];
       await getAdminPageList().then(data => {
         list = data.data.data.filter(item => {
-          return item.name == window.sessionStorage.getItem('admin');
+          return item.name == window.sessionStorage.getItem("admin");
         });
         if (list.length <= 0) {
           this.$router.push("/");
@@ -412,20 +415,25 @@ export default {
           getByidExpenses(value.expenses_id).then(data => {
             this.editForm = data.data.data;
             this.editForm.admin_reallyname = list[0].reallyname;
-            this.editForm.status='已报销';
+            this.editForm.status = "已报销";
             getUpdateExpenses(this.editForm).then(data => {
-              this.$Message.success('审核成功');
-              getExpensesPagelist({
-                pagesize: 10,
-                pageid: this.page,
-                stime: this.stime,
-                etime: this.etime,
-                allnumber: 0,
-                pagenumber: 0
-              }).then(data => {
-                this.sum = data.data.data.allnumber || 0;
-                this.expensesList = listDateChange(data.data.data.xyz_expenses) || [];
-              });
+              if (data.data.message == "无权限") {
+                this.$Message.error("无权限");
+              } else {
+                this.$Message.success("审核成功");
+                getExpensesPagelist({
+                  pagesize: 10,
+                  pageid: this.page,
+                  stime: this.stime,
+                  etime: this.etime,
+                  allnumber: 0,
+                  pagenumber: 0
+                }).then(data => {
+                  this.sum = data.data.data.allnumber || 0;
+                  this.expensesList =
+                    listDateChange(data.data.data.xyz_expenses) || [];
+                });
+              }
             });
           });
         }
