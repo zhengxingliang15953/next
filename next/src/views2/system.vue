@@ -38,7 +38,7 @@
     <!--添加弹窗-->
 
     <!--编辑弹窗-->
-    <Modal v-model="modal2" title="添加管理员" ok-text="添加" @on-ok="editSubmit">
+    <Modal v-model="modal2" title="修改管理员" ok-text="修改" @on-ok="editSubmit">
       <div class="modal-item">
         账号:
         <Input v-model="editForm.name" disabled placeholder="请输入账号" style="width: 70%;" />
@@ -154,6 +154,7 @@ export default {
   },
   created() {
     getAdminPageList().then(data => {
+      // console.log(data);
       this.adminList = data.data.data;
     });
   },
@@ -239,8 +240,13 @@ export default {
         });
       }
       getAdminPageList().then(data => {
-          this.adminList = data.data.data;
-        });
+        this.adminList = data.data.data;
+      });
+    }
+  },
+  computed:{
+    actionType(){
+      return window.sessionStorage.getItem('admin')||'';
     }
   }
 };

@@ -307,8 +307,8 @@ export default {
       //编辑
       getByidSupply(value.supplier_id).then(data => {
         this.editForm = data.data.data;
+        this.modal2 = true;
       });
-      this.modal2 = true;
     },
     editSubmit() {
       //编辑提交

@@ -51,7 +51,7 @@
           :on-error="uploadImgError"
           :on-format-error="uploadFormat"
         >
-          <Button icon="ios-cloud-upload-outline">上传</Button>
+          <Button icon="ios-cloud-upload-outline" type="success">上传</Button>
         </Upload>
       </div>
     </Modal>
@@ -108,7 +108,7 @@
           :on-error="uploadImgError"
           :on-format-error="uploadFormat"
         >
-          <Button icon="ios-cloud-upload-outline">上传</Button>
+          <Button icon="ios-cloud-upload-outline" type="success">上传</Button>
         </Upload>
       </div>
     </Modal>
@@ -159,13 +159,14 @@
 </template>
 
 <script>
-import { changeTime } from "../plugins/time.js";
+import { changeTime ,BLOB,listDateChange} from "../plugins/time.js";
 import {
   getPayforPageList,
   getAddPayfor,
   getDeletePayfor,
   getByidPayfor,
-  getUpdatePayfor
+  getUpdatePayfor,
+  getOutPayfor
 } from "../api";
 export default {
   name: "apply",
@@ -241,7 +242,7 @@ export default {
       allnumber: 0,
       pagenumber: 0
     }).then(data => {
-      this.payforList = data.data.data.xyz_Pays || [];
+      this.payforList = listDateChange(data.data.data.xyz_Pays) || [];
       this.sum = data.data.data.allnumber || 0;
     });
   },
@@ -262,7 +263,7 @@ export default {
               allnumber: 0,
               pagenumber: 0
             }).then(data => {
-              this.payforList = data.data.data.xyz_Pays || [];
+              this.payforList = listDateChange(data.data.data.xyz_Pays) || [];
               this.sum = data.data.data.allnumber || 0;
             });
           } else {
@@ -282,7 +283,7 @@ export default {
         allnumber: 0,
         pagenumber: 0
       }).then(data => {
-        this.payforList = data.data.data.xyz_Pays || [];
+        this.payforList = listDateChange(data.data.data.xyz_Pays) || [];
         this.sum = data.data.data.allnumber || 0;
       });
     },
@@ -320,7 +321,7 @@ export default {
             allnumber: 0,
             pagenumber: 0
           }).then(data => {
-            this.payforList = data.data.data.xyz_Pays || [];
+            this.payforList = listDateChange(data.data.data.xyz_Pays) || [];
             this.sum = data.data.data.allnumber || 0;
           });
         } else {
@@ -339,7 +340,7 @@ export default {
       //编辑提交
       getUpdatePayfor(this.editPayforForm).then(data => {
         if (data.data.message == "删除成功") {
-          this.$Message.success("添加成功");
+          this.$Message.success("修改成功");
           getPayforPageList({
             pagesize: 10,
             pageid: this.page,
@@ -348,11 +349,11 @@ export default {
             allnumber: 0,
             pagenumber: 0
           }).then(data => {
-            this.payforList = data.data.data.xyz_Pays || [];
+            this.payforList = listDateChange(data.data.data.xyz_Pays) || [];
             this.sum = data.data.data.allnumber || 0;
           });
         } else {
-          this.$Message.error("添加失败");
+          this.$Message.error("修改失败");
         }
       });
     },
@@ -366,7 +367,7 @@ export default {
         allnumber: 0,
         pagenumber: 0
       }).then(data => {
-        this.payforList = data.data.data.xyz_Pays || [];
+        this.payforList = listDateChange(data.data.data.xyz_Pays) || [];
         this.sum = data.data.data.allnumber || 0;
       });
     },
@@ -388,6 +389,19 @@ export default {
     uploadFormat() {
       //上传文件类型不正确
       this.$Message.warning("不支持该文件类型");
+    },
+    output(){//导出
+      getOutPayfor({
+        pagesize: 10,
+        pageid: this.page,
+        stime: this.stime,
+        etime: this.etime,
+        allnumber: 0,
+        pagenumber: 0,
+        name:''
+      }).then(data=>{
+        BLOB(data.data,'财务总表.xls');
+      })
     }
   }
 };

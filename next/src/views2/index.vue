@@ -2,7 +2,13 @@
   <div id="index">
     <Layout style="height:100%;">
       <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
-        <Menu :active-name="select" @on-select="menuSelect" theme="dark" width="auto" :class="menuitemClasses">
+        <Menu
+          :active-name="select"
+          @on-select="menuSelect"
+          theme="dark"
+          width="auto"
+          :class="menuitemClasses"
+        >
           <MenuItem name="1" to="/index/apply">
             <Icon type="ios-calculator"></Icon>
             <span>开支管理</span>
@@ -42,10 +48,11 @@
             type="md-menu"
             size="24"
           ></Icon>
-          <Button type="primary" style="margin-right:70%;" @click="back">退出</Button><span style="font-size:0.08rem;color:#1E90FF;">超级管理员</span>
+          <Button type="primary" style="margin-right:70%;" @click="back">退出</Button>
+          <span style="font-size:0.08rem;color:#1E90FF;">{{adminType}}</span>
         </Header>
         <Content id="content" :style="{margin: '20px', background: '#fff'}">
-            <router-view></router-view>
+          <router-view></router-view>
         </Content>
       </Layout>
     </Layout>
@@ -53,18 +60,27 @@
 </template>
 
 <script>
-
+import { getAdminPageList } from "../api";
 export default {
   name: "index",
   data() {
     return {
       isCollapsed: false,
-      screenHeight:'',
-      select:''
+      screenHeight: "",
+      select: "",
+      adminType: ""
     };
   },
-  created(){
-    this.select=window.sessionStorage.getItem('select')||'1';
+  async created() {
+    this.select = window.sessionStorage.getItem("select") || "1";
+    let ADMIN = window.sessionStorage.getItem('admin');
+    let list = [];
+    await getAdminPageList().then(data => {
+      list = data.data.data.filter(item=>{
+        return item.name==ADMIN;
+      })
+      this.adminType=list[0].root||'';
+    });
   },
   mounted() {
     let _this = this;
@@ -85,14 +101,16 @@ export default {
     collapsedSider() {
       this.$refs.side1.toggleCollapse();
     },
-    back(){//退出
-      window.sessionStorage.removeItem('token');
-      this.$router.push('/');
+    back() {
+      //退出
+      window.sessionStorage.removeItem("token");
+      this.$router.push("/");
     },
-    menuSelect(value){//menu选择回调
-      window.sessionStorage.setItem('select',value);
+    menuSelect(value) {
+      //menu选择回调
+      window.sessionStorage.setItem("select", value);
     }
-  },
+  }
 };
 </script>
 

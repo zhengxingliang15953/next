@@ -62,7 +62,7 @@ export let getDeleteSupply = data => {
 };
 /**根据id获取供应商*/
 export let getByidSupply = data => {
-    return Http.get(`/api/supplier/expenses?supplier_id=${data}`);
+    return Http.get(`/api/supplier/supplier?supplier_id=${data}`);
 };
 /**编辑供应商*/
 export let getUpdateSupply = data => {
@@ -124,6 +124,28 @@ export let getDeleteAdmin = data => {
 export let getUpdateAdmin = data => {
     return Http.post(`/api/admin/update`,data);
 };
+/**客户管理分页查询*/
+export let getUserPageList = (data) => {
+    return Http.post(`/api/user/pagelist`,qs.stringify(data));
+};
+/**客户添加*/
+export let getAddUser = data => {
+    return Http.post(`/api/user/insert`,qs.stringify(data));
+};
+/**客户删除*/
+export let getDeleteCustomer = data => {
+    return Http.get(`/api/user/del?user_id=${data}`);
+};
+/**根据id获取客户信息*/
+export let getByidUser = data => {
+    return Http.get(`/api/user/user?user_id=${data}`);
+};
+/**管理员修改*/
+export let getUpdateUser = data => {
+    return Http.post(`/api/user/update`,qs.stringify(data));
+};
+
+
 
 /**订单导出*/
 export let getOutOrder = data => {
@@ -140,6 +162,12 @@ export let getOutInstall = data => {
 /**供应商导出*/
 export let getOutSupply = data => {
     return Http.post(`/api/files/excel/supplier`,qs.stringify(data),{
+        responseType: "blob"
+    });
+};
+/**付款管理导出*/
+export let getOutPayfor = data => {
+    return Http.post(`/api/files/excel/finance`,qs.stringify(data),{
         responseType: "blob"
     });
 };

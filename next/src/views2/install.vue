@@ -119,7 +119,6 @@ export default {
       allnumber: 0,
       pagenumber: 0
     }).then(data => {
-      console.log(data);
       this.sum = data.data.data.allnumber || 0;
       this.installList = data.data.data.xyz_Installers || [];
     });
@@ -128,7 +127,7 @@ export default {
     addSubmit() {
       //添加安装人员
       getAddInstall(this.addForm).then(data => {
-        if (data.data.message == "删除成功") {
+        if (data.data.message == "添加成功") {
           this.$Message.success("添加成功");
           getInstallPageList({
             pagesize: 10,
@@ -176,7 +175,7 @@ export default {
         }
       });
     },
-    edit(value){
+    edit(value){//编辑
       getByidInstall(value.installer_id).then(data=>{
         this.editForm=data.data.data;
         this.modal2=true;
@@ -184,7 +183,7 @@ export default {
     },
     editSubmit(){//编辑提交
       getUpdateInstall(this.editForm).then(data=>{
-        if(data.data.message=='删除成功'){
+        if(data.data.message=='更新成功'){
             this.$Message.success("修改成功");
             getInstallPageList({
             pagesize: 10,

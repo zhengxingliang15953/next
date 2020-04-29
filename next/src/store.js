@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 export default new Vuex.Store({
     state:{
-        status:null,
+        admin:'123'
     },
     mutations:{
        
@@ -13,5 +13,5 @@ export default new Vuex.Store({
     },
     getters:{
         
-    }
+    },
 })

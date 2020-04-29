@@ -33,16 +33,23 @@
         />
       </div>
       <div class="modal-item">
+        审核状态:
+        <Select style="width:70%;" v-model="submitForm.status" @on-change="examineChange">
+          <Option value="未报销">未报销</Option>
+          <Option value="已报销">已报销</Option>
+        </Select>
+      </div>
+      <div class="modal-item">
         开支凭证:
         <Upload
           action="http://192.168.0.113:7776/api/files/upload/formimg"
           name="files"
           :format="uploadImgType"
           :on-success="uploadImgSuccess"
-          :on-error="uploadImgError" 
+          :on-error="uploadImgError"
           :on-format-error="uploadImgFormat"
         >
-          <Button icon="ios-cloud-upload-outline">上传</Button>
+          <Button icon="ios-cloud-upload-outline" type="success">上传</Button>
         </Upload>
       </div>
     </Modal>
@@ -82,7 +89,7 @@
       </div>
       <div class="modal-item">
         审核状态:
-        <Select  style="width:70%;" v-model="editForm.status" @on-change="examineChange">
+        <Select style="width:70%;" v-model="editForm.status" @on-change="examineChange">
           <Option value="未报销">未报销</Option>
           <Option value="已报销">已报销</Option>
         </Select>
@@ -94,10 +101,10 @@
           name="files"
           :format="uploadImgType"
           :on-success="uploadImgSuccess"
-          :on-error="uploadImgError" 
+          :on-error="uploadImgError"
           :on-format-error="uploadImgFormat"
         >
-          <Button icon="ios-cloud-upload-outline">上传</Button>
+          <Button icon="ios-cloud-upload-outline" type="success">上传</Button>
         </Upload>
       </div>
     </Modal>
@@ -135,7 +142,12 @@
       </div>
       <Table :columns="columns1" :data="expensesList">
         <template slot-scope="{ row, index }" slot="action">
-          <Button type="warning" size="small" @click="applyImgBtn(row)" style="margin-right: 5px">开支凭证</Button>
+          <Button
+            type="warning"
+            size="small"
+            @click="applyImgBtn(row)"
+            style="margin-right: 5px"
+          >开支凭证</Button>
           <Button type="success" size="small" style="margin-right: 5px" @click="examine(row)">审核</Button>
           <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
           <Button type="error" size="small" @click="remove(row)">删除</Button>
@@ -148,15 +160,22 @@
 </template>
 
 <script>
-import { getExpensesPagelist, getAddExpenses, getDeleteExpenses,getByidExpenses ,getUpdateExpenses} from "../api";
-import { changeTime } from "../plugins/time.js";
+import {
+  getExpensesPagelist,
+  getAddExpenses,
+  getDeleteExpenses,
+  getByidExpenses,
+  getUpdateExpenses,
+  getAdminPageList
+} from "../api";
+import { changeTime ,listDateChange} from "../plugins/time.js";
 export default {
   name: "apply",
   data() {
     return {
       modal1: false, //弹窗控制
-      modal2:false,//编辑弹窗
-      modal3:false,//开支凭证弹窗
+      modal2: false, //编辑弹窗
+      modal3: false, //开支凭证弹窗
       stime: "0001-01-01", //开始时间
       etime: "", //结束时间
       expensesList: [], //展示列表
@@ -168,20 +187,22 @@ export default {
         money: 0,
         name: "",
         info: "",
-        img:''
+        img: "",
+        status: "未报销"
       },
-      editForm:{//编辑提交表单
-        expenses_id:'',
-        date:'',
-        info:'',
-        money:'',
-        name:'',
-        status:'',
-        admin_reallyname:'',
-        img:''
+      editForm: {
+        //编辑提交表单
+        expenses_id: "",
+        date: "",
+        info: "",
+        money: "",
+        name: "",
+        status: "",
+        admin_reallyname: "",
+        img: ""
       },
-      uploadImgType:['jpg','png','jpeg','gif'],
-      applyImgIndex:'#',
+      uploadImgType: ["jpg", "png", "jpeg", "gif"],
+      applyImgIndex: "#",
       columns1: [
         //表头
         {
@@ -211,7 +232,7 @@ export default {
         {
           title: "操作",
           slot: "action",
-          width:250,
+          width: 250,
           align: "center"
         }
       ]
@@ -228,9 +249,8 @@ export default {
       allnumber: 0,
       pagenumber: 0
     }).then(data => {
-      console.log(data);
       this.sum = data.data.data.allnumber || 0;
-      this.expensesList = data.data.data.xyz_expenses || [];
+      this.expensesList = listDateChange(data.data.data.xyz_expenses) || [];
     });
   },
   methods: {
@@ -246,8 +266,9 @@ export default {
       //添加开支时间回调
       this.submitForm.date = value;
     },
-    examineChange(value){//审核状态
-      this.editForm.status=value;
+    examineChange(value) {
+      //审核状态
+      this.editForm.status = value;
     },
     pageChange(value) {
       //页码改变回调
@@ -261,7 +282,7 @@ export default {
         pagenumber: 0
       }).then(data => {
         this.sum = data.data.data.allnumber || 0;
-        this.expensesList = data.data.data.xyz_expenses || [];
+        this.expensesList = listDateChange(data.data.data.xyz_expenses) || [];
       });
     },
     searchBtn() {
@@ -276,38 +297,39 @@ export default {
         pagenumber: 0
       }).then(data => {
         this.sum = data.data.data.allnumber || 0;
-        this.expensesList = data.data.data.xyz_expenses || [];
+        this.expensesList = listDateChange(data.data.data.xyz_expenses) || [];
       });
     },
     addSubmit() {
       //开支添加提交
-      if(this.submitForm.img==''){
-        this.$Message.warning('请上传开支凭证');
-      }else{
+      if (this.submitForm.img == "") {
+        this.$Message.warning("请上传开支凭证");
+      } else {
         getAddExpenses(this.submitForm).then(data => {
-        if (data.data.message == "添加成功") {
-          this.$Message.success("添加成功");
-          getExpensesPagelist({
-            pagesize: 10,
-            pageid: this.page,
-            stime: this.stime,
-            etime: this.etime,
-            allnumber: 0,
-            pagenumber: 0
-          }).then(data => {
-            this.sum = data.data.data.allnumber || 0;
-            this.expensesList = data.data.data.xyz_expenses || [];
-          });
-        } else {
-          this.$Message.error("添加失败");
-        }
-      });
+          if (data.data.message == "添加成功") {
+            this.$Message.success("添加成功");
+            getExpensesPagelist({
+              pagesize: 10,
+              pageid: this.page,
+              stime: this.stime,
+              etime: this.etime,
+              allnumber: 0,
+              pagenumber: 0
+            }).then(data => {
+              this.sum = data.data.data.allnumber || 0;
+              this.expensesList = listDateChange(data.data.data.xyz_expenses) || [];
+            });
+          } else {
+            this.$Message.error("添加失败");
+          }
+        });
       }
     },
-    remove(value) {//删除提交
+    remove(value) {
+      //删除提交
       getDeleteExpenses(value.expenses_id).then(data => {
         if (data.data.message == "删除成功") {
-          this.$Message.success('删除成功');
+          this.$Message.success("删除成功");
           getExpensesPagelist({
             pagesize: 10,
             pageid: this.page,
@@ -317,24 +339,25 @@ export default {
             pagenumber: 0
           }).then(data => {
             this.sum = data.data.data.allnumber || 0;
-            this.expensesList = data.data.data.xyz_expenses || [];
+            this.expensesList = listDateChange(data.data.data.xyz_expenses) || [];
           });
         } else {
-          this.$Message.error('删除失败');
+          this.$Message.error("删除失败");
         }
       });
     },
-    edit(value){//编辑
-      window.sessionStorage.setItem('editId',value.expenses_id);
-      getByidExpenses(value.expenses_id).then(data=>{
-        this.editForm=data.data.data;
-        this.modal2=true;
-      })
+    edit(value) {
+      //编辑
+      getByidExpenses(value.expenses_id).then(data => {
+        this.editForm = data.data.data;
+        this.modal2 = true;
+      });
     },
-    editSubmit(){//编辑提交
-      getUpdateExpenses(this.editForm).then(data=>{
-        if(data.data.message=='删除成功'){
-          this.$Message.success('修改成功');
+    editSubmit() {
+      //编辑提交
+      getUpdateExpenses(this.editForm).then(data => {
+        if (data.data.message == "删除成功") {
+          this.$Message.success("修改成功");
           getExpensesPagelist({
             pagesize: 10,
             pageid: this.page,
@@ -344,31 +367,69 @@ export default {
             pagenumber: 0
           }).then(data => {
             this.sum = data.data.data.allnumber || 0;
-            this.expensesList = data.data.data.xyz_expenses || [];
+            this.expensesList = listDateChange(data.data.data.xyz_expenses) || [];
           });
-        }else{
-          this.$Message.error('修改失败');
+        } else {
+          this.$Message.error("修改失败");
         }
-      })
+      });
     },
-    uploadImgSuccess(file){//图片上传成功
-      this.$Message.success('上传成功');
-      this.submitForm.img=file[0];
-      this.editForm.img=file[0];
+    uploadImgSuccess(file) {
+      //图片上传成功
+      this.$Message.success("上传成功");
+      this.submitForm.img = file[0];
+      this.editForm.img = file[0];
     },
-    uploadImgError(){//图片上传失败
-      this.$Message.error('上传失败');
+    uploadImgError() {
+      //图片上传失败
+      this.$Message.error("上传失败");
     },
-    uploadImgFormat(){//文件类型不正确
+    uploadImgFormat() {
+      //文件类型不正确
       this.$Message.warning("不支持该文件类型");
     },
-    addApplyBtn(){//添加开支
-      this.modal1=true;
-      this.submitForm.img='';
+    addApplyBtn() {
+      //添加开支
+      this.modal1 = true;
+      this.submitForm.img = "";
+      this.submitForm.status = "未报销";
     },
-    applyImgBtn(value){//获取开支凭证
-      this.applyImgIndex=value.img;
-      this.modal3=true;
+    applyImgBtn(value) {
+      //获取开支凭证
+      this.applyImgIndex = value.img;
+      this.modal3 = true;
+    },
+    async examine(value) {
+      //审核
+      let list = [];
+      await getAdminPageList().then(data => {
+        list = data.data.data.filter(item => {
+          return item.name == window.sessionStorage.getItem('admin');
+        });
+        if (list.length <= 0) {
+          this.$router.push("/");
+        } else {
+          getByidExpenses(value.expenses_id).then(data => {
+            this.editForm = data.data.data;
+            this.editForm.admin_reallyname = list[0].reallyname;
+            this.editForm.status='已报销';
+            getUpdateExpenses(this.editForm).then(data => {
+              this.$Message.success('审核成功');
+              getExpensesPagelist({
+                pagesize: 10,
+                pageid: this.page,
+                stime: this.stime,
+                etime: this.etime,
+                allnumber: 0,
+                pagenumber: 0
+              }).then(data => {
+                this.sum = data.data.data.allnumber || 0;
+                this.expensesList = listDateChange(data.data.data.xyz_expenses) || [];
+              });
+            });
+          });
+        }
+      });
     }
   }
 };

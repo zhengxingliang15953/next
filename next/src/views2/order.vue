@@ -176,7 +176,7 @@ import {
   getUpdateOrder,
   getOutOrder
 } from "../api";
-import { changeTime ,BLOB} from "../plugins/time.js";
+import { changeTime ,BLOB,listDateChange} from "../plugins/time.js";
 export default {
   name: "apply",
   data() {
@@ -226,7 +226,7 @@ export default {
         {
           title: "操作",
           slot: "action",
-          width: 200,
+          width: 140,
           align: "center"
         }
       ],
@@ -283,7 +283,7 @@ export default {
       name: this.customerSearch2
     }).then(data => {
       if (data.data.message == "查询成功") {
-        this.orderList = data.data.data.xyz_Orders || [];
+        this.orderList = listDateChange(data.data.data.xyz_Orders) || [];
         this.allCustomerName = data.data.data.all_xyz_Orders || [];
         this.sum = data.data.data.allnumber || 0;
       }
@@ -305,7 +305,7 @@ export default {
             name: this.customerSearch2
           }).then(data => {
             if (data.data.message == "查询成功") {
-              this.orderList = data.data.data.xyz_Orders || [];
+              this.orderList = listDateChange(data.data.data.xyz_Orders) || [];
               this.sum = data.data.data.allnumber || 0;
               this.allCustomerName = data.data.data.all_xyz_Orders || [];
             }
@@ -328,7 +328,7 @@ export default {
         name: this.customerSearch2
       }).then(data => {
         if (data.data.message == "查询成功") {
-          this.orderList = data.data.data.xyz_Orders || [];
+          this.orderList = listDateChange(data.data.data.xyz_Orders) || [];
           this.sum = data.data.data.allnumber || 0;
           this.allCustomerName = data.data.data.all_xyz_Orders || [];
         }
@@ -363,8 +363,7 @@ export default {
         name: this.customerSearch2
       }).then(data => {
         if (data.data.message == "查询成功") {
-          console.log(data);
-          this.orderList = data.data.data.xyz_Orders || [];
+          this.orderList = listDateChange(data.data.data.xyz_Orders) || [];
           this.allCustomerName = data.data.data.all_xyz_Orders || [];
           this.sum = this.orderList.length;
         }
@@ -393,7 +392,7 @@ export default {
             name: this.customerSearch2
           }).then(data => {
             if (data.data.message == "查询成功") {
-              this.orderList = data.data.data.xyz_Orders || [];
+              this.orderList = listDateChange(data.data.data.xyz_Orders) || [];
               this.sum = data.data.data.allnumber || 0;
               this.allCustomerName = data.data.data.all_xyz_Orders || [];
             }
@@ -425,7 +424,7 @@ export default {
             name: this.customerSearch2
           }).then(data => {
             if (data.data.message == "查询成功") {
-              this.orderList = data.data.data.xyz_Orders || [];
+              this.orderList = listDateChange(data.data.data.xyz_Orders) || [];
               this.sum = data.data.data.allnumber || 0;
               this.allCustomerName = data.data.data.all_xyz_Orders || [];
             }

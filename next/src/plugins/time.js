@@ -35,3 +35,12 @@ export let BLOB = function (value,title) {
   // 5.释放这个临时的对象url
   window.URL.revokeObjectURL(url);
 }
+
+//列表时间修改
+export let listDateChange=function(value){
+  value.forEach(item=>{
+    let str=item.date;
+    item.date=str.slice(0,10);
+  })
+  return value;
+}
