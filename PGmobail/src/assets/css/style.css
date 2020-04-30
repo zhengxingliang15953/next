@@ -1,0 +1,38 @@
+.arrow-down{/*向下三角形*/
+    width: 0;
+    height: 0;
+    border-left: 0.3rem solid transparent;
+    border-right: 0.3rem solid transparent;
+    border-top: 0.3rem solid #0254ba;
+}
+.main-title {
+    width: 80%;
+    margin: 20px auto;
+    margin-bottom: 0;
+    font-size: 0.33rem;
+    text-align: center;
+    letter-spacing: 1.4px;
+    background: url("../img/bg-title.png") no-repeat;
+    background-size: 100%;
+  }
+  .main-title .en-main-title {
+    font-size: 0.1rem;
+    font-family: gautami;
+  }
+  @font-face {
+    font-family: gautami;
+    font-style: normal;
+    src: url('../file/gautami.ttf');
+  }
+  .panel-box{
+      padding:20px;
+      padding-top:0;
+      font-size: 0.24rem;
+  }
+  .panel-box .panel-box-img{
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }

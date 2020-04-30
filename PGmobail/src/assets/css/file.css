@@ -1,0 +1,81 @@
+body,html,#app{
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	font-family: "微软雅黑";
+	color:  #6e6e6e;
+}
+*{
+	margin: 0;
+	padding: 0;
+	font-family: "微软雅黑";
+	color:  #6e6e6e;
+}
+/*index*/
+.header-box{
+	position: absolute;
+	top:0;
+	width: 100%;
+	height: 0.8rem;
+	line-height: 0.8rem;
+}
+.header{
+	display: -webkit-flex;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	padding-right: 5px;
+	width: 100%;
+	height: 100%;
+	font-size:0.3rem;
+	/* background-color: #0254ba; */
+	/* background: url('../img/bg-header.png') no-repeat; */
+	/* background-size: 100%; */
+}
+.drawer-item{
+	position: relative;
+	color: white;
+	font-size: 0.24rem;
+	width: 100%;
+	height: 0.7rem;
+	line-height: 0.7rem;
+	font-weight: 450;
+	border-bottom: 1px solid #454845;
+	text-align: center;
+}
+.drawer-right{
+	position: absolute;
+	right:8px;
+	top:0.22rem;
+}
+.panel-logo-box{
+	position: relative;
+	top:0.8rem;
+	display: -webkit-flex;
+	display: flex;
+	justify-content: space-evenly;
+}
+.panel-logo-box>div{
+	display: -webkit-flex;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 45%;
+}
+.footer{
+	position: relative;
+	top:0.8rem;
+	background: url('../img/footer.png') no-repeat;
+	background-size: 100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-size: 0.24rem;
+}
+.footer p{
+	text-align: center;
+}
+.footer p span{
+	margin:5px;
+}
+/*index*/
