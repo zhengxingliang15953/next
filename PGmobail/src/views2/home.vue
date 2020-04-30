@@ -10,6 +10,20 @@
         <img src="../assets/img/img-about1.png" alt width="100%" />
       </div>
     </div>
+    <div class="panel-box-three">
+        <div>
+          <img src="../assets/img/home-head1.jpg" alt="" width="100%">
+          <h4>关于我们</h4>
+        </div>
+        <div>
+          <img src="../assets/img/home-head3.jpg" alt="" width="100%">
+          <h4>解决方案</h4>
+        </div>
+        <div>
+          <img src="../assets/img/home-head2.jpg" alt="" width="100%">
+          <h4>技术咨询</h4>
+        </div>
+      </div>
     <div class="main-title">
       应用中心
       <div class="en-main-title">ABOUT US</div>
@@ -123,5 +137,17 @@ hr{
     margin-top:5px;
     border: 0.5px dashed #E8E8E8;
     margin-bottom:5px;
+}
+.panel-box-three{
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-around;
+  background: #f4f4f4;
+  padding-top:10px;
+  padding-bottom:10px;
+  margin-top:-4px;
+  div{
+    width: 15%;
+  }
 }
 </style>
