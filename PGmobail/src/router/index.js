@@ -14,7 +14,12 @@ const routes = [
         name:'home',//首页
         path:'/home',
         component:()=>import('../views2/home.vue'),
-      }
+      },
+      {
+        name:'aboutus',//关于我们
+        path:'/aboutus',
+        component:()=>import('../views2/aboutus.vue'),
+      },
     ]
   }
 ];

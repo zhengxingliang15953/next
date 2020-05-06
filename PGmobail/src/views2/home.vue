@@ -81,6 +81,9 @@
         </div>
         <div>政府机构链接</div>
       </div><hr></hr>
+      <div class="btn-more">
+        <span style="width:100%;height:0.9rem;line-height:0.54rem;">了解更多</span>
+        </div>
     </div>
     <div class="main-title">
       联系我们
@@ -148,6 +151,9 @@ hr{
   margin-top:-4px;
   div{
     width: 15%;
+  }
+  h4{
+    font-size: 0.24rem;
   }
 }
 </style>

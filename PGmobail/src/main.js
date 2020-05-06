@@ -6,6 +6,7 @@ import "./plugins/vconsole";
 import "./plugins/ui";
 import "./assets/css/file.css";
 import './assets/css/style.css';
+import BaiduMap from 'vue-baidu-map';
 
 Vue.filter('identity', function (value) {
   if (value == '1') {
@@ -13,6 +14,10 @@ Vue.filter('identity', function (value) {
   } else if (value == '2') {
     return "普通管理员";
   }
+})
+
+Vue.use(BaiduMap,{
+  ak: 'GdxI7nmOnetq8NrHHigd78vbGYpMUvSg'
 })
 
 

@@ -2,16 +2,24 @@
   <div id="index">
     <!--左侧抽屉划出-->
     <Drawer placement="left" :closable="false" v-model="modal1" width="37" :styles="drawerStyle">
-      <div class="drawer-item">
+      <div class="drawer-item" @click="homeBtn">
         <span>首页</span>
         <van-icon name="arrow" class="drawer-right" />
       </div>
-      <div class="drawer-item">
+      <div class="drawer-item" @click="aboutusBtn">
         <span>关于盘古</span>
         <van-icon name="arrow" class="drawer-right" />
       </div>
       <div class="drawer-item">
         <span>产品中心</span>
+        <van-icon name="arrow" class="drawer-right" />
+      </div>
+      <div class="drawer-item">
+        <span>解决方案</span>
+        <van-icon name="arrow" class="drawer-right" />
+      </div>
+      <div class="drawer-item">
+        <span>联系我们</span>
         <van-icon name="arrow" class="drawer-right" />
       </div>
       <img src="../assets/img/logo-bottom.png" alt="" width="80%" style="margin-left:10%;opacity:0.3;margin-top:20px;"> 
@@ -79,6 +87,16 @@ export default {
         padding: 0,
       }
     };
+  },
+  methods:{
+    aboutusBtn(){//关于盘古跳转
+      this.$router.push('/aboutus');
+      this.modal1=false;
+    },
+    homeBtn(){//跳转首页
+      this.$router.push('/home');
+      this.modal1=false;
+    }
   }
 };
 </script>
