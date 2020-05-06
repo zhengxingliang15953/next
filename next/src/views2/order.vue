@@ -4,7 +4,20 @@
     <Modal v-model="modal1" title="添加订单" ok-text="添加" @on-ok="addSubmit">
       <div class="modal-item">
         客户名称:
-        <Input v-model="addOrder.username" placeholder="请输入客户名称" style="width: 70%;" />
+        <Select
+          v-model="addOrder.username"
+          filterable
+          remote
+          clearable
+          :remote-method="remoteMethod2"
+          @on-change="customerNameAddChange"
+          @on-clear="customerNameAddClear"
+          placeholder="请输入客户名称"
+          style="width:70%;"
+        >
+          <Option v-for="(item, index) in customerOptions" :value="item.name" :key="index">{{item.name}}</Option>
+        </Select>
+        <!-- <Input v-model="addOrder.username" placeholder="请输入客户名称" style="width: 70%;" /> -->
       </div>
       <div class="modal-item">
         业务内容:
@@ -35,7 +48,21 @@
       </div>
       <div class="modal-item">
         安装人员:
-        <Input v-model="addOrder.installer" placeholder="请输入安装人员" style="width: 30%;" />安装费用:
+        <!-- <Input v-model="addOrder.installer" placeholder="请输入安装人员" style="width: 30%;" /> -->
+        <Select
+          v-model="addOrder.installer"
+          filterable
+          remote
+          clearable
+          :remote-method="remoteMethod3"
+          @on-change="installerNameAddChange"
+          @on-clear="installerNameAddClear"
+          placeholder="请输入安装人员名称"
+          style="width:30%;"
+        >
+          <Option v-for="(item, index) in installerOptipns" :value="item.name" :key="index">{{item.name}}</Option>
+        </Select>
+        安装费用:
         <Input
           v-model="addOrder.installation"
           type="number"
@@ -45,7 +72,21 @@
       </div>
       <div class="modal-item">
         制作供应:
-        <Input v-model="addOrder.supplier" placeholder="请输入制作供应商" style="width: 30%;" />订单状态:
+        <!-- <Input v-model="addOrder.supplier" placeholder="请输入制作供应商" style="width: 30%;" /> -->
+        <Select
+          v-model="addOrder.supplier"
+          filterable
+          remote
+          clearable
+          :remote-method="remoteMethod4"
+          @on-change="supplyNameAddChange"
+          @on-clear="supplyNameAddClear"
+          placeholder="请输入制作供应商"
+          style="width:30%;"
+        >
+          <Option v-for="(item, index) in supplyOptions" :value="item.name" :key="index">{{item.name}}</Option>
+        </Select>
+        订单状态:
         <Select style="width:30%;" v-model="addOrder.status" @on-change="statusChange">
           <Option value="实施中">实施中</Option>
           <Option value="已交付">已交付</Option>
@@ -174,7 +215,10 @@ import {
   getByidOrder,
   getDeleteOrder,
   getUpdateOrder,
-  getOutOrder
+  getOutOrder,
+  getUserPageList,
+  getInstallPageList,
+  getSupplyPageList
 } from "../api";
 import { changeTime ,BLOB,listDateChange} from "../plugins/time.js";
 export default {
@@ -266,7 +310,13 @@ export default {
         status: ""
       },
       allCustomerName: [], //所有的客户名称
-      options: []
+      allCustomerName2:[],
+      options: [],
+      customerOptions:[],//添加客户名称远程搜索
+      allInstallerName:[],
+      installerOptipns:[],
+      supplyOptions:[],
+      allSupplyName:[],
     };
   },
   created() {
@@ -287,6 +337,32 @@ export default {
         this.allCustomerName = data.data.data.all_xyz_Orders || [];
         this.sum = data.data.data.allnumber || 0;
       }
+    });
+    getUserPageList({
+      pagesize: 10,
+      pageid: 1,
+      allnumber: 0,
+      pagenumber: 0,
+      name: ''
+    }).then(data => {
+      this.allCustomerName2 = data.data.data.all_xyz_Users || [];
+    });
+    getInstallPageList({
+      pagesize: 10,
+      pageid: 1,
+      allnumber: 0,
+      pagenumber: 0
+    }).then(data => {
+      this.allInstallerName=data.data.data.all_xyz_Installers||[];
+    });
+    getSupplyPageList({
+      pagesize: 10,
+      pageid: 1,
+      allnumber: 0,
+      pagenumber: 0,
+      name: ''
+    }).then(data => {
+      this.allSupplyName=data.data.data.all_xyz_Suppliers||[];
     });
   },
   methods: {
@@ -467,6 +543,54 @@ export default {
       }).then(data => {
         BLOB(data.data,'订单表.xls');
       });
+    },
+    remoteMethod2(value){//添加时客户远程搜索方法
+      if(value==''){
+        this.customerOptions=[];
+        this.addOrder.username='';
+      }else{
+        this.customerOptions = this.allCustomerName2.filter(function(item) {
+          return item.name.indexOf(value) != -1;
+        });
+      }
+    },
+    customerNameAddChange(value){//添加时客户改变回调
+      this.addOrder.username=value;
+    },
+    customerNameAddClear(){//添加时客户清空
+      this.addOrder.username='';
+    },
+    remoteMethod3(value){//添加时客户远程搜索方法
+      if(value==''){
+        this.installerOptipns=[];
+        this.addOrder.installer='';
+      }else{
+        this.installerOptipns=this.allInstallerName.filter(item=>{
+          return item.name.indexOf(value)!=-1;
+        })
+      }
+    },
+    installerNameAddChange(value){//添加时安装人员改变回调
+      this.addOrder.installer=value;
+    },
+    installerNameAddClear(){//添加时安装人员清空
+      this.addOrder.installer='';
+    },
+    remoteMethod4(value){//添加时制作供应商名称远程回调
+      if(value==''){
+        this.supplyOptions=[];
+        this.addOrder.supplier='';
+      }else{
+        this.supplyOptions=this.allSupplyName.filter(item=>{
+          return item.name.indexOf(value)!=-1;
+        })
+      }
+    },
+    supplyNameAddChange(value){
+      this.addOrder.supplier=value;
+    },
+    supplyNameAddClear(){
+      this.addOrder.supplier='';
     }
   }
 };

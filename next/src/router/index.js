@@ -51,6 +51,24 @@ const routes = [
         component:()=>import('../views2/payfor.vue'),
       },
     ]
+  },
+  {
+    name:'mobail',//手机订单添加页面
+    path:'/mobail',
+    component:()=>import('../views2/mobail.vue'),
+    redirect:'/mobail/orderList',
+    children:[
+      {
+        name:'mobailList',//订单列表
+        path:'/mobail/orderList',
+        component:()=>import('../views2/mobailList.vue')
+      },
+      {
+        name:'mobailAdd',//订单添加
+        path:'/mobail/orderAdd',
+        component:()=>import('../views2/mobailAdd.vue')
+      },
+    ]
   }
 ];
 const router = new VueRouter({

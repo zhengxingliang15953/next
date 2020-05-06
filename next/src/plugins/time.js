@@ -44,3 +44,11 @@ export let listDateChange=function(value){
   })
   return value;
 }
+
+export let changeCustomerName=function(value){
+  let list=[];
+  value.forEach(item=>{
+    list.push(item.name);
+  })
+  return list;
+}

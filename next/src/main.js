@@ -16,7 +16,7 @@ Vue.filter('identity', function (value) {
 
 
 Vue.config.productionTip = false;
-document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';
+document.documentElement.style.fontSize = document.documentElement.clientWidth / 6.4 + 'px';
 new Vue({
   router,
   store,
