@@ -1,7 +1,7 @@
 <template>
   <div id="mobailList">
         <van-pagination v-model="page" mode="simple" :total-items="sum" @change="pageChange" />
-        <van-collapse v-model="activeNames" style="margin-bottom:1rem;">
+        <van-collapse v-model="activeNames" >
         <van-collapse-item v-for="(item,index) in orderList" :title="item.username" :name="index" :key="index" >
           <div >
               <p></span>客户名称:<span>{{item.username}}</span></p>

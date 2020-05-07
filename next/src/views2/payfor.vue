@@ -44,7 +44,8 @@
       <div class="modal-item">
         付款凭证:
         <Upload
-          action="http://192.168.0.113:7776/api/files/upload/formimg"
+          action="/api/files/upload/formimg"
+          :headers="head"
           name="files"
           :on-success="uploadImgSuccess"
           :format="uploadImgType"
@@ -101,7 +102,8 @@
       <div class="modal-item">
         付款凭证:
         <Upload
-          action="http://192.168.0.113:7776/api/files/upload/formimg"
+          action="/api/files/upload/formimg"
+          :headers="head"
           name="files"
           :on-success="uploadImgSuccess"
           :format="uploadImgType"
@@ -172,6 +174,7 @@ export default {
   name: "apply",
   data() {
     return {
+      head:{"Authorization":`Bearer ${window.sessionStorage.getItem('token')}`},
       columns1: [
         //表头
         {
