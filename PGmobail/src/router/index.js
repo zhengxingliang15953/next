@@ -20,6 +20,11 @@ const routes = [
         path:'/aboutus',
         component:()=>import('../views2/aboutus.vue'),
       },
+      {
+        name:'product',//关于我们
+        path:'/product',
+        component:()=>import('../views2/product.vue'),
+      },
     ]
   }
 ];

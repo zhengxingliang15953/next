@@ -2,15 +2,15 @@
   <div id="index">
     <!--左侧抽屉划出-->
     <Drawer placement="left" :closable="false" v-model="modal1" width="37" :styles="drawerStyle">
-      <div class="drawer-item" @click="homeBtn">
+      <div class="drawer-item" @click="routerTo('/home')">
         <span>首页</span>
         <van-icon name="arrow" class="drawer-right" />
       </div>
-      <div class="drawer-item" @click="aboutusBtn">
+      <div class="drawer-item" @click="routerTo('/aboutus')">
         <span>关于盘古</span>
         <van-icon name="arrow" class="drawer-right" />
       </div>
-      <div class="drawer-item">
+      <div class="drawer-item" @click="routerTo('/product')">
         <span>产品中心</span>
         <van-icon name="arrow" class="drawer-right" />
       </div>
@@ -89,12 +89,8 @@ export default {
     };
   },
   methods:{
-    aboutusBtn(){//关于盘古跳转
-      this.$router.push('/aboutus');
-      this.modal1=false;
-    },
-    homeBtn(){//跳转首页
-      this.$router.push('/home');
+    routerTo(value){//左侧抽屉路由跳转
+      this.$router.push(value);
       this.modal1=false;
     }
   }

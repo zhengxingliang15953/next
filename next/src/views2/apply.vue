@@ -43,6 +43,7 @@
         开支凭证:
         <Upload
           action="http://192.168.0.113:7776/api/files/upload/formimg"
+          :headers="head"
           name="files"
           :format="uploadImgType"
           :on-success="uploadImgSuccess"
@@ -98,6 +99,7 @@
         开支凭证:
         <Upload
           action="http://192.168.0.113:7776/api/files/upload/formimg"
+          :headers="head"
           name="files"
           :format="uploadImgType"
           :on-success="uploadImgSuccess"
@@ -173,6 +175,7 @@ export default {
   name: "apply",
   data() {
     return {
+      head:{Authorization:`Bearer ${window.sessionStorage.getItem('token')}`},
       modal1: false, //弹窗控制
       modal2: false, //编辑弹窗
       modal3: false, //开支凭证弹窗

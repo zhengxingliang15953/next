@@ -1,9 +1,9 @@
 <template>
   <div id="mobailList">
-        <van-pagination v-model="page" mode="simple" :total-items="sum" @change="pageChange"/>
-        <van-collapse v-model="activeNames">
-        <van-collapse-item v-for="(item,index) in orderList" :title="item.username" :name="index" :key="index">
-          <div>
+        <van-pagination v-model="page" mode="simple" :total-items="sum" @change="pageChange" />
+        <van-collapse v-model="activeNames" style="margin-bottom:1rem;">
+        <van-collapse-item v-for="(item,index) in orderList" :title="item.username" :name="index" :key="index" >
+          <div >
               <p></span>客户名称:<span>{{item.username}}</span></p>
               <p></span>业务内容:<span>{{item.info}}</span></p>
               <p></span>成交金额:<span>{{item.turnover}}</span></p>
@@ -35,7 +35,7 @@ export default {
   created(){
       let time=changeTime(new Date());
       getOrderPageList({
-      pagesize: 10,
+      pagesize: 15,
       pageid: 1,
       stime: '0001-01-01',
       etime: time,
@@ -52,7 +52,7 @@ export default {
           this.page=value;
           let time=changeTime(new Date());
       getOrderPageList({
-      pagesize: 10,
+      pagesize: 15,
       pageid: this.page,
       stime: '0001-01-01',
       etime: time,
@@ -69,7 +69,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#mobailList {
-  height: 500px;
-}
+
 </style>

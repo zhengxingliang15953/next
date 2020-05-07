@@ -36,3 +36,38 @@
     flex-wrap: wrap;
     margin-top: 20px;
   }
+
+  /*web*/
+  .panel-two-title{
+    display: -webkit-flex;
+    display: flex;
+    width: 45%;
+    padding-left:0.22rem;
+  }
+  .panel-two-title .panel-two-title-left{
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    font-size: 0.3rem;
+    background-color: #0254ba;
+    color: white;
+    border-radius: 50%;
+    padding-left: 0.22rem;
+    padding-right: 0.22rem;
+  }
+  .panel-two-title .panel-two-title-right{
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left:5px;
+    font-size: 0.3rem;
+    color: black;
+  }
+  .panel-body-text{
+    padding:0.22rem;
+    font-size: 0.24rem;
+  }
+   /*web*/

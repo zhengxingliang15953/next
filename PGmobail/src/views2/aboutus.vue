@@ -28,8 +28,16 @@
           <span>2005年</span>
           <p>正式成为3721产品湖州地区的注册商.</p>
         </TimelineItem>
-        <TimelineItem>
-          <a href="#">查看更多</a>
+        <TimelineItem color="#6e6e6e" v-if="moreBtnController==true">
+          <span>2006年</span>
+          <p>成为中国万网、北京新网、中国频道在湖州地区的核心注册商.</p>
+        </TimelineItem>
+        <TimelineItem color="#6e6e6e" v-if="moreBtnController==true">
+          <span>2007年</span>
+          <p>开始成为搜狐公司浙江地区注册商.成为google湖州地区adwords产品注册商.搜狐奥运搜狗推广年度销售竞赛中获得浙江省代理商第一名.</p>
+        </TimelineItem>
+        <TimelineItem v-if="moreBtnController==false">
+          <a @click.prevent="moreBtnController=true">查看更多</a>
         </TimelineItem>
       </Timeline>
     </div>
@@ -59,12 +67,12 @@ export default {
         lng: 0,
         lat: 0
       },
-      zoom: 3
+      zoom: 3,
+      moreBtnController:false,//查看更多控制
     };
   },
   methods: {
     handler({ BMap, map }) {
-      console.log(BMap, map);
       this.center.lng = 120.198145;
       this.center.lat = 30.861896;
       this.zoom = 18;
@@ -84,9 +92,14 @@ export default {
     color: white;
     padding: 5px;
     border-radius: 10px;
+    font-size: 0.24rem;
   }
   p {
     margin-top: 8px;
+    font-size: 0.24rem;
+  }
+  a{
+    font-size: 0.24rem;
   }
 }
 </style>

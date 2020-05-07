@@ -18,7 +18,6 @@ instance.interceptors.request.use(
     return config;
   },
   err => {
-    console.log(err);
     return err;
   }
 );
@@ -29,7 +28,7 @@ instance.interceptors.response.use(
   },
   err => {
     const { status } = err.response;
-    if (status === 403 || status == 401) {
+    if (status === 403 || status === 401) {
       INDEX.replace("/");
       // this.$router.push('/');
     } else {

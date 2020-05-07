@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="mobailAdd">
     <!--客户名称选择器·-->
     <van-popup v-model="showCustomer" position="bottom">
       <van-picker
@@ -52,7 +52,7 @@
     <van-calendar v-model="showDate" :min-date="minDate" @confirm="onConfirmDate" />
     <!--日期选择器-->
 
-    <van-form @submit="onSubmit">
+    <van-form @submit="onSubmit" >
       <van-field
         readonly
         clickable
@@ -246,4 +246,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+#mobailAdd{
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 0.24rem;
+}
 </style>
