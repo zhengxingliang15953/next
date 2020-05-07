@@ -8,7 +8,7 @@
       <van-tab title="企业上网">
           <web></web>
       </van-tab>
-      <van-tab title="管理应用">
+      <van-tab title="企业应用">
           <application></application>
       </van-tab>
       <van-tab title="盘古码">
