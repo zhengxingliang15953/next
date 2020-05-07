@@ -44,7 +44,7 @@
       <div class="modal-item">
         付款凭证:
         <Upload
-          action="/api/files/upload/formimg"
+          action="http://ad.nextnova.cn/api/files/upload/formimg"
           :headers="head"
           name="files"
           :on-success="uploadImgSuccess"

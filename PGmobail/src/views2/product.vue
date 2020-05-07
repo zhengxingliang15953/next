@@ -8,7 +8,9 @@
       <van-tab title="企业上网">
           <web></web>
       </van-tab>
-      <van-tab title="管理应用">内容2</van-tab>
+      <van-tab title="管理应用">
+          <application></application>
+      </van-tab>
       <van-tab title="盘古码">
           <pgma></pgma>
       </van-tab>
@@ -20,12 +22,13 @@
 <script>
 import web from '../product/web';
 import pgma from '../product/pgma';
+import application from '../product/application';
 export default {
   data() {
     return {};
   },
   components:{
-      web,pgma
+      web,pgma,application
   }
 };
 </script>
