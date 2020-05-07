@@ -30,15 +30,17 @@
     </div>
     <div class="application-web-img">
         <div class="application-web-img-item">
-            <img src="../assets/img/zufang.jpg" height="100%" alt="">
-            <p>德宏汽车</p>
+            <img src="../assets/img/dehong3.jpg" width="100%" height="100%" alt="">
+            <!-- <p>德宏汽车</p> -->
         </div>
     </div>
     <div class="panel-two-title">
       <div class="panel-two-title-left">3</div>
       <div class="panel-two-title-right">B2C业务应用</div>
     </div>
-    
+    <div class="panel-body-text">
+         "新华e菜场"小程序以客户、商品、订单为核心的前后端一体化的线上生鲜交易的小程序，客户可以实时维护客户订单，安排订单发货，对订单进行全程跟踪，删除订单，添加商品，财务管理，帮助企业快速响应供应链的需求。支持线上订单与门店的整合，顾客线上下单，线下自提或门店送货上门。
+    </div>
     <div class="panel-two-title">
       <div class="panel-two-title-left">4</div>
       <div class="panel-two-title-right">网络安全应用</div>

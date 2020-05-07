@@ -47,7 +47,7 @@
 
     <!--轮播图-->
     <van-swipe class="swiper" :autoplay="4000" indicator-color="white">
-      <van-swipe-item>
+      <van-swipe-item >
           <img src="../assets/img/swiper1.jpg" alt="" width="100%">
       </van-swipe-item>
       <van-swipe-item>
