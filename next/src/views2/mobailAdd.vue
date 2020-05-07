@@ -209,12 +209,12 @@ export default {
       //提交
       getAddOrder(this.addOrder).then(data => {
         if (data.data.message == "添加成功") {
-          this.$message.success('添加成功');
+          this.$Message.success('添加成功');
           //   this.addOrder=this.addOrder2;
           // Toast.success('成功文案');
           // Notify({ type: 'success', message: '通知内容' });
         } else {
-          this.$message.error('添加失败');
+          this.$Message.error('添加失败');
         }
       });
     },

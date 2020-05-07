@@ -2,7 +2,7 @@
   <div>
     <div class="main-title">
       企业应用
-      <div class="en-main-title">POSITION</div>
+      <div class="en-main-title">APPLICATION</div>
     </div>
     <div class="panel-two-title">
       <div class="panel-two-title-left">1</div>

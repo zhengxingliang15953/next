@@ -1,7 +1,8 @@
 <template>
   <div id="login">
+    <!-- <h1 style="font-size:20px;">下一站广告管理系统</h1> -->
     <div id="loginBox">
-      <h1>下一站登录</h1>
+      <h1>下一站广告管理系统</h1>
       <Input v-model="loginForm.UserName" size="large" class="input-item">
         <span slot="prepend">账号</span>
       </Input>
@@ -59,9 +60,10 @@ export default {
   created() {
     // this.$store.state.admin='321313131';
     // console.log(this.$store.state.admin);
-    window.sessionStorage.removeItem("token");
-    window.sessionStorage.removeItem("select");
-    window.sessionStorage.removeItem("admin");
+    // window.sessionStorage.removeItem("token");
+    // window.sessionStorage.removeItem("select");
+    // window.sessionStorage.removeItem("admin");
+    window.sessionStorage.clear();
   }
 };
 </script>
@@ -72,6 +74,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   width: 100%;
   padding: 0;
   margin: 0;

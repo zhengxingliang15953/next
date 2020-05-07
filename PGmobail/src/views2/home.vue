@@ -26,7 +26,7 @@
       </div>
     <div class="main-title">
       应用中心
-      <div class="en-main-title">ABOUT US</div>
+      <div class="en-main-title">APPLICATION</div>
     </div>
     <div class="panel-box">
       <div class="panel-box-img">

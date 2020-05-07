@@ -2,7 +2,7 @@
   <div>
     <div class="main-title">
       盘古码
-      <div class="en-main-title">POSITION</div>
+      <div class="en-main-title">PG CODE</div>
     </div>
     <div class="panel-two-title">
       <div class="panel-two-title-left">1</div>
