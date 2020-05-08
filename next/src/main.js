@@ -7,10 +7,10 @@ import "./plugins/ui";
 import "./assets/css/file.css";
 
 Vue.filter('identity', function (value) {
-  if(value=='1'){
+  if(value){
     return "超级管理员";
-  }else if(value=='2'){
-    return "普通管理员";
+  }{
+    return "管理员";
   }
 })
 

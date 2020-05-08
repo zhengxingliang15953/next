@@ -33,7 +33,11 @@
             <Icon type="logo-usd"></Icon>
             <span>付款管理</span>
           </MenuItem>
-          <MenuItem name="7" to="/index/system">
+          <MenuItem name="7" to="/index/orderApply">
+            <Icon type="ios-create"></Icon>
+            <span>订单审核</span>
+          </MenuItem>
+          <MenuItem name="8" to="/index/system" v-if="adminType">
             <Icon type="md-person"></Icon>
             <span>系统管理</span>
           </MenuItem>
@@ -49,7 +53,7 @@
             size="24"
           ></Icon>
           <Button type="primary" style="margin-right:70%;" @click="back">退出</Button>
-          <span style="font-size:0.08rem;color:#1E90FF;">{{adminType}}</span>
+          <span style="font-size:0.08rem;color:#1E90FF;">{{adminType|identity}}</span>
         </Header>
         <Content id="content" :style="{margin: '20px', background: '#fff'}">
           <router-view></router-view>
@@ -60,7 +64,7 @@
 </template>
 
 <script>
-import { getAdminPageList } from "../api";
+import { getAdminType} from "../api";
 export default {
   name: "index",
   data() {
@@ -68,19 +72,14 @@ export default {
       isCollapsed: false,
       screenHeight: "",
       select: "",
-      adminType: ""
+      adminType: null
     };
   },
   async created() {
     this.select = window.sessionStorage.getItem("select") || "1";
-    let ADMIN = window.sessionStorage.getItem('admin');
-    let list = [];
-    await getAdminPageList().then(data => {
-      list = data.data.data.filter(item=>{
-        return item.name==ADMIN;
-      })
-      this.adminType=list[0].root||'';
-    });
+    getAdminType().then(data=>{
+      this.adminType=data.data;
+    })
   },
   mounted() {
     let _this = this;

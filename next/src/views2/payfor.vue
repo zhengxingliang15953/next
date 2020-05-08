@@ -44,7 +44,7 @@
       <div class="modal-item">
         付款凭证:
         <Upload
-          action="http://ad.nextnova.cn/api/files/upload/formimg"
+          action="/api/files/upload/formimg"
           :headers="head"
           name="files"
           :on-success="uploadImgSuccess"
@@ -145,13 +145,13 @@
         ></DatePicker>
         <Button type="info" class="searchBtn" @click="searchBtn">查询</Button>
         <Button type="primary" class="searchBtn" @click="addPayforBtn">添加付款项</Button>
-        <Button type="success" icon="ios-navigate" @click="output" class="out-put">导出</Button>
+        <Button type="success" v-if="adminType" icon="ios-navigate" @click="output" class="out-put">导出</Button>
       </div>
       <Table :columns="columns1" :data="payforList">
         <template slot-scope="{ row, index }" slot="action">
-          <Button type="warning" size="small" @click="payforImg(row)" style="margin-right: 5px">付款凭证</Button>
-          <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
-          <Button type="error" size="small" @click="remove(row)">删除</Button>
+          <Button type="warning"  size="small" @click="payforImg(row)" style="margin-right: 5px">付款凭证</Button>
+          <Button type="primary" v-if="adminType" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
+          <Button type="error" v-if="adminType" size="small" @click="remove(row)">删除</Button>
         </template>
       </Table>
       <Page :total="sum" :current="page" style="margin-top:20px;" @on-change="pageChange" />
@@ -168,7 +168,8 @@ import {
   getDeletePayfor,
   getByidPayfor,
   getUpdatePayfor,
-  getOutPayfor
+  getOutPayfor,
+  getAdminType
 } from "../api";
 export default {
   name: "apply",
@@ -231,7 +232,8 @@ export default {
         remarks: "",
         img: ""
       },
-      uploadImgType: ["jpg", "png", "jpeg", "gif"]
+      uploadImgType: ["jpg", "png", "jpeg", "gif"],
+      adminType:null
     };
   },
   created() {
@@ -248,6 +250,9 @@ export default {
       this.payforList = listDateChange(data.data.data.xyz_Pays) || [];
       this.sum = data.data.data.allnumber || 0;
     });
+    getAdminType().then(data=>{
+      this.adminType=data.data;
+    })
   },
   methods: {
     addSubmit() {

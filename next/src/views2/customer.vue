@@ -98,7 +98,7 @@
         <Button type="primary" class="searchBtn" @click="modal1=true">添加客户</Button>
       </div>
       <Table :columns="columns1" :data="customerList">
-        <template slot-scope="{ row, index }" slot="action">
+        <template slot-scope="{ row, index }" slot="action" v-if="adminType">
           <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
           <Button type="error" size="small" @click="remove(row)">删除</Button>
         </template>
@@ -115,7 +115,8 @@ import {
   getAddUser,
   getDeleteCustomer,
   getByidUser,
-  getUpdateUser
+  getUpdateUser,
+  getAdminType
 } from "../api";
 export default {
   name: "apply",
@@ -180,7 +181,8 @@ export default {
         billing_info: ""
       },
       options: [],
-      allCustomerName: []
+      allCustomerName: [],
+      adminType:null
     };
   },
   created() {
@@ -195,6 +197,9 @@ export default {
       this.customerList = data.data.data.xyz_Users || [];
       this.sum = data.data.data.allnumber;
     });
+    getAdminType().then(data=>{
+      this.adminType=data.data;
+    })
   },
   methods: {
     addSubmit() {

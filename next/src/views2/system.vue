@@ -72,8 +72,6 @@
     <div class="panel-head">系统管理</div>
     <div class="panel-body">
       <div class="panel-body-search">
-        <!-- <Input v-model="value" placeholder="请输入客户名称" style="width: 250px;" /> -->
-        <!-- <Button type="info" class="searchBtn">查询</Button> -->
         <Button type="primary" class="searchBtn" @click="modal1=true">添加管理员</Button>
       </div>
       <Table :columns="columns1" :data="adminList">
@@ -160,14 +158,6 @@ export default {
   },
   methods: {
     async addSubmit() {
-      //添加管理员
-      /* let list = [];
-      await getAdminPageList().then(data => {
-        this.adminList = data.data.data;
-      });
-      list = this.adminList.filter(item => {
-        return item.name == this.submitForm.name;
-      }); */
       if (
         this.submitForm.name == "" ||
         this.submitForm.password == "" ||
@@ -246,11 +236,6 @@ export default {
       });
     }
   },
-  computed: {
-    actionType() {
-      return window.sessionStorage.getItem("admin") || "";
-    }
-  }
 };
 </script>
 

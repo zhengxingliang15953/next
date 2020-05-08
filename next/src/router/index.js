@@ -50,6 +50,11 @@ const routes = [
         path:'/index/payfor',
         component:()=>import('../views2/payfor.vue'),
       },
+      {
+        name:'orderApply',//订单审核管理
+        path:'/index/orderApply',
+        component:()=>import('../views2/orderApply.vue'),
+      },
     ]
   },
   {

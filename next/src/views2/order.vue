@@ -194,12 +194,12 @@
         </Select>
         <Button type="info" class="searchBtn" @click="searchBtn">查询</Button>
         <Button type="primary" class="searchBtn" @click="modal1=true">添加订单</Button>
-        <Button type="success" icon="ios-navigate" @click="output" class="out-put">导出</Button>
+        <Button type="success" v-if="adminType" icon="ios-navigate" @click="output" class="out-put">导出</Button>
       </div>
-      <Table :columns="columns1" :data="orderList">
-        <template slot-scope="{ row, index }" slot="action">
+      <Table :columns="columns1" :data="orderList" >
+        <template slot-scope="{ row, index }" slot="action" >
           <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
-          <Button type="error" size="small" @click="remove(row)">删除</Button>
+          <Button type="error" size="small" v-if="adminType" @click="remove(row)">删除</Button>
         </template>
       </Table>
       <Page :total="sum" :current="page" style="margin-top:20px;" @on-change="pageChange" />
@@ -218,7 +218,8 @@ import {
   getOutOrder,
   getUserPageList,
   getInstallPageList,
-  getSupplyPageList
+  getSupplyPageList,
+  getAdminType
 } from "../api";
 import { changeTime ,BLOB,listDateChange} from "../plugins/time.js";
 export default {
@@ -317,6 +318,7 @@ export default {
       installerOptipns:[],
       supplyOptions:[],
       allSupplyName:[],
+      adminType:null
     };
   },
   created() {
@@ -364,6 +366,9 @@ export default {
     }).then(data => {
       this.allSupplyName=data.data.data.all_xyz_Suppliers||[];
     });
+    getAdminType().then(data=>{
+      this.adminType=data.data;
+    })
   },
   methods: {
     addSubmit() {
@@ -506,7 +511,7 @@ export default {
             }
           });
         } else {
-          this.$Message.error("无权限");
+          this.$Message.error("无权限,修改已提交需超级管理员审核");
         }
       });
     },

@@ -144,7 +144,22 @@ export let getByidUser = data => {
 export let getUpdateUser = data => {
     return Http.post(`/api/user/update`,qs.stringify(data));
 };
-
+/**权限查询*/
+export let getAdminType = () => {
+    return Http.get(`/api/admin`);
+};
+/**开支审核 */
+export let getApplyApproval = (data) => {
+    return Http.get(`/api/expenses/approval?expense_id=${data}`);
+};
+/**订单审核分页查询 */
+export let getOrderApplyList = (data) => {
+    return Http.post(`/api/orderhistory/pagelist`,qs.stringify(data));
+};
+/**订单审核 */
+export let getOrderApplyUpdate = (data) => {
+    return Http.post(`/api/orderhistory/update`,qs.stringify(data));
+};
 
 
 /**订单导出*/

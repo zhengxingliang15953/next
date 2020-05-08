@@ -150,9 +150,9 @@
             @click="applyImgBtn(row)"
             style="margin-right: 5px"
           >开支凭证</Button>
-          <Button type="success" size="small" style="margin-right: 5px" @click="examine(row)">审核</Button>
-          <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
-          <Button type="error" size="small" @click="remove(row)">删除</Button>
+          <Button type="success" v-if="adminType" size="small" style="margin-right: 5px" @click="examine(row)">审核</Button>
+          <Button type="primary" v-if="adminType" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
+          <Button type="error" v-if="adminType" size="small" @click="remove(row)">删除</Button>
         </template>
       </Table>
       <Page :total="sum" :current="page" style="margin-top:20px;" @on-change="pageChange" />
@@ -168,14 +168,17 @@ import {
   getDeleteExpenses,
   getByidExpenses,
   getUpdateExpenses,
-  getAdminPageList
+  getAdminType,
+  getApplyApproval
 } from "../api";
 import { changeTime, listDateChange } from "../plugins/time.js";
 export default {
   name: "apply",
   data() {
     return {
-      head:{"Authorization":`Bearer ${window.sessionStorage.getItem('token')}`},
+      head: {
+        Authorization: `Bearer ${window.sessionStorage.getItem("token")}`
+      },
       modal1: false, //弹窗控制
       modal2: false, //编辑弹窗
       modal3: false, //开支凭证弹窗
@@ -238,7 +241,8 @@ export default {
           width: 250,
           align: "center"
         }
-      ]
+      ],
+      adminType:null
     };
   },
   created() {
@@ -255,6 +259,9 @@ export default {
       this.sum = data.data.data.allnumber || 0;
       this.expensesList = listDateChange(data.data.data.xyz_expenses) || [];
     });
+    getAdminType().then(data=>{
+      this.adminType=data.data;
+    })
   },
   methods: {
     timeChange1(value) {
@@ -407,40 +414,26 @@ export default {
     },
     async examine(value) {
       //审核
-      let list = [];
-      await getAdminPageList().then(data => {
-        list = data.data.data.filter(item => {
-          return item.name == window.sessionStorage.getItem("admin");
-        });
-        if (list.length <= 0) {
-          this.$router.push("/");
-        } else {
-          getByidExpenses(value.expenses_id).then(data => {
-            this.editForm = data.data.data;
-            this.editForm.admin_reallyname = list[0].reallyname;
-            this.editForm.status = "已报销";
-            getUpdateExpenses(this.editForm).then(data => {
-              if (data.data.message == "无权限") {
-                this.$Message.error("无权限");
-              } else {
-                this.$Message.success("审核成功");
-                getExpensesPagelist({
-                  pagesize: 10,
-                  pageid: this.page,
-                  stime: this.stime,
-                  etime: this.etime,
-                  allnumber: 0,
-                  pagenumber: 0
-                }).then(data => {
-                  this.sum = data.data.data.allnumber || 0;
-                  this.expensesList =
-                    listDateChange(data.data.data.xyz_expenses) || [];
-                });
-              }
-            });
+      // console.log(value);
+      getApplyApproval(value.expenses_id).then(data=>{
+        if(data.data.message=='报销成功'){
+          this.$Message.success('审核成功');
+          getExpensesPagelist({
+            pagesize: 10,
+            pageid: this.page,
+            stime: this.stime,
+            etime: this.etime,
+            allnumber: 0,
+            pagenumber: 0
+          }).then(data => {
+            this.sum = data.data.data.allnumber || 0;
+            this.expensesList =
+              listDateChange(data.data.data.xyz_expenses) || [];
           });
+        }else{
+          this.$Message.error('审核失败');
         }
-      });
+      })
     }
   }
 };

@@ -42,7 +42,7 @@ export default {
       } else {
         getLogin(this.loginForm).then(data => {
           if (data.data.message == "登录成功") {
-            window.sessionStorage.setItem("admin", this.loginForm.UserName);
+            // window.sessionStorage.setItem("admin", this.loginForm.UserName);
             window.sessionStorage.setItem("token", data.data.data);
             this.$router.push({
               path: value,
