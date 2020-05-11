@@ -74,7 +74,9 @@
     </div>
     <!--footer-->
 
-    <div id="contact">联<br>系<br>我<br>们</div>
+    <div id="contact">
+      <img src="../assets/img/telphone.png" width="90%" alt="">
+      联<br>系<br>我<br>们</div>
   </div>
 </template>
 
@@ -117,10 +119,25 @@ export default {
   position: fixed;
   width: 30px;
   text-align: center;
-  background-color: #63B8FF	;
+  background-color: #4e7ef5	;
   color:white;
   border-radius: 5px;
   right:0;
-  top:40%;
+  top:35%;
+  overflow: hidden;
+  img{
+    animation: imgleftright 1.5s infinite linear;
+  }
+}
+@keyframes imgleftright{
+  25%{
+    transform: rotateZ(10deg);
+  }
+  50%{
+    transform: rotateZ(0deg);
+  }
+  75%{
+    transform: rotateZ(-10deg);
+  }
 }
 </style>
