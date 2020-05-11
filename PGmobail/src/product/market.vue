@@ -53,7 +53,42 @@
         <h3>没有精钢钻，怎揽瓷器活</h3>
         <h1>抖音广告怎么做？</h1>
         <hr></hr>
-        
+        <div class="panel-market-box2-item">
+            <div class="panel-market-box2-left">
+                <img src="../assets/img/dingwei.png" width="100%" alt="">
+            </div>
+            <div class="panel-market-box2-right">
+                <h4>受众分析</h4>
+                <h5>需要你了解品牌受众，明确用户需求</h5>
+            </div>
+        </div>
+        <div class="panel-market-box2-item">
+            <div class="panel-market-box2-left">
+                <img src="../assets/img/account.png" width="100%" alt="">
+            </div>
+            <div class="panel-market-box2-right">
+                <h4>账号人格</h4>
+                <h5>则是品牌主结合品牌理念、用户画像和平台特点，打造账号</h5>
+            </div>
+        </div>
+        <div class="panel-market-box2-item">
+            <div class="panel-market-box2-left">
+                <img src="../assets/img/dingwei.png" width="100%" alt="">
+            </div>
+            <div class="panel-market-box2-right">
+                <h4>运营团队</h4>
+                <h5>需根据内容规划来匹配,因为运营团队的风格直接影响账号</h5>
+            </div>
+        </div>
+        <div class="panel-market-box2-item">
+            <div class="panel-market-box2-left">
+                <img src="../assets/img/dingwei.png" width="100%" alt="">
+            </div>
+            <div class="panel-market-box2-right">
+                <h4>内容规划</h4>
+                <h5>根据用户需求，定期做具体制作规划</h5>
+            </div>
+        </div>
     </div>
   </div>
 </template>
@@ -182,6 +217,29 @@ h2 {
         border:0.5px solid white;
         margin-top:10px;
         margin-bottom:10px;
+    }
+    .panel-market-box2-item{
+        display: flex;
+        justify-content: space-between;
+        margin:20px 0;
+        .panel-market-box2-left{
+            width: 15%;
+        }
+        .panel-market-box2-right{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width:80%;
+            h4{
+                color:white;
+                font-size: 0.4rem;
+            }
+            h5{
+                color: white;
+                font-size: 0.28rem;
+                font-weight: 400;
+            }
+        }
     }
 }
 </style>
