@@ -5,7 +5,7 @@
       <div class="en-main-title">ABOUT US</div>
     </div>
     <div class="panel-box" id="aboutus">
-      湖州盘古网络有限公司(hzpangu.cn)专注于IT技术解决方案与移动互联网先锋技术研发, 致力于对互联网信息资源的深度挖掘和整合,努力打造成为全国领先的互联网基础应用服务提供商。
+      湖州盘古网络有限公司(hzpangu.cn)专注于IT技术解决方案与移动互联网先锋技术研发, 致力于互联网信息资源的深度挖掘和整合,努力打造成为全国领先的互联网基础应用服务提供商。
       <div class="panel-box-img">
         <img src="../assets/img/img-about1.png" alt width="100%" />
       </div>
@@ -40,14 +40,15 @@
         </div>
         <div>
           <img src="../assets/img/home-application3.png" width="100%" />
-          <p>二维码应用</p>
+          <p>企业应用</p>
         </div>
         <div>
-          <img src="../assets/img/home-application1.png" width="100%" />
+          <img src="../assets/img/home-application4.png" width="100%" />
           <p>盘古码</p>
         </div>
       </div>
     </div>
+    <!-- <img src="../assets/img/pgdisire.png" width="100%" alt=""> -->
     <div class="main-title">
       新闻咨询
       <div class="en-main-title">NEWS</div>
@@ -86,6 +87,11 @@
         </div>
     </div>
     <div class="main-title">
+      选择我们
+      <div class="en-main-title">CHOOSE US</div>
+    </div>
+    <img src="../assets/img/chance-my.png" width="100%" alt="">
+    <div class="main-title">
       联系我们
       <div class="en-main-title">CONTACAT</div>
     </div>
@@ -107,15 +113,13 @@ export default {
 
 <style lang="less" scoped>
 .panel-box-img > div {
-  width: 47%;
-  border: 0.5px solid #cfcfcf;
-  padding-top: 2px;
-  padding-left: 7px;
-  padding-right: 7px;
+  width: 100%;
+  box-shadow: 0 0 10px #B5B5B5;
   margin-bottom: 10px;
   p {
-    margin: 5px;
+    margin: 15px;
     font-weight: 450;
+    font-size: 0.35rem;
   }
 }
 .panel-box-news div:nth-child(1) {

@@ -8,15 +8,15 @@
 .main-title {
     width: 80%;
     margin: 20px auto;
-    margin-bottom: 0;
-    font-size: 0.33rem;
+    margin-bottom: 10px;
+    font-size: 0.35rem;
     text-align: center;
     letter-spacing: 1.4px;
     background: url("../img/bg-title.png") no-repeat;
     background-size: 100%;
   }
   .main-title .en-main-title {
-    font-size: 0.1rem;
+    font-size: 0.15rem;
     font-family: gautami;
   }
   @font-face {
@@ -27,7 +27,7 @@
   .panel-box{
       padding:20px;
       padding-top:0;
-      font-size: 0.24rem;
+      font-size: 0.27rem;
   }
   .panel-box .panel-box-img{
     display: -webkit-flex;

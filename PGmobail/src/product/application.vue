@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="main-title">
+    <!-- <div class="main-title">
       企业应用
       <div class="en-main-title">APPLICATION</div>
-    </div>
-    <div class="panel-two-title">
+    </div> -->
+    <div class="panel-two-title" style="margin-top:10px;">
       <div class="panel-two-title-left">1</div>
       <div class="panel-two-title-right">日常管理应用</div>
     </div>
