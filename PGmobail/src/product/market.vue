@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="main-title">
+    <!-- <div class="main-title">
       营销推广
       <div class="en-main-title">MARKETING</div>
-    </div>
+    </div> -->
     <div class="panel-img-box">
       <div class="panel-img-box-item">
         <img src="../assets/img/weixin2.png" alt />
@@ -110,6 +110,7 @@ img {
   display: -webkit-flex;
   display: flex;
   justify-content: space-evenly;
+  margin-top:10px;
   .panel-img-box-item {
     width: 16%;
     img {

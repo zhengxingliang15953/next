@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="main-title">
+    <!-- <div class="main-title">
       盘古码
       <div class="en-main-title">PG CODE</div>
-    </div>
-    <div class="panel-two-title">
+    </div> -->
+    <div class="panel-two-title" style="margin-top:10px;">
       <div class="panel-two-title-left">1</div>
       <div class="panel-two-title-right">一物一码</div>
     </div>

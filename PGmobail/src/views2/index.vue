@@ -1,26 +1,27 @@
 <template>
   <div id="index">
+    <BackTop></BackTop>
     <!--左侧抽屉划出-->
     <Drawer placement="left" :closable="false" v-model="modal1" width="37" :styles="drawerStyle">
       <div class="drawer-item" @click="routerTo('/home')">
         <span>首页</span>
-        <van-icon name="arrow" class="drawer-right" />
+        <!-- <van-icon name="arrow" class="drawer-right" /> -->
       </div>
       <div class="drawer-item" @click="routerTo('/aboutus')">
         <span>关于盘古</span>
-        <van-icon name="arrow" class="drawer-right" />
+        <!-- <van-icon name="arrow" class="drawer-right" /> -->
       </div>
       <div class="drawer-item" @click="routerTo('/product')">
         <span>产品中心</span>
-        <van-icon name="arrow" class="drawer-right" />
+        <!-- <van-icon name="arrow" class="drawer-right" /> -->
       </div>
       <div class="drawer-item">
         <span>解决方案</span>
-        <van-icon name="arrow" class="drawer-right" />
+        <!-- <van-icon name="arrow" class="drawer-right" /> -->
       </div>
       <div class="drawer-item">
         <span>联系我们</span>
-        <van-icon name="arrow" class="drawer-right" />
+        <!-- <van-icon name="arrow" class="drawer-right" /> -->
       </div>
       <img src="../assets/img/logo-bottom.png" alt="" width="80%" style="margin-left:10%;opacity:0.3;margin-top:20px;"> 
     </Drawer>
@@ -60,20 +61,20 @@
 
     <!--footer-->
     <div class="footer">
-        <p>
-            <span >首页</span>
-            <span >关于我们</span>
-            <span >联系我们</span>
-        </p>
-        <p>
-            <span>电话号码:888888</span>
-            <span>传真号码:888888</span>
-        </p>
-        <p>
-            <span>地址:浙江省湖州市吴兴区EBD总部自由港A幢7楼</span>
-        </p>
+        <div class="footer-top">
+          <div style="color:white;"><Icon type="md-call" color="white" size="30"/>0572-2611126</div>
+          <p>地址:湖州市吴兴区总部自由港A幢7楼</p>
+          <p>传真:022-8888</p>
+          <p>邮箱:service@pgnet.cn</p>
+        </div>
+        <div class="footer-bottom">
+          <p>湖州盘古网络有限责任公司 版权所有</p>
+          <p>Copyright © 2020 pangu . All Rights Reserved 《法律声明》 | ICP备案网站信息: 浙ICP备16036884号</p>
+        </div>
     </div>
     <!--footer-->
+
+    <div id="contact">联<br>系<br>我<br>们</div>
   </div>
 </template>
 
@@ -84,7 +85,7 @@ export default {
       modal1: false, //左侧抽屉控制
       drawerStyle: {
         background: " #E8E8E8",
-        padding: 0,
+        padding: 4,
       }
     };
   },
@@ -111,5 +112,15 @@ export default {
 .router{
     position: relative;
     top: 0.8rem;
+}
+#contact{
+  position: fixed;
+  width: 30px;
+  text-align: center;
+  background-color: #63B8FF	;
+  color:white;
+  border-radius: 5px;
+  right:0;
+  top:40%;
 }
 </style>

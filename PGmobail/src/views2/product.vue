@@ -1,9 +1,9 @@
 <template>
   <div>
-    <!-- <div class="main-title">
+    <div class="main-title">
       产品中心
       <div class="en-main-title">POSITION</div>
-    </div>-->
+    </div>
     <van-tabs swipeable animated color="#0254ba">
       <van-tab title="企业上网">
           <web></web>
