@@ -73,7 +73,7 @@
         </div>
         <div class="panel-market-box2-item">
             <div class="panel-market-box2-left">
-                <img src="../assets/img/dingwei.png" width="100%" alt="">
+                <img src="../assets/img/yunyin.png" width="100%" alt="">
             </div>
             <div class="panel-market-box2-right">
                 <h4>运营团队</h4>
@@ -82,13 +82,14 @@
         </div>
         <div class="panel-market-box2-item">
             <div class="panel-market-box2-left">
-                <img src="../assets/img/dingwei.png" width="100%" alt="">
+                <img src="../assets/img/guihua.png" width="100%" alt="">
             </div>
             <div class="panel-market-box2-right">
                 <h4>内容规划</h4>
                 <h5>根据用户需求，定期做具体制作规划</h5>
             </div>
         </div>
+        <img src="../assets/img/douyin3.jpg" width="100%" alt="">
     </div>
   </div>
 </template>
