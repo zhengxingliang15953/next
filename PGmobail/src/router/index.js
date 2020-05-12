@@ -21,9 +21,19 @@ const routes = [
         component:()=>import('../views2/aboutus.vue'),
       },
       {
-        name:'product',//关于我们
+        name:'product',//产品中心
         path:'/product',
         component:()=>import('../views2/product.vue'),
+      },
+      {
+        name:'solution',//解决方案
+        path:'/solution',
+        component:()=>import('../views2/solution.vue'),
+      },
+      {
+        name:'contact',//解决方案
+        path:'/contact',
+        component:()=>import('../views2/contact.vue'),
       },
     ]
   }

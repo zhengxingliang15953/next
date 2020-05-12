@@ -3,23 +3,23 @@
     <BackTop></BackTop>
     <!--左侧抽屉划出-->
     <Drawer placement="left" :closable="false" v-model="modal1" width="37" :styles="drawerStyle">
-      <div class="drawer-item" @click="routerTo('/home')">
+      <div class="drawer-item main-title-left" @click="routerTo('/home')" ref="shouye">
         <span>首页</span>
         <!-- <van-icon name="arrow" class="drawer-right" /> -->
       </div>
-      <div class="drawer-item" @click="routerTo('/aboutus')">
+      <div class="drawer-item main-title-left" @click="routerTo('/aboutus')" ref="pg">
         <span>关于盘古</span>
         <!-- <van-icon name="arrow" class="drawer-right" /> -->
       </div>
-      <div class="drawer-item" @click="routerTo('/product')">
+      <div class="drawer-item main-title-left" @click="routerTo('/product')" ref="product">
         <span>产品中心</span>
         <!-- <van-icon name="arrow" class="drawer-right" /> -->
       </div>
-      <div class="drawer-item">
+      <div class="drawer-item main-title-left" @click="routerTo('/solution')" ref="solution">
         <span>解决方案</span>
         <!-- <van-icon name="arrow" class="drawer-right" /> -->
       </div>
-      <div class="drawer-item">
+      <div class="drawer-item main-title-left" @click="routerTo('/contact')" ref="contact">
         <span>联系我们</span>
         <!-- <van-icon name="arrow" class="drawer-right" /> -->
       </div>
@@ -41,7 +41,7 @@
         <img src="../assets/img/logo2.png" alt width="100%" />
       </div>
       <div>
-        <p>咨询电话:+86 (0757)8888888</p>
+        <p>0572-2611126<br>400-0572-916</p>
       </div>
     </div>
     <!--logo-->
@@ -74,10 +74,10 @@
     </div>
     <!--footer-->
 
-    <div id="contact">
+    <!-- <div id="contact">
       <img src="../assets/img/telphone.png" width="90%" alt="">
-      联<br>系<br>我<br>们</div>
-  </div>
+      联<br>系<br>我<br>们</div>-->
+  </div> 
 </template>
 
 <script>
@@ -95,6 +95,28 @@ export default {
     routerTo(value){//左侧抽屉路由跳转
       this.$router.push(value);
       this.modal1=false;
+    }
+  },
+  watch:{
+    modal1(newName,oldName){
+      let shouye=this.$refs.shouye;
+      let pg=this.$refs.pg;
+      let product=this.$refs.product;
+      let solution=this.$refs.solution;
+      let contact=this.$refs.contact;
+      if(newName==true){
+        shouye.classList.add('right-animation');
+        pg.classList.add('right-animation-delay1');
+        product.classList.add('right-animation-delay2');
+        solution.classList.add('right-animation-delay3');
+        contact.classList.add('right-animation-delay4');
+      }else{
+        shouye.classList.remove('right-animation');
+        pg.classList.remove('right-animation-delay1');
+        product.classList.remove('right-animation-delay2');
+        solution.classList.remove('right-animation-delay3');
+        contact.classList.remove('right-animation-delay4');
+      }
     }
   }
 };
@@ -122,7 +144,7 @@ export default {
   background-color: #4e7ef5	;
   color:white;
   border-radius: 5px;
-  right:0;
+  right:3px;
   top:35%;
   overflow: hidden;
   img{
