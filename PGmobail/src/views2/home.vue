@@ -176,7 +176,6 @@ export default {
         contact2.classList.add('top-animation-delay1');
       }
     }
-    
   },
   beforeDestroy(){
     window.removeEventListener('scroll',this.scrollMethods,false);
