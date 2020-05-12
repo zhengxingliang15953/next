@@ -112,22 +112,19 @@ export default {
     scrollTo(0,0);
   },
   mounted() {
-    scrollTo(0,0);
     window.addEventListener('scroll',this.scrollMethods);
+    scrollTo(0,0);
     // console.log(this.$refs.about.getBoundingClientRect().top);
     let about=this.$refs.about;
     let aboutTwo=this.$refs.aboutTwo;
     let aboutThree=this.$refs.aboutThree;
     let top=document.documentElement.scrollTop;
     let application1=this.$refs.application1;
-    if(top>about.getBoundingClientRect().top-220){
+    //if(top>about.getBoundingClientRect().top-220){
         about.classList.add('top-animation');
         aboutTwo.classList.add('top-animation-delay1');
         aboutThree.classList.add('top-animation-delay2');
-      }
-      if(top>application1.getBoundingClientRect().top-220){
-        application1.classList.add('top-animation');
-      }
+      //}
   },
   methods: {
     scrollMethods(){
@@ -180,6 +177,9 @@ export default {
       }
     }
     
+  },
+  beforeDestroy(){
+    window.removeEventListener('scroll',this.scrollMethods,false);
   }
 };
 </script>
