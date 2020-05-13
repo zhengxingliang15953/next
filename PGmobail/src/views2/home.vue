@@ -11,15 +11,15 @@
       </div>
     </div>
     <div class="panel-box-three main-title-other" ref="aboutThree">
-        <div>
+        <div @click="routerTo('/aboutus')">
           <img src="../assets/img/home-head1.jpg" alt="" width="100%">
           <h4>关于我们</h4>
         </div>
-        <div>
+        <div  @click="routerTo('/solution')">
           <img src="../assets/img/home-head3.jpg" alt="" width="100%">
           <h4>解决方案</h4>
         </div>
-        <div>
+        <div   @click="routerTo('/new')">
           <img src="../assets/img/home-head2.jpg" alt="" width="100%">
           <h4>新闻咨询</h4>
         </div>
@@ -30,19 +30,19 @@
     </div>
     <div class="panel-box">
       <div class="panel-box-img">
-        <div ref="application2" class="main-title-left">
+        <div ref="application2" class="main-title-left" @click="toProduct('企业上网')">
           <img src="../assets/img/home-application1.png" width="100%" />
           <p>企业上网</p>
         </div>
-        <div ref="application3" class="main-title-right">
+        <div ref="application3" class="main-title-right" @click="toProduct('营销推广')">
           <img src="../assets/img/home-application2.png" width="100%" />
           <p>网络营销推广</p>
         </div>
-        <div ref="application4" class="main-title-left">
+        <div ref="application4" class="main-title-left" @click="toProduct('企业应用')">
           <img src="../assets/img/home-application3.png" width="100%" />
           <p>企业应用</p>
         </div>
-        <div ref="application5" class="main-title-right">
+        <div ref="application5" class="main-title-right" @click="toProduct('盘古码')">
           <img src="../assets/img/home-application4.png" width="100%" />
           <p>盘古码</p>
         </div>
@@ -56,33 +56,33 @@
     <div class="panel-box">
       <div class="panel-box-news main-title-left" ref="newtwo">
         <div>
-          <p class="panel-box-news-left">浙江湖州检方开展公益诉讼专项监督 助力疫情阻击战</p>
-          <p class="panel-box-news-right">2020-04-26</p>
+          <p class="panel-box-news-left" @click="toNewDetail(0)">浙江湖州检方开展公益诉讼专项监督 助力疫情阻击战</p>
+          <p class="panel-box-news-right">2020-03-12</p>
         </div>
         <div>政府机构链接</div>
       </div><hr></hr>
       <div class="panel-box-news main-title-right" ref="newthree">
         <div>
-          <p class="panel-box-news-left">浙江湖州检方开展公益诉讼专项监督 助力疫情阻击战</p>
-          <p class="panel-box-news-right">2020-04-26</p>
+          <p class="panel-box-news-left"  @click="toNewDetail(1)">湖州市关于加强新型冠状病毒感染的肺炎疫情防控工作的通告(第4号)</p>
+          <p class="panel-box-news-right">2020-03-12</p>
         </div>
         <div>政府机构链接</div>
       </div><hr></hr>
       <div class="panel-box-news main-title-left" ref="newfour">
         <div>
-          <p class="panel-box-news-left">浙江湖州检方开展公益诉讼专项监督 助力疫情阻击战</p>
-          <p class="panel-box-news-right">2020-04-26</p>
+          <p class="panel-box-news-left"  @click="toNewDetail(2)">工业互联网夯实浙江数字经济</p>
+          <p class="panel-box-news-right">2019-07-04</p>
         </div>
         <div>政府机构链接</div>
       </div><hr></hr>
       <div class="panel-box-news main-title-right" ref="newfive">
         <div>
-          <p class="panel-box-news-left">浙江湖州检方开展公益诉讼专项监督 助力疫情阻击战</p>
-          <p class="panel-box-news-right">2020-04-26</p>
+          <p class="panel-box-news-left"  @click="toNewDetail(3)">打造长三角能源互联网共同体</p>
+          <p class="panel-box-news-right">2019-07-04</p>
         </div>
         <div>政府机构链接</div>
       </div><hr></hr>
-      <div class="btn-more">
+      <div class="btn-more" @click="routerTo('/new')">
         <span style="width:100%;height:0.9rem;line-height:0.54rem;">了解更多</span>
         </div>
     </div>
@@ -104,12 +104,16 @@
 </template>
 
 <script>
+import {getBeforeNewList} from '../plugins/news';
 export default {
   data() {
-    return {};
+    return {
+      fiveNewsList:[]
+    };
   },
   created(){
-    scrollTo(0,0);
+    document.documentElement.scrollTop = 0;
+    this.fiveNewsList=getBeforeNewList(5);
   },
   mounted() {
     window.addEventListener('scroll',this.scrollMethods);
@@ -175,11 +179,20 @@ export default {
         contact1.classList.add('top-animation');
         contact2.classList.add('top-animation-delay1');
       }
-    }
+    },
+    routerTo(value){//路由调换
+      this.$router.push(value);
+    },
+    toNewDetail(value){//新闻挑战详情页
+    this.$router.push({path:'/newsDetail',query:{id:value}});
+  },
+  toProduct(value){//产品跳转
+    this.$router.push({path:'/product',query:{active:value}});
+  }
   },
   beforeDestroy(){
     window.removeEventListener('scroll',this.scrollMethods,false);
-  }
+  },
 };
 </script>
 

@@ -163,3 +163,51 @@
     left: 30px;
     opacity: 0;
    }
+
+   /*导航栏右移动画*/
+   .tabbar-index-one{
+    animation: toRight 0.2s;
+    animation-fill-mode:forwards;
+   }
+   .tabbar-index-two{
+    animation: toRight 0.4s;
+    animation-fill-mode:forwards;
+    animation-delay:0.2s;
+   }
+   .tabbar-index-three{
+    animation: toRight 0.6s;
+    animation-fill-mode:forwards;
+    animation-delay:0.4s;
+   }
+   .tabbar-index-four{
+    animation: toRight 0.8s;
+    animation-fill-mode:forwards;
+    animation-delay:0.6s;
+   }
+   .tabbar-index-five{
+    animation: toRight 1s;
+    animation-fill-mode:forwards;
+    animation-delay:0.8s;
+   }
+    /*导航栏右移动画*/
+
+     /*顶部按钮动画*/
+     .tabbar-top-btn1{
+      animation: btnxuanzhuan1 1s;
+      animation-fill-mode:forwards;
+     }
+     .tabbar-top-btn2{
+      animation: btnxuanzhuan2 1s;
+      animation-fill-mode:forwards;
+     }
+     @keyframes btnxuanzhuan1{
+       100%{
+         transform: rotate(90deg);
+       }
+     }
+     @keyframes btnxuanzhuan2{
+      100%{
+        transform: rotate(-90deg);
+      }
+    }
+     /*顶部按钮动画*/

@@ -36,6 +36,14 @@
           <span>2007年</span>
           <p>开始成为搜狐公司浙江地区注册商.成为google湖州地区adwords产品注册商.搜狐奥运搜狗推广年度销售竞赛中获得浙江省代理商第一名.</p>
         </TimelineItem>
+        <TimelineItem color="#6e6e6e" v-if="moreBtnController==true">
+          <span>2012年</span>
+          <p>在南浔正式成立了第一个分部, 并在长兴建立了联络处.</p>
+        </TimelineItem>
+        <TimelineItem color="#6e6e6e" v-if="moreBtnController==true">
+          <span>2014年</span>
+          <p>公司全资成立湖州微古信息科技有限公司.</p>
+        </TimelineItem>
         <TimelineItem v-if="moreBtnController==false">
           <a @click.prevent="moreBtnController=true">查看更多</a>
         </TimelineItem>

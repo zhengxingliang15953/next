@@ -35,6 +35,16 @@ const routes = [
         path:'/contact',
         component:()=>import('../views2/contact.vue'),
       },
+      {
+        name:'new',//新闻资讯
+        path:'/new',
+        component:()=>import('../views2/new.vue'),
+      },
+      {
+        name:'newsDetail',//新闻详情页
+        path:'/newsDetail',
+        component:()=>import('../views2/newsDetail.vue'),
+      },
     ]
   }
 ];
@@ -45,16 +55,10 @@ const router = new VueRouter({
 });
 
 
-/* router.beforeEach((to, from, next) => {
-  // console.log(to.path);
-  if(to.path=='/'){
-    next();
-  }else if(!window.sessionStorage.getItem('token')){
-    next('/');
-  }else{
-    next();
-  }
-}) */
+router.beforeEach((to, from, next) => {
+  document.documentElement.scrollTop = 0;
+  next();
+})
 
 RouterHooks.init(router);
 Vue.use(VueRouter);

@@ -33,7 +33,7 @@
     <div class="pgma-box">
       <h1>红包墙-日均拓客10000+</h1>
       <h3>吸睛引流/聚集人气/活跃气氛</h3>
-      <span>咨询客服</span>
+      <span @click="toContact">咨询客服</span>
     </div>
     <h1>红包墙实景展示</h1>
     <div class="pgma-img-box">
@@ -60,6 +60,11 @@
 export default {
   data() {
     return {};
+  },
+  methods:{
+    toContact(){
+      this.$router.push('/contact');
+    }
   }
 };
 </script>

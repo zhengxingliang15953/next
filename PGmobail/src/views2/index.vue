@@ -30,7 +30,7 @@
     <!--header-->
     <div class="header-box">
       <div class="header">
-        <van-icon name="wap-nav" size="0.55rem" color="#454845" @click="modal1=true;" />
+        <van-icon name="wap-nav" size="0.55rem" color="#454845" @click="modal1=true;" ref="icon"/>
       </div>
     </div>
     <!--header-->
@@ -64,7 +64,6 @@
         <div class="footer-top">
           <div style="color:white;"><Icon type="md-call" color="white" size="30"/>0572-2611126</div>
           <p>地址:湖州市吴兴区总部自由港A幢7楼</p>
-          <p>传真:022-8888</p>
           <p>邮箱:service@pgnet.cn</p>
         </div>
         <div class="footer-bottom">
@@ -104,18 +103,21 @@ export default {
       let product=this.$refs.product;
       let solution=this.$refs.solution;
       let contact=this.$refs.contact;
+      let icon=this.$refs.icon;
       if(newName==true){
-        shouye.classList.add('right-animation');
-        pg.classList.add('right-animation-delay1');
-        product.classList.add('right-animation-delay2');
-        solution.classList.add('right-animation-delay3');
-        contact.classList.add('right-animation-delay4');
+        shouye.classList.add('tabbar-index-one');
+        pg.classList.add('tabbar-index-two');
+        product.classList.add('tabbar-index-three');
+        solution.classList.add('tabbar-index-four');
+        contact.classList.add('tabbar-index-five');
+        icon.classList.add('tabbar-top-btn1');
       }else{
-        shouye.classList.remove('right-animation');
-        pg.classList.remove('right-animation-delay1');
-        product.classList.remove('right-animation-delay2');
-        solution.classList.remove('right-animation-delay3');
-        contact.classList.remove('right-animation-delay4');
+        shouye.classList.remove('tabbar-index-one');
+        pg.classList.remove('tabbar-index-two');
+        product.classList.remove('tabbar-index-three');
+        solution.classList.remove('tabbar-index-four');
+        contact.classList.remove('tabbar-index-five');
+        icon.classList.remove('tabbar-top-btn1');
       }
     }
   }

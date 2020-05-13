@@ -5,17 +5,17 @@
       <div class="en-main-title">POSITION</div>
     </div>
     <div ref="selectLi">
-      <van-tabs swipeable animated color="#0254ba">
-        <van-tab title="企业上网">
+      <van-tabs swipeable animated color="#0254ba" v-model="active">
+        <van-tab title="企业上网" name="企业上网">
           <web></web>
         </van-tab>
-        <van-tab title="企业应用">
+        <van-tab title="企业应用" name="企业应用">
           <application></application>
         </van-tab>
-        <van-tab title="盘古码">
+        <van-tab title="盘古码" name="盘古码">
           <pgma></pgma>
         </van-tab>
-        <van-tab title="营销推广">
+        <van-tab title="营销推广" name="营销推广">
           <market></market>
         </van-tab>
       </van-tabs>
@@ -30,7 +30,9 @@ import application from "../product/application";
 import market from "../product/market";
 export default {
   data() {
-    return {};
+    return {
+      active:'企业上网'
+    };
   },
   components: {
     web,
@@ -51,6 +53,11 @@ export default {
         tabs.classList.remove('tabs-header');
       }
     } */
+  },
+  created(){
+    if(this.$route.query.active){
+      this.active=this.$route.query.active;
+    }
   }
 };
 </script>

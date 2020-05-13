@@ -257,9 +257,9 @@ export default {
   methods: {
     addSubmit() {
       //添加付款项提交
-      if (this.addPayforForm.img == "") {
-        this.$Message.warning("请上传付款凭证");
-      } else {
+      //if (this.addPayforForm.img == "") {
+        //this.$Message.warning("请上传付款凭证");
+      //} else {
         getAddPayfor(this.addPayforForm).then(data => {
           if (data.data.message == "删除成功") {
             this.$Message.success("添加成功");
@@ -278,7 +278,7 @@ export default {
             this.$Message.error("添加失败");
           }
         });
-      }
+      //}
     },
     pageChange(value) {
       //页码改编回调
