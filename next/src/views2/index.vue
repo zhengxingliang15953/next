@@ -33,7 +33,7 @@
             <Icon type="logo-usd"></Icon>
             <span>付款管理</span>
           </MenuItem>
-          <MenuItem name="7" to="/index/orderApply">
+          <MenuItem name="7" to="/index/orderApply" v-if="adminType">
             <Icon type="ios-create"></Icon>
             <span>订单审核</span>
           </MenuItem>

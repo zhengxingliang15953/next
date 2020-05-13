@@ -20,7 +20,7 @@ module.exports = {
     historyApiFallback: true,
     proxy: {
         '/': {
-            target: 'http://192.168.0.113:7776',
+            target: 'http://192.168.1.113:7776',
             changeOrigin: true
         }
     }

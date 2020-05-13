@@ -15,7 +15,11 @@
           placeholder="请输入客户名称"
           style="width:70%;"
         >
-          <Option v-for="(item, index) in customerOptions" :value="item.name" :key="index">{{item.name}}</Option>
+          <Option
+            v-for="(item, index) in customerOptions"
+            :value="item.name"
+            :key="index"
+          >{{item.name}}</Option>
         </Select>
         <!-- <Input v-model="addOrder.username" placeholder="请输入客户名称" style="width: 70%;" /> -->
       </div>
@@ -49,7 +53,7 @@
       <div class="modal-item">
         安装人员:
         <!-- <Input v-model="addOrder.installer" placeholder="请输入安装人员" style="width: 30%;" /> -->
-        <Select
+        <!-- <Select
           v-model="addOrder.installer"
           filterable
           remote
@@ -61,8 +65,19 @@
           style="width:30%;"
         >
           <Option v-for="(item, index) in installerOptipns" :value="item.name" :key="index">{{item.name}}</Option>
-        </Select>
-        安装费用:
+        </Select>-->
+        <Select
+          style="width:30%;"
+          v-model="addOrder.installer"
+          @on-change="installerNameAddChange"
+          placeholder="请选择安装人员"
+        >
+          <Option
+            v-for="(item,index) in allInstallerName"
+            :key="index"
+            :value="item.name"
+          >{{item.name}}</Option>
+        </Select>安装费用:
         <Input
           v-model="addOrder.installation"
           type="number"
@@ -73,7 +88,7 @@
       <div class="modal-item">
         制作供应:
         <!-- <Input v-model="addOrder.supplier" placeholder="请输入制作供应商" style="width: 30%;" /> -->
-        <Select
+        <!-- <Select
           v-model="addOrder.supplier"
           filterable
           remote
@@ -85,8 +100,19 @@
           style="width:30%;"
         >
           <Option v-for="(item, index) in supplyOptions" :value="item.name" :key="index">{{item.name}}</Option>
-        </Select>
-        订单状态:
+        </Select>-->
+        <Select
+          style="width:30%;"
+          v-model="addOrder.supplier"
+          @on-change="supplyNameAddChange"
+          placeholder="请选择供应商"
+        >
+          <Option
+            v-for="(item,index) in allSupplyName"
+            :key="index"
+            :value="item.name"
+          >{{item.name}}</Option>
+        </Select>订单状态:
         <Select style="width:30%;" v-model="addOrder.status" @on-change="statusChange">
           <Option value="实施中">实施中</Option>
           <Option value="已交付">已交付</Option>
@@ -135,7 +161,18 @@
       </div>
       <div class="modal-item">
         安装人员:
-        <Input v-model="editOrder.installer" placeholder="请输入安装人员" style="width: 30%;" />安装费用:
+        <Select
+          style="width:30%;"
+          v-model="editOrder.installer"
+          @on-change="installerNameAddChange2"
+          placeholder="请选择安装人员"
+        >
+          <Option
+            v-for="(item,index) in allInstallerName"
+            :key="index"
+            :value="item.name"
+          >{{item.name}}</Option>
+        </Select>安装费用:
         <Input
           v-model="editOrder.installation"
           type="number"
@@ -145,7 +182,18 @@
       </div>
       <div class="modal-item">
         制作供应:
-        <Input v-model="editOrder.supplier" placeholder="请输入制作供应商" style="width: 30%;" />订单状态:
+        <Select
+          style="width:30%;"
+          v-model="editOrder.supplier"
+          @on-change="supplyNameAddChange2"
+          placeholder="请选择供应商"
+        >
+          <Option
+            v-for="(item,index) in allSupplyName"
+            :key="index"
+            :value="item.name"
+          >{{item.name}}</Option>
+        </Select>订单状态:
         <Select style="width:30%;" v-model="editOrder.status" @on-change="editStatusChange">
           <Option value="实施中">实施中</Option>
           <Option value="已交付">已交付</Option>
@@ -192,13 +240,30 @@
             :key="index"
           >{{item.username}}</Option>
         </Select>
+        <Input
+          v-model="searchOrderId1"
+          placeholder="请输入订单号"
+          style="width: 200px;margin-left:10px;"
+        />
         <Button type="info" class="searchBtn" @click="searchBtn">查询</Button>
         <Button type="primary" class="searchBtn" @click="modal1=true">添加订单</Button>
-        <Button type="success" v-if="adminType" icon="ios-navigate" @click="output" class="out-put">导出</Button>
+        <Button
+          type="success"
+          v-if="adminType"
+          icon="ios-navigate"
+          @click="output"
+          class="out-put"
+        >导出</Button>
       </div>
-      <Table :columns="columns1" :data="orderList" >
-        <template slot-scope="{ row, index }" slot="action" >
-          <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
+      <Table :columns="columns1" :data="orderList">
+        <template slot-scope="{ row, index }" slot="action">
+          <Button
+            type="primary"
+            size="small"
+            v-if="adminType||row.auditstatus!='未审批'"
+            style="margin-right: 5px"
+            @click="edit(row)"
+          >编辑</Button>
           <Button type="error" size="small" v-if="adminType" @click="remove(row)">删除</Button>
         </template>
       </Table>
@@ -221,7 +286,7 @@ import {
   getSupplyPageList,
   getAdminType
 } from "../api";
-import { changeTime ,BLOB,listDateChange} from "../plugins/time.js";
+import { changeTime, BLOB, listDateChange } from "../plugins/time.js";
 export default {
   name: "apply",
   data() {
@@ -269,6 +334,10 @@ export default {
           key: "status"
         },
         {
+          title: "审核状态",
+          key: "auditstatus"
+        },
+        {
           title: "操作",
           slot: "action",
           width: 140,
@@ -295,7 +364,8 @@ export default {
         installer: "",
         receiving_amount: "",
         date: "",
-        status: "实施中"
+        status: "实施中",
+        auditstatus: ""
       },
       editOrder: {
         //订单修改表单
@@ -308,31 +378,41 @@ export default {
         installer: "",
         receiving_amount: "",
         date: "",
-        status: ""
+        status: "",
+        auditstatus: ""
       },
       allCustomerName: [], //所有的客户名称
-      allCustomerName2:[],
+      allCustomerName2: [],
       options: [],
-      customerOptions:[],//添加客户名称远程搜索
-      allInstallerName:[],
-      installerOptipns:[],
-      supplyOptions:[],
-      allSupplyName:[],
-      adminType:null
+      customerOptions: [], //添加客户名称远程搜索
+      allInstallerName: [],
+      installerOptipns: [],
+      supplyOptions: [],
+      allSupplyName: [],
+      adminType: null,
+      searchOrderId1: "", //订单号查询v-modal
+      searchOrderId2: "" //实际查询
     };
   },
   created() {
     this.addOrder.date = changeTime(new Date());
     this.editOrder.date = changeTime(new Date());
-    this.etime = changeTime(new Date());
+    // this.etime = changeTime(new Date());
+    var day1 = new Date();
+    day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000);
+    var s1 =
+      day1.getFullYear() + "-" + (day1.getMonth() + 1) + "-" + day1.getDate();
+    this.etime = s1;
     getOrderPageList({
       pagesize: 10,
       pageid: 1,
       stime: this.stime,
+      // etime: this.etime,
       etime: this.etime,
       allnumber: 0,
       pagenumber: 0,
-      name: this.customerSearch2
+      name: this.customerSearch2,
+      order_id: this.searchOrderId2
     }).then(data => {
       if (data.data.message == "查询成功") {
         this.orderList = listDateChange(data.data.data.xyz_Orders) || [];
@@ -345,7 +425,7 @@ export default {
       pageid: 1,
       allnumber: 0,
       pagenumber: 0,
-      name: ''
+      name: ""
     }).then(data => {
       this.allCustomerName2 = data.data.data.all_xyz_Users || [];
     });
@@ -355,20 +435,20 @@ export default {
       allnumber: 0,
       pagenumber: 0
     }).then(data => {
-      this.allInstallerName=data.data.data.all_xyz_Installers||[];
+      this.allInstallerName = data.data.data.all_xyz_Installers || [];
     });
     getSupplyPageList({
       pagesize: 10,
       pageid: 1,
       allnumber: 0,
       pagenumber: 0,
-      name: ''
+      name: ""
     }).then(data => {
-      this.allSupplyName=data.data.data.all_xyz_Suppliers||[];
+      this.allSupplyName = data.data.data.all_xyz_Suppliers || [];
     });
-    getAdminType().then(data=>{
-      this.adminType=data.data;
-    })
+    getAdminType().then(data => {
+      this.adminType = data.data;
+    });
   },
   methods: {
     addSubmit() {
@@ -383,7 +463,8 @@ export default {
             etime: this.etime,
             allnumber: 0,
             pagenumber: 0,
-            name: this.customerSearch2
+            name: this.customerSearch2,
+            order_id: this.searchOrderId2
           }).then(data => {
             if (data.data.message == "查询成功") {
               this.orderList = listDateChange(data.data.data.xyz_Orders) || [];
@@ -406,7 +487,8 @@ export default {
         etime: this.etime,
         allnumber: 0,
         pagenumber: 0,
-        name: this.customerSearch2
+        name: this.customerSearch2,
+        order_id: this.searchOrderId2
       }).then(data => {
         if (data.data.message == "查询成功") {
           this.orderList = listDateChange(data.data.data.xyz_Orders) || [];
@@ -434,6 +516,7 @@ export default {
     searchBtn() {
       //查询
       this.customerSearch2 = this.customerSearch1;
+      this.searchOrderId2 = this.searchOrderId1;
       getOrderPageList({
         pagesize: 10,
         pageid: 1,
@@ -441,7 +524,8 @@ export default {
         etime: this.etime,
         allnumber: 0,
         pagenumber: 0,
-        name: this.customerSearch2
+        name: this.customerSearch2,
+        order_id: this.searchOrderId2
       }).then(data => {
         if (data.data.message == "查询成功") {
           this.orderList = listDateChange(data.data.data.xyz_Orders) || [];
@@ -470,7 +554,8 @@ export default {
             etime: this.etime,
             allnumber: 0,
             pagenumber: 0,
-            name: this.customerSearch2
+            name: this.customerSearch2,
+            order_id: this.searchOrderId2
           }).then(data => {
             if (data.data.message == "查询成功") {
               this.orderList = listDateChange(data.data.data.xyz_Orders) || [];
@@ -485,34 +570,31 @@ export default {
     },
     edit(value) {
       //编辑
-      this.modal2 = true;
       getByidOrder(value.order_id).then(data => {
         this.editOrder = data.data.data;
+        this.modal2 = true;
       });
     },
     editSubmit() {
       //编辑提交
       getUpdateOrder(this.editOrder).then(data => {
-        if (data.data.message == "修改成功") {
-          this.$Message.success("修改成功");
-          getOrderPageList({
-            pagesize: 10,
-            pageid: this.page,
-            stime: this.stime,
-            etime: this.etime,
-            allnumber: 0,
-            pagenumber: 0,
-            name: this.customerSearch2
-          }).then(data => {
-            if (data.data.message == "查询成功") {
-              this.orderList = listDateChange(data.data.data.xyz_Orders) || [];
-              this.sum = data.data.data.allnumber || 0;
-              this.allCustomerName = data.data.data.all_xyz_Orders || [];
-            }
-          });
-        } else {
-          this.$Message.error("无权限,修改已提交需超级管理员审核");
-        }
+        this.$Message.success(data.data.message);
+        getOrderPageList({
+          pagesize: 10,
+          pageid: this.page,
+          stime: this.stime,
+          etime: this.etime,
+          allnumber: 0,
+          pagenumber: 0,
+          name: this.customerSearch2,
+          order_id: this.searchOrderId2
+        }).then(data => {
+          if (data.data.message == "查询成功") {
+            this.orderList = listDateChange(data.data.data.xyz_Orders) || [];
+            this.sum = data.data.data.allnumber || 0;
+            this.allCustomerName = data.data.data.all_xyz_Orders || [];
+          }
+        });
       });
     },
     remoteMethod1(value) {
@@ -544,58 +626,46 @@ export default {
         etime: this.etime,
         allnumber: 0,
         pagenumber: 0,
-        name: this.customerSearch2
+        name: this.customerSearch2,
+        order_id: this.searchOrderId2
       }).then(data => {
-        BLOB(data.data,'订单表.xls');
+        BLOB(data.data, "订单表.xls");
       });
     },
-    remoteMethod2(value){//添加时客户远程搜索方法
-      if(value==''){
-        this.customerOptions=[];
-        this.addOrder.username='';
-      }else{
+    remoteMethod2(value) {
+      //添加时客户远程搜索方法
+      if (value == "") {
+        this.customerOptions = [];
+        this.addOrder.username = "";
+      } else {
         this.customerOptions = this.allCustomerName2.filter(function(item) {
           return item.name.indexOf(value) != -1;
         });
       }
     },
-    customerNameAddChange(value){//添加时客户改变回调
-      this.addOrder.username=value;
+    customerNameAddChange(value) {
+      //添加时客户改变回调
+      this.addOrder.username = value;
     },
-    customerNameAddClear(){//添加时客户清空
-      this.addOrder.username='';
+    customerNameAddClear() {
+      //添加时客户清空
+      this.addOrder.username = "";
     },
-    remoteMethod3(value){//添加时客户远程搜索方法
-      if(value==''){
-        this.installerOptipns=[];
-        this.addOrder.installer='';
-      }else{
-        this.installerOptipns=this.allInstallerName.filter(item=>{
-          return item.name.indexOf(value)!=-1;
-        })
-      }
+    installerNameAddChange(value) {
+      //添加时安装人员改变回调
+      this.addOrder.installer = value;
     },
-    installerNameAddChange(value){//添加时安装人员改变回调
-      this.addOrder.installer=value;
+    supplyNameAddChange(value) {
+      //添加供应航改编回
+      this.addOrder.supplier = value;
     },
-    installerNameAddClear(){//添加时安装人员清空
-      this.addOrder.installer='';
+    installerNameAddChange2(value) {
+      //修改时安装人员改变回调
+      this.editOrder.installer = value;
     },
-    remoteMethod4(value){//添加时制作供应商名称远程回调
-      if(value==''){
-        this.supplyOptions=[];
-        this.addOrder.supplier='';
-      }else{
-        this.supplyOptions=this.allSupplyName.filter(item=>{
-          return item.name.indexOf(value)!=-1;
-        })
-      }
-    },
-    supplyNameAddChange(value){
-      this.addOrder.supplier=value;
-    },
-    supplyNameAddClear(){
-      this.addOrder.supplier='';
+    supplyNameAddChange2(value) {
+      //修改供应航改编回
+      this.editOrder.supplier = value;
     }
   }
 };

@@ -1,7 +1,7 @@
 <template>
   <div id="customer">
     <!--添加弹窗-->
-    <Modal v-model="modal1" title="审核('灰底'为未修改,'白底'为修改项)" ok-text="通过" cancel-text="回拒" @on-ok="addSubmit('已审批')" @on-cancel="addSubmit('已回拒')" width="1000">
+    <Modal v-model="modal1" title="审核('灰底'为未修改,'白底'为修改项)" width="1000" :footer-hide="true">
       <div class="orderApply-box">
         <div class="orderApply-box-item">
           <h1>修改前</h1>
@@ -92,7 +92,6 @@
             安装人员:
             <Input
               v-model="applyingList.installernew"
-              type="number"
               style="width: 30%;"
               :disabled="applyingList.installer==applyingList.installernew"
             />安装费用:
@@ -106,7 +105,6 @@
             制作供应:
             <Input
               v-model="applyingList.suppliernew"
-              type="number"
               style="width: 30%;"
               :disabled="applyingList.supplier==applyingList.suppliernew"
             />订单状态:
@@ -117,6 +115,11 @@
             />
           </div>
         </div>
+      </div>
+      <hr />
+      <div class="agreement-box">
+        <Button type="error" @click="addSubmit('已回拒')">回拒</Button>
+        <Button type="primary" style="margin-left:15px;" @click="addSubmit('已审批')">同意</Button>
       </div>
     </Modal>
     <!--添加弹窗-->
@@ -152,11 +155,7 @@
           placeholder="请输入客户名称"
           style="width:200px;margin-left:10px;"
         >
-          <Option
-            v-for="(item, index) in options"
-            :value="item"
-            :key="index"
-          >{{item}}</Option>
+          <Option v-for="(item, index) in options" :value="item" :key="index">{{item}}</Option>
         </Select>
         <Button type="info" class="searchBtn" @click="searchBtn">查询</Button>
       </div>
@@ -330,18 +329,20 @@ export default {
     },
     addSubmit(value) {
       //审核提交
-      getOrderApplyUpdate({ id: this.applyingList.id,res:value }).then(data => {
-        if (data.data.message == "审核成功") {
-          this.$Message.success(value);
+      this.modal1 = false;
+      getOrderApplyUpdate({ id: this.applyingList.id, res: value }).then(
+        data => {
+          this.$Message.success(data.data.message);
           getOrderApplyList({
             pagesize: 10,
-            pageid: 1,
+            pageid: this.page,
             stime: this.stime,
             etime: this.etime,
             allnumber: 0,
             pagenumber: 0,
             name: this.searchName2
           }).then(data => {
+            console.log(data);
             this.orderApplyList = data.data.data.xyz_OrderHistories || [];
             this.sum = data.data.data.allnumber || 0;
             let list = [];
@@ -350,10 +351,8 @@ export default {
             });
             this.allName = [...new Set(list)];
           });
-        } else {
-          this.$Message.error("审核失败");
         }
-      });
+      );
     },
     remoteMethod1(value) {
       //远程搜索方法
@@ -366,12 +365,12 @@ export default {
         });
       }
     },
-    NameChange(value){
-        this.searchName1=value;
+    NameChange(value) {
+      this.searchName1 = value;
     },
-    NameClear(){
-        this.searchName1='';
-    },
+    NameClear() {
+      this.searchName1 = "";
+    }
   }
 };
 </script>
@@ -401,5 +400,17 @@ export default {
 
 .abc {
   color: red;
+}
+.agreement-box {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 5%;
+}
+hr {
+  width: 1000px;
+  margin-left: -1.5%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border: 0.5px solid #cfcfcf;
 }
 </style>
