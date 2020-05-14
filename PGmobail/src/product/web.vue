@@ -28,6 +28,11 @@
       <hr></hr>
       <h3>为邮件沟通提供专属通道</h3>
       <img src="../assets/img/web-email.png" width="100%" alt="">
+      <ul style="font-weight:350;">
+        <li>多终端支持：评估用户广告方案的互动性</li>
+        <li>异常登录提醒：分享好友量、分享朋友圈量</li>
+        <li>多任务模式：评估广告主品牌影响力</li>
+      </ul>
     </div>
     <div class="panel-web-box">
       <h1>网站建设</h1>
