@@ -199,6 +199,10 @@ export default {
           key: "datenew"
         },
         {
+          title: "修改备注",
+          key: "remarks"
+        },
+        {
           title: "审核状态",
           key: "result"
         },

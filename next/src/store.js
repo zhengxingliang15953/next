@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import "./plugins/ui";
 Vue.use(Vuex);
 export default new Vuex.Store({
     state:{
-        admin:'123'
+        
     },
     mutations:{
        

@@ -199,6 +199,9 @@
           <Option value="已交付">已交付</Option>
         </Select>
       </div>
+      <div class="modal-item">
+          修改备注:<Input v-model="editOrder.remarks" type="textarea" :rows="2" placeholder="修改备注" style="width:70%;"/>
+        </div>
     </Modal>
     <!--编辑弹窗-->
 
@@ -379,7 +382,8 @@ export default {
         receiving_amount: "",
         date: "",
         status: "",
-        auditstatus: ""
+        auditstatus: "",
+        remarks:''
       },
       allCustomerName: [], //所有的客户名称
       allCustomerName2: [],
@@ -397,12 +401,12 @@ export default {
   created() {
     this.addOrder.date = changeTime(new Date());
     this.editOrder.date = changeTime(new Date());
-    // this.etime = changeTime(new Date());
-    var day1 = new Date();
+    this.etime = changeTime(new Date());
+   /*  var day1 = new Date();
     day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000);
     var s1 =
       day1.getFullYear() + "-" + (day1.getMonth() + 1) + "-" + day1.getDate();
-    this.etime = s1;
+    this.etime = s1; */
     getOrderPageList({
       pagesize: 10,
       pageid: 1,
@@ -570,6 +574,7 @@ export default {
     },
     edit(value) {
       //编辑
+      this.editOrder.remarks='';
       getByidOrder(value.order_id).then(data => {
         this.editOrder = data.data.data;
         this.modal2 = true;

@@ -9,3 +9,7 @@ import "element-ui/lib/theme-chalk/index.css";
 Vue.use(Vant);
 Vue.use(ElementUI);
 Vue.use(iView);
+
+export let messageError=(value)=>{
+    iView.Message.error(value);
+}

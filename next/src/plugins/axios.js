@@ -1,6 +1,7 @@
 import Axios from "axios";
 import Config from "../config";
 import INDEX  from '../router/index';
+import {messageError} from '../plugins/ui';
 
 const instance = Axios.create({
   baseURL: Config.SERVER_BASE_URL,
@@ -28,6 +29,9 @@ instance.interceptors.response.use(
   },
   err => {
     const { status } = err.response;
+    if(status===400){
+      messageError('请求失败');
+    }
     if (status === 403 || status === 401) {
       INDEX.replace("/");
       // this.$router.push('/');
