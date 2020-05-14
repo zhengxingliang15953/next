@@ -54,6 +54,9 @@
       <van-swipe-item>
           <img src="../assets/img/swiper2.jpg" alt="" width="100%">
       </van-swipe-item>
+      <van-swipe-item>
+          <img src="../assets/img/swiper3.jpg" alt="" width="100%">
+      </van-swipe-item>
     </van-swipe>
     <!--轮播图-->
 

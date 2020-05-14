@@ -45,7 +45,7 @@
       <h1>商标注册</h1>
       <hr></hr>
       <h3>全面支持商标申请线上提交</h3>
-      <img src="../assets/img/trademark.png" width="112%" style="margin-left:-6%;margin-bottom:60px;" alt="">
+      <img src="../assets/img/trademark.jpg" width="100%" style="margin-bottom:60px;" alt="">
     </div>
   </div>
 </template>
