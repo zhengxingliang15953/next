@@ -135,9 +135,9 @@
         <Button type="primary" class="searchBtn" @click="modal1=true">添加供应商</Button>
       </div>
       <Table :columns="columns1" :data="supplyList">
-        <template slot-scope="{ row, index }" slot="action" v-if="adminType">
-          <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
-          <Button type="error" size="small" @click="remove(row)">删除</Button>
+        <template slot-scope="{ row, index }" slot="action" >
+          <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)" v-if="adminType">编辑</Button>
+          <Button type="error" size="small" @click="remove(row)" v-if="adminType">删除</Button>
           <Button type="success" size="small" icon="ios-navigate" @click="output(row)" class="out-put">导出</Button>
         </template>
       </Table>

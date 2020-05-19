@@ -78,9 +78,9 @@
         <!-- <Button type="success" icon="ios-navigate" @click="output" class="out-put">导出</Button> -->
       </div>
       <Table :columns="columns1" :data="installList">
-        <template slot-scope="{ row, index }" slot="action" v-if="adminType">
-          <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)">编辑</Button>
-          <Button type="error" size="small" @click="remove(row)">删除</Button>
+        <template slot-scope="{ row, index }" slot="action">
+          <Button type="primary" size="small" style="margin-right: 5px" @click="edit(row)" v-if="adminType">编辑</Button>
+          <Button type="error" size="small" @click="remove(row)" v-if="adminType">删除</Button>
           <Button
             type="success"
             size="small"

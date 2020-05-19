@@ -252,7 +252,6 @@
         <Button type="primary" class="searchBtn" @click="modal1=true">添加订单</Button>
         <Button
           type="success"
-          v-if="adminType"
           icon="ios-navigate"
           @click="output"
           class="out-put"
