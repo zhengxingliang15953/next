@@ -1,6 +1,15 @@
 <template>
   <div id="index">
     <BackTop></BackTop>
+
+    <a href="tel:0572-2611126" class="tel">
+      <img src="../assets/img/telphone.png" width="70%" alt />
+      联
+      <br />系
+      <br />我
+      <br />们
+    </a>
+
     <!--左侧抽屉划出-->
     <Drawer placement="left" :closable="false" v-model="modal1" width="37" :styles="drawerStyle">
       <div class="drawer-item main-title-left" @click="routerTo('/home')" ref="shouye">
@@ -79,8 +88,9 @@
         <p>地址:湖州市吴兴区总部自由港A幢7楼</p>
         <p>邮箱:service@pgnet.cn</p>
         <a href="http://www.hzpangu.cn/">
-        <img src="../assets/img/computer.png" style="height:0.55rem;" alt="">
-        查看电脑版官网</a>
+          <img src="../assets/img/computer.png" style="height:0.55rem;" alt />
+          查看电脑版官网
+        </a>
       </div>
       <div class="footer-bottom">
         <p>湖州盘古网络有限责任公司 版权所有</p>
@@ -156,20 +166,7 @@ export default {
   position: relative;
   top: 0.8rem;
 }
-#contact {
-  position: fixed;
-  width: 30px;
-  text-align: center;
-  background-color: #4e7ef5;
-  color: white;
-  border-radius: 5px;
-  right: 3px;
-  top: 35%;
-  overflow: hidden;
-  img {
-    animation: imgleftright 1.5s infinite linear;
-  }
-}
+
 @keyframes imgleftright {
   25% {
     transform: rotateZ(10deg);
@@ -179,6 +176,23 @@ export default {
   }
   75% {
     transform: rotateZ(-10deg);
+  }
+}
+.tel {
+  position: fixed;
+  width: 30px;
+  right: 10px;
+  top: 45%;
+  text-align: center;
+  color: white;
+  background-color: rgb(78, 126, 245);
+  border-radius: 5px;
+  float: right;
+  padding: 1px 0;
+  z-index: 1;
+  font-weight: 500;
+  img {
+    animation: imgleftright 1.5s infinite linear;
   }
 }
 </style>

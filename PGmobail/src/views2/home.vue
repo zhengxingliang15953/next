@@ -6,21 +6,19 @@
     </div>
     <div class="panel-box main-title-other" id="aboutus" ref="aboutTwo">
       湖州盘古网络有限公司(hzpangu.cn)专注于IT技术解决方案与移动互联网先锋技术研发, 致力于互联网信息资源的深度挖掘和整合,努力打造成为全国领先的互联网基础应用服务提供商。
-      <div class="panel-box-img">
-        <img src="../assets/img/img-about1.png" alt width="100%" />
-      </div>
     </div>
+    <img src="../assets/img/img-about1.png" alt width="90%" style="margin-left:5%;margin-bottom:10px;"/>
     <div class="panel-box-three main-title-other" ref="aboutThree">
         <div @click="routerTo('/aboutus')">
-          <img src="../assets/img/home-head1.jpg" alt="" width="100%">
+          <img src="../assets/img/home-head1.jpg" alt="" >
           <h4>关于我们</h4>
         </div>
         <div  @click="routerTo('/solution')">
-          <img src="../assets/img/home-head3.jpg" alt="" width="100%">
+          <img src="../assets/img/home-head3.jpg" alt="" >
           <h4>解决方案</h4>
         </div>
         <div   @click="routerTo('/new')">
-          <img src="../assets/img/home-head2.jpg" alt="" width="100%">
+          <img src="../assets/img/home-head2.jpg" alt="" >
           <h4>新闻咨询</h4>
         </div>
       </div>
@@ -239,10 +237,16 @@ hr{
   padding-bottom:10px;
   margin-top:-4px;
   div{
-    width: 15%;
+    width: 20%;
   }
   h4{
+    width: 100%;
+    text-align: center;
     font-size: 0.24rem;
+  }
+  img{
+    width: 70%;
+    margin-left:15%;
   }
 }
 </style>
