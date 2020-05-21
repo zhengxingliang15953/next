@@ -8,7 +8,6 @@ import "./assets/css/file.css";
 import './assets/css/style.css';
 import BaiduMap from 'vue-baidu-map';
 
-
 Vue.use(BaiduMap,{
   ak: 'GdxI7nmOnetq8NrHHigd78vbGYpMUvSg'
 })

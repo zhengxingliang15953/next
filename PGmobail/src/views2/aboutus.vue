@@ -4,10 +4,52 @@
       关于盘古
       <div class="en-main-title">ABOUT US</div>
     </div>
-    <div class="panel-box" id="aboutus">
-      湖州盘古网络有限公司(hzpangu.cn)专注于IT技术解决方案与移动互联网先锋技术研发, 致力于对互联网信息资源的深度挖掘和整合,努力打造成为全国领先的互联网基础应用服务提供商。
+    <div
+      class="panel-box"
+      id="aboutus"
+    >湖州盘古网络有限公司(hzpangu.cn)专注于IT技术解决方案与移动互联网先锋技术研发, 致力于对互联网信息资源的深度挖掘和整合,努力打造成为全国领先的互联网基础应用服务提供商。</div>
+    <img
+      src="../assets/img/img-about1.png"
+      alt
+      width="90%"
+      style="margin-left:5%;margin-bottom:10px;"
+    />
+    <div class="main-title">
+      企业文化
+      <div class="en-main-title">CULTURE</div>
     </div>
-    <img src="../assets/img/img-about1.png" alt width="90%" style="margin-left:5%;margin-bottom:10px;"/>
+    <div class="swiper-container" style="width:95%;margin:0 auto;margin-bottom:30px;">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="culture">
+            <img src="../assets/img/culture1.png"  alt="">
+            <h3>企业宗旨</h3>
+            <p>合作经营、创新应用、系统服务、增值为本。</p>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="culture">
+            <img src="../assets/img/culture2.png"  alt="">
+            <h3>企业精神</h3>
+            <p>激情、独创、合作、务实、责任。</p>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="culture">
+            <img src="../assets/img/culture3.png"  alt="">
+            <h3>企业理念</h3>
+            <p>发现需求并寻找到满足客户需求的方法。</p>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="culture">
+            <img src="../assets/img/culture4.png"  alt="">
+            <h3>企业目标</h3>
+            <p>成为全国领先的互联网基础应用服务商。</p>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="main-title">
       发展历程
       <div class="en-main-title">DEVELOPMENT PATH</div>
@@ -58,14 +100,24 @@
       @ready="handler"
       :scroll-wheel-zoom="true"
     >
-      <bm-marker :position="{lng: 120.198145, lat: 30.861896}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
-      <bm-label content="" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>
-    </bm-marker>
+      <bm-marker
+        :position="{lng: 120.198145, lat: 30.861896}"
+        :dragging="true"
+        animation="BMAP_ANIMATION_BOUNCE"
+      >
+        <bm-label
+          content
+          :labelStyle="{color: 'red', fontSize : '24px'}"
+          :offset="{width: -35, height: 30}"
+        />
+      </bm-marker>
     </baidu-map>
   </div>
 </template>
 
 <script>
+import Swiper from "swiper";
+import "swiper/css/swiper.min.css";
 export default {
   data() {
     return {
@@ -74,7 +126,7 @@ export default {
         lat: 0
       },
       zoom: 3,
-      moreBtnController:false,//查看更多控制
+      moreBtnController: false //查看更多控制
     };
   },
   methods: {
@@ -83,6 +135,24 @@ export default {
       this.center.lat = 30.861896;
       this.zoom = 18;
     }
+  },
+  mounted() {
+    var mySwiper = new Swiper(".swiper-container", {
+      autoplay: {
+        delay: 3000 //1秒切换一次
+      },
+      loop: true,
+      effect: "coverflow",
+      slidesPerView: 2,
+      centeredSlides: true,
+      coverflowEffect: {
+        rotate: 30,
+        stretch: 10,
+        depth: 60,
+        modifier: 2,
+        slideShadows: true
+      }
+    });
   }
 };
 </script>
@@ -92,7 +162,7 @@ export default {
   width: 70%;
   margin-left: 8%;
   font-size: 0.24rem;
-  margin-top:10px;
+  margin-top: 10px;
   span {
     background-color: #ff0110;
     color: white;
@@ -104,8 +174,35 @@ export default {
     margin-top: 8px;
     font-size: 0.24rem;
   }
-  a{
+  a {
     font-size: 0.24rem;
+  }
+}
+.culture{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width:3rem;
+  height:4rem;
+  padding:0.2rem;
+  background-color: #455158;
+  box-shadow: 0 0 5px #B5B5B5;
+  border-radius: 10px;
+  img{
+    width: 60%;
+    margin-left:20%;
+  }
+  h3{
+    text-align: center;
+    font-size: 0.27rem;
+    margin-top:0.2rem;
+    margin-bottom:0.1rem;
+    color:white;
+  }
+  p{
+    text-align: center;
+    font-size: 0.25rem;
+    color: white;
   }
 }
 </style>

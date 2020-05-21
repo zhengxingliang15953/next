@@ -182,7 +182,7 @@ export default {
   position: fixed;
   width: 30px;
   right: 10px;
-  top: 45%;
+  top: 40%;
   text-align: center;
   color: white;
   background-color: rgb(78, 126, 245);
