@@ -45,7 +45,8 @@
       <h1>商标注册</h1>
       <hr></hr>
       <h3>全面支持商标申请线上提交</h3>
-      <img src="../assets/img/trademark.jpg" width="100%" style="margin-bottom:60px;" alt="">
+      <img src="../assets/img/trademark.jpg" width="100%" style="margin-bottom:10px;" alt="">
+      <div style="font-size:0.27rem;margin-bottom:20px;">注册商标是指经过商标主管机关依照法定程序及标准进行审查并通过，经《初步审定公告》无人提出异议的商标。</div>
     </div>
   </div>
 </template>
@@ -116,7 +117,7 @@ export default {
     }
   }
   h6{
-    font-size: 0.24rem;
+    font-size: 0.27rem;
     font-weight: 300;
   }
 }

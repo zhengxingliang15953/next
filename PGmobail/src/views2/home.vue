@@ -7,7 +7,8 @@
     <div class="panel-box main-title-other" id="aboutus" ref="aboutTwo">
       湖州盘古网络有限公司(hzpangu.cn)专注于IT技术解决方案与移动互联网先锋技术研发, 致力于互联网信息资源的深度挖掘和整合,努力打造成为全国领先的互联网基础应用服务提供商。
     </div>
-    <img src="../assets/img/img-about1.png" alt width="90%" style="margin-left:5%;margin-bottom:10px;"/>
+    <img src="../assets/img/img-about1.png"
+     alt width="90%" style="margin-left:5%;margin-bottom:10px;"/>
     <div class="panel-box-three main-title-other" ref="aboutThree">
         <div @click="routerTo('/aboutus')">
           <img src="../assets/img/home-head1.jpg" alt="" >
