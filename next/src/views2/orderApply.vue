@@ -1,42 +1,56 @@
 <template>
   <div id="customer">
     <!--添加弹窗-->
-    <Modal v-model="modal1" title="审核('灰底'为未修改,'白底'为修改项)" width="1000" :footer-hide="true">
+    <Modal v-model="modal1" title="审核/查看" width="1000" :footer-hide="true">
       <div class="orderApply-box">
         <div class="orderApply-box-item">
           <h1>修改前</h1>
           <div class="modal-item">
             客户名称:
-            <Input v-model="applyingList.username" disabled style="width: 70%;" />
+            <input v-model="applyingList.username" style="width: 71%;padding:3px;"></input>
+            <!-- <Input v-model="applyingList.username" disabled style="width: 70%;" /> -->
           </div>
           <div class="modal-item">
             业务内容:
-            <Input v-model="applyingList.info" disabled style="width: 70%;" />
+            <input v-model="applyingList.info" style="width: 71%;padding:3px;"></input>
+            <!-- <Input v-model="applyingList.info" disabled style="width: 70%;" /> -->
           </div>
           <div class="modal-item">
             成交金额:
-            <Input v-model="applyingList.turnover" disabled type="number" style="width: 30%;" />制作成本:
-            <Input v-model="applyingList.cost" disabled type="number" style="width: 30%;" />
+            <input v-model="applyingList.turnover" style="width: 30%;padding:3px;"></input>
+            <!-- <Input v-model="applyingList.turnover" disabled type="number" style="width: 30%;" /> -->
+            制作成本:
+            <input v-model="applyingList.cost" style="width: 30%;padding:3px;"></input>
+            <!-- <Input v-model="applyingList.cost" disabled type="number" style="width: 30%;" /> -->
           </div>
           <div class="modal-item">
             已收款项:
-            <Input
+            <input v-model="applyingList.receiving_amount" style="width: 30%;padding:3px;"></input>
+            <!-- <Input
               v-model="applyingList.receiving_amount"
               disabled
               type="number"
               style="width: 30%;"
-            />订单日期:
-            <Input v-model="applyingList.date" disabled style="width: 30%;" />
+            /> -->
+            订单日期:
+            <input v-model="applyingList.date" style="width: 30%;padding:3px;"></input>
+            <!-- <Input v-model="applyingList.date" disabled style="width: 30%;" /> -->
           </div>
           <div class="modal-item">
             安装人员:
-            <Input v-model="applyingList.installer" disabled type="number" style="width: 30%;" />安装费用:
-            <Input v-model="applyingList.installation" disabled style="width: 30%;" />
+            <input v-model="applyingList.installer" style="width: 30%;padding:3px;"></input>
+            <!-- <Input v-model="applyingList.installer" disabled style="width: 30%;" />-->
+            安装费用: 
+            <input v-model="applyingList.installation" style="width: 30%;padding:3px;"></input>
+            <!-- <Input v-model="applyingList.installation" disabled style="width: 30%;" /> -->
           </div>
           <div class="modal-item">
             制作供应:
-            <Input v-model="applyingList.supplier" disabled type="number" style="width: 30%;" />订单状态:
-            <Input v-model="applyingList.status" disabled style="width: 30%;" />
+            <input v-model="applyingList.supplier" style="width: 30%;padding:3px;"></input>
+            <!-- <Input v-model="applyingList.supplier" disabled style="width: 30%;" /> -->
+            订单状态:
+            <input v-model="applyingList.status" style="width: 30%;padding:3px;"></input>
+            <!-- <Input v-model="applyingList.status" disabled style="width: 30%;" /> -->
           </div>
         </div>
         <div class="orderApply-center"></div>
@@ -45,81 +59,96 @@
           <h1>修改后</h1>
           <div class="modal-item">
             客户名称:
-            <Input
+            <input v-model="applyingList.usernamenew" :class="{'color-change':applyingList.username!=applyingList.usernamenew}" style="width: 71%;padding:3px;"></input>
+            <!-- <Input
               v-model="applyingList.usernamenew"
               style="width: 70%;"
               :disabled="applyingList.username==applyingList.usernamenew"
-            />
+            /> -->
           </div>
           <div class="modal-item">
             业务内容:
-            <Input
+            <input v-model="applyingList.infonew" :class="{'color-change':applyingList.info!=applyingList.infonew}" style="width: 71%;padding:3px;"></input>
+            <!-- <Input
               v-model="applyingList.infonew"
               style="width: 70%;"
               :disabled="applyingList.info==applyingList.infonew"
-            />
+            /> -->
           </div>
           <div class="modal-item">
             成交金额:
-            <Input
+            <input type="number" :class="{'color-change':applyingList.turnover!=applyingList.turnovernew}" v-model="applyingList.turnovernew" style="width: 30%;padding:3px;"></input>
+            <!-- <Input
               v-model="applyingList.turnovernew"
               type="number"
-              style="width: 30%;"
+              style="width: 30%;color:blue;"
               :disabled="applyingList.turnover==applyingList.turnovernew"
-            />制作成本:
-            <Input
+              v-color
+            /> -->
+            制作成本:
+            <input v-model="applyingList.costnew" :class="{'color-change':applyingList.cost!=applyingList.costnew}" style="width: 30%;padding:3px;"></input>
+            <!-- <Input
               v-model="applyingList.costnew"
               type="number"
               style="width: 30%;"
               :disabled="applyingList.cost==applyingList.costnew"
-            />
+            /> -->
           </div>
           <div class="modal-item">
             已收款项:
-            <Input
+            <input v-model="applyingList.receiving_amountnew" :class="{'color-change':applyingList.receiving_amount!=applyingList.receiving_amountnew}"  style="width: 30%;padding:3px;"></input>
+            <!-- <Input
               v-model="applyingList.receiving_amountnew"
               type="number"
               style="width: 30%;"
               :disabled="applyingList.receiving_amount==applyingList.receiving_amountnew"
-            />订单日期:
-            <Input
+            /> -->
+            订单日期:
+            <input v-model="applyingList.datenew" :class="{'color-change':applyingList.date!=applyingList.datenew}" style="width: 30%;padding:3px;"></input>
+            <!-- <Input
               v-model="applyingList.datenew"
               style="width: 30%;"
               :disabled="applyingList.date==applyingList.datenew"
-            />
+            /> -->
           </div>
           <div class="modal-item">
             安装人员:
-            <Input
+            <input v-model="applyingList.installernew" :class="{'color-change':applyingList.installer!=applyingList.installernew}" style="width: 30%;padding:3px;"></input>
+            <!-- <Input
               v-model="applyingList.installernew"
               style="width: 30%;"
-              :disabled="applyingList.installer==applyingList.installernew"
-            />安装费用:
-            <Input
+              :disabled="applyingList.installer===applyingList.installernew"
+            /> -->
+            安装费用:
+            <input v-model="applyingList.installationnew" :class="{'color-change':applyingList.installation!=applyingList.installationnew}" style="width: 30%;padding:3px;"></input>
+            <!-- <Input
               v-model="applyingList.installationnew"
               style="width: 30%;"
-              :disabled="applyingList.installation==applyingList.installationnew"
-            />
+              :disabled="applyingList.installation===applyingList.installationnew"
+            /> -->
           </div>
           <div class="modal-item">
             制作供应:
-            <Input
+            <input v-model="applyingList.suppliernew" :class="{'color-change':applyingList.supplier!=applyingList.suppliernew}" style="width: 30%;padding:3px;"></input>
+            <!-- <Input
               v-model="applyingList.suppliernew"
               style="width: 30%;"
-              :disabled="applyingList.supplier==applyingList.suppliernew"
-            />订单状态:
-            <Input
+              :disabled="applyingList.supplier===applyingList.suppliernew"
+            /> -->
+            订单状态:
+            <input v-model="applyingList.statusnew" :class="{'color-change':applyingList.status!=applyingList.statusnew}" style="width: 30%;padding:3px;"></input>
+            <!-- <Input
               v-model="applyingList.statusnew"
               style="width: 30%;"
-              :disabled="applyingList.status==applyingList.statusnew"
-            />
+              :disabled="applyingList.status===applyingList.statusnew"
+            /> -->
           </div>
         </div>
       </div>
       <hr />
       <div class="agreement-box">
-        <Button type="error" @click="addSubmit('已回拒')">回拒</Button>
-        <Button type="primary" style="margin-left:15px;" @click="addSubmit('已审批')">同意</Button>
+        <Button type="error" v-if="examOrSearBtn" @click="addSubmit('已回拒')">回拒</Button>
+        <Button type="primary" v-if="examOrSearBtn" style="margin-left:15px;" @click="addSubmit('已审批')">同意</Button>
       </div>
     </Modal>
     <!--添加弹窗-->
@@ -163,12 +192,12 @@
         <template slot-scope="{ row, index }" slot="action">
           <Button
             type="primary"
-            v-if="row.result=='未审批'"
+            v-show="row.result=='未审批'"
             size="small"
             style="margin-right: 5px"
-            @click="edit(row)"
+            @click="edit(row,'审核')"
           >审核</Button>
-          <!-- <Button type="error" size="small" @click="remove(row)">删除</Button> -->
+          <Button type="success" size="small" v-show="row.result!='未审批'" @click="edit(row,'查看')">查看</Button>
         </template>
       </Table>
       <Page :total="sum" :current="page" style="margin-top:20px;" @on-change="pageChange" />
@@ -249,7 +278,8 @@ export default {
         username: "",
         usernamenew: ""
       },
-      options: []
+      options: [],
+      examOrSearBtn:true,//审核查看按钮的显示问题
     };
   },
   created() {
@@ -322,13 +352,18 @@ export default {
     timeChange2(value) {
       this.etime = value;
     },
-    edit(value) {
-      //审核
+    edit(value, orValue) {
+      //审核or查看
       let list = [];
-      list = this.orderApplyList.filter(item => {
-        return item.id == value.id;
-      });
-      this.applyingList = list[0] || null;
+        list = this.orderApplyList.filter(item => {
+          return item.id == value.id;
+        });
+        this.applyingList = list[0] || null;
+      if (orValue == '审核') {
+        this.examOrSearBtn=true;
+      }else{
+        this.examOrSearBtn=false;
+      }
       this.modal1 = true;
     },
     addSubmit(value) {
@@ -416,5 +451,9 @@ hr {
   margin-top: 15px;
   margin-bottom: 15px;
   border: 0.5px solid #cfcfcf;
+}
+.color-change{
+  color:red;
+  font-weight: 500;
 }
 </style>

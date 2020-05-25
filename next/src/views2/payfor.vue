@@ -145,7 +145,7 @@
         ></DatePicker>
         <Button type="info" class="searchBtn" @click="searchBtn">查询</Button>
         <Button type="primary" class="searchBtn" @click="addPayforBtn">添加付款项</Button>
-        <Button type="success" icon="ios-navigate" @click="output" class="out-put">导出</Button>
+        <Button type="success" icon="ios-navigate" @click="output" class="out-put">财务总表导出</Button>
       </div>
       <Table :columns="columns1" :data="payforList">
         <template slot-scope="{ row, index }" slot="action">

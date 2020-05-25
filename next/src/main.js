@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store.js";
 import "./plugins/ui";
 import "./assets/css/file.css";
+import VConsole from '../src/plugins/vconsole';
 
 
 Vue.filter('identity', function (value) {
@@ -23,4 +24,11 @@ new Vue({
   render: h => h(App)
 }).$mount("#app");
 
-
+Vue.directive('color',{
+  bind:function(el,binding){
+    if(binding.value==true){
+      el.style.color='red';
+      console.log(binding.value);
+    }
+  },
+})
