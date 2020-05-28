@@ -1,18 +1,26 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import "./plugins/ui";
 Vue.use(Vuex);
+import { getOrderNumber } from '../src/api';
+
+
 export default new Vuex.Store({
-    state:{
-        
+    state: {
+        orderNumber: {}
     },
-    mutations:{
-       
+    mutations: {
+        updateOrderNumber(state, n) {
+            state.orderNumber = n;
+        }
     },
-    actions:{
-        
+    actions: {
+        updateOrderNumberAction(context) {//修改订单审核和订单管理的红点状态
+            getOrderNumber().then(data => {
+                context.commit('updateOrderNumber',data.data);
+            });
+        }
     },
-    getters:{
-        
+    getters: {
+
     },
 })

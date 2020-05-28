@@ -186,3 +186,8 @@ export let getOutPayfor = data => {
         responseType: "blob"
     });
 };
+
+/**订单管理，订单审核数字显示 */
+export let getOrderNumber=()=>{
+    return Http.get('/api/admin/News');
+}

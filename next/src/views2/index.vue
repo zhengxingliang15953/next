@@ -24,6 +24,7 @@
           <MenuItem name="4" to="/index/order">
             <Icon type="md-chatbubbles"></Icon>
             <span>订单管理</span>
+            <Badge status="error" style="width:20px" v-show="this.$store.state.orderNumber.isnew" />
           </MenuItem>
           <MenuItem name="5" to="/index/install">
             <Icon type="md-construct"></Icon>
@@ -36,6 +37,7 @@
           <MenuItem name="7" to="/index/orderApply" v-if="adminType">
             <Icon type="ios-create"></Icon>
             <span>订单审核</span>
+            <Tag color="error" v-show="this.$store.state.orderNumber.orderhis>0">{{this.$store.state.orderNumber.orderhis}}</Tag>
           </MenuItem>
           <MenuItem name="8" to="/index/system" v-if="adminType">
             <Icon type="md-person"></Icon>
@@ -72,14 +74,17 @@ export default {
       isCollapsed: false,
       screenHeight: "",
       select: "",
-      adminType: null
+      adminType: null,
+      isnew: null,
+      orderhis: 0
     };
   },
   async created() {
     this.select = window.sessionStorage.getItem("select") || "1";
-    getAdminType().then(data=>{
-      this.adminType=data.data;
-    })
+    getAdminType().then(data => {
+      this.adminType = data.data;
+    });
+    this.$store.dispatch('updateOrderNumberAction');
   },
   mounted() {
     let _this = this;
@@ -108,6 +113,9 @@ export default {
     menuSelect(value) {
       //menu选择回调
       window.sessionStorage.setItem("select", value);
+      if (value == 4 || value == 7) {
+        this.$store.dispatch('updateOrderNumberAction');
+      }
     }
   }
 };
@@ -164,5 +172,11 @@ export default {
   transition: font-size 0.2s ease 0.2s, transform 0.2s ease 0.2s;
   vertical-align: middle;
   font-size: 22px;
+}
+.badge {
+  display: inline-block;
+  height: 25px;
+  width: 25px;
+  width: 30px;
 }
 </style>

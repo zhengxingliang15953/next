@@ -381,7 +381,6 @@ export default {
             pagenumber: 0,
             name: this.searchName2
           }).then(data => {
-            console.log(data);
             this.orderApplyList = data.data.data.xyz_OrderHistories || [];
             this.sum = data.data.data.allnumber || 0;
             let list = [];
@@ -389,6 +388,7 @@ export default {
               list.push(item.reallyname);
             });
             this.allName = [...new Set(list)];
+            this.$store.dispatch('updateOrderNumberAction');
           });
         }
       );
